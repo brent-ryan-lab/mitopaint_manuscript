@@ -1,0 +1,10 @@
+## 2026-03-19
+
+- commit template of repository architecture (folders)
+- created changelog.txt
+- created todo.txt
+
+
+## 2026-03-18
+
+- created mitopaint_manuscript repository

@@ -1,0 +1,28 @@
+# R History files
+.Rhistory
+.Rapp.history
+
+# R Session Data files
+.RData
+.RDataTmp
+
+# R User-specific files
+.Ruserdata
+.Rproj.user/
+
+# Generated files
+outputs/
+data/
+
+# Ignore by file extension
+*.html
+*.png
+*.jpeg
+*.pdf
+*.docx
+*.xlsx
+
+# OS files and Environment
+.DS_Store
+.Renviron
+.env
