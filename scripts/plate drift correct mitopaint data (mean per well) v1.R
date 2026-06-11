@@ -176,12 +176,12 @@ View(corr$corr_dmso)
 # save corr data ####
 write.csv(fits,
           paste(
-            "data/processed/", file_name, "_platedrift_fits.csv", sep = "")
+            "outputs/data/", file_name, "_platedrift_fits.csv", sep = "")
 )
 
 write.csv(corr$corr_table,
           paste(
-            "data/processed/", file_name, "_platedrift_corrtable.csv", sep = "")
+            "outputs/data/", file_name, "_platedrift_corrtable.csv", sep = "")
 )
 
 write.csv(corr$corr_df,
