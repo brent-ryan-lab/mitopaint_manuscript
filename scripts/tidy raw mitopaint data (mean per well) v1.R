@@ -5,8 +5,8 @@
 # Last edit: 11-06-2026
 
 # set variables ####
-file_name <- "SF240627_mPaintDR2_N2"
-batch_name <- "N2"
+file_name <- "SF240711_mPaintDR2_N4"
+batch_name <- "N4"
 rm_cols <- c("Timepoint",
              "Number of Analyzed Fields",
              "Time [s]",
@@ -29,13 +29,13 @@ rm_cols <- c("Timepoint",
              "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
              "Cell Type",	
              "Cell Count"
-             )
+)
 nuc_count <- "Non-border cells Selected - Number of Objects"
 meta_cols <- c("Row",
                "Column",
                "Compound",	
                "Concentration"
-               )
+)
 # load packages ####
 library(data.table)
 library(tidyverse)
