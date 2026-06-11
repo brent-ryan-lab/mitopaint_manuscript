@@ -3,7 +3,6 @@
 Short description of what this repo does.
 
 ## Structure
-- `functions/` – reusable analysis functions
 - `scripts/` – runnable scripts
 - `data/` – input data
 - `data/raw/` – raw data
