@@ -1,4 +1,4 @@
-# Project name
+# mitopaint manuscript
 
 Short description of what this repo does.
 
