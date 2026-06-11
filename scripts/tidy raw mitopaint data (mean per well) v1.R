@@ -75,7 +75,10 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # clean column names
   names(df) <- names(df) |>
     str_remove("^Non-border cells Selected - ") |>
-    str_remove(" - Mean per Well$")
+    str_remove(" - Mean per Well$") |>
+    str_replace("mKeima ph4/TMRM", "mt-Keima pH4") |>
+    str_replace("mKeima ph7", "mt-Keima pH7") |>
+    str_trim(side = "right")
   
   # convert all features to numeric
   df[] <- lapply(df, as.numeric)
