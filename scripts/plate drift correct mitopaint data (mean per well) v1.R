@@ -8,13 +8,9 @@
 library(data.table)
 library(tidyverse)
 # set variables ####
-file_name <- "SF240627_mPaintDR2_N2"
-p_sig <- 0.05
-dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+file_name <- NULL
+p_sig <- NULL
+dmso_wells <- NULL
 # load data ####
 df <- as.data.frame(
   fread(
@@ -183,17 +179,17 @@ write.csv(fits,
             "data/processed/", file_name, "_platedrift_fits.csv", sep = "")
 )
 
-write.csv(corr_table,
+write.csv(corr$corr_table,
           paste(
             "data/processed/", file_name, "_platedrift_corrtable.csv", sep = "")
 )
 
-write.csv(corr_df,
+write.csv(corr$corr_df,
           paste(
             "data/processed/", file_name, "_platedrift_corr.csv", sep = "")
 )
 
-write.csv(corr_dmso,
+write.csv(corr$corr_dmso,
           paste(
             "data/processed/", file_name, "_platedrift_corrdmso.csv", sep = "")
 )

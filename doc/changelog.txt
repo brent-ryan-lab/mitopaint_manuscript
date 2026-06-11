@@ -1,3 +1,11 @@
+## 2026-06-11
+- added tidy raw mitopaint data (mean per well) v1 script to replace Untitled 1
+- added plate drift correct mitopaint data (mean per well) v1 to replace Untitled 2
+- added variable details in README for using tidy and plate drift scripts
+- processed data from tidy and plate drift scripts save to /data/processed
+
+- scripts now in scripts folder
+
 ## 2026-03-19
 
 - commit template of repository architecture (folders)
