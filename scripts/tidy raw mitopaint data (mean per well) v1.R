@@ -80,7 +80,6 @@ write.csv(df_tidy$data,
           paste(
             "data/processed/", file_name, "_data_tidy.csv", sep = "")
           )
-
 write.csv(df_tidy$meta,
           paste(
             "data/processed/", file_name, "_meta_tidy.csv", sep = "")

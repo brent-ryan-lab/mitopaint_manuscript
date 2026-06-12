@@ -1,3 +1,8 @@
+## 2026-06-12
+- added plate drift correct mitopaint visualisations (N=3) (mean per well) v1 to replace Untitled 3
+- added variable details in README for using plate drift visualisation scripts
+- figures from plate drift visualisation script save to /outputs/figures
+
 ## 2026-06-11
 - added tidy raw mitopaint data (mean per well) v1 script to replace Untitled 1
 - added plate drift correct mitopaint data (mean per well) v1 to replace Untitled 2
