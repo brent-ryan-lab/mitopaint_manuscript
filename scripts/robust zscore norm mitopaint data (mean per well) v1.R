@@ -1,4 +1,4 @@
-# Title: robust zscore norm mitopaint data v1
+# Title: robust zscore norm mitopaint data (mean per well) v1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
