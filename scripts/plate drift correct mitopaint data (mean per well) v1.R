@@ -178,17 +178,14 @@ write.csv(fits,
           paste(
             "outputs/data/", file_name, "_platedrift_fits.csv", sep = "")
 )
-
 write.csv(corr$corr_table,
           paste(
             "outputs/data/", file_name, "_platedrift_corrtable.csv", sep = "")
 )
-
 write.csv(corr$corr_df,
           paste(
             "data/processed/", file_name, "_platedrift_corr.csv", sep = "")
 )
-
 write.csv(corr$corr_dmso,
           paste(
             "data/processed/", file_name, "_platedrift_corrdmso.csv", sep = "")
