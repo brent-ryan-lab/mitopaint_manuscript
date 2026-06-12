@@ -156,23 +156,17 @@ drift_corr <- function(df, meta, dmso_wells, fits) {
         pred_vals
     }
   }
-  # extract corrected dmso subset for plotting later
-corr_dmso <- corr_df[rownames(corr_df) %in% rownames(meta_dmso), ]
 return(list(
   # return 1. df of correction factors, 
   corr_table = corr_table,
   # return 2. df of corrected data
   corr_df = corr_df,
-  # return 3. subset df of corrected dmso
-  corr_dmso = corr_dmso
 ))
 }
 # run function to apply plate drift correction ####
 corr <- drift_corr(df, meta, dmso_wells, fits)
 # open corr_df to inspect
 View(corr$corr_df)
-# open corr_dmso to inspect
-View(corr$corr_dmso)
 # save corr data ####
 write.csv(fits,
           paste(
@@ -185,9 +179,5 @@ write.csv(corr$corr_table,
 write.csv(corr$corr_df,
           paste(
             "data/processed/", file_name, "_platedrift_corr.csv", sep = "")
-)
-write.csv(corr$corr_dmso,
-          paste(
-            "data/processed/", file_name, "_platedrift_corrdmso.csv", sep = "")
 )
 rm(list = ls())
