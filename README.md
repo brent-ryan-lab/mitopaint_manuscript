@@ -1,7 +1,8 @@
 # mitopaint manuscript
 
-this repo is in process, and contains the Rproj. and script files necessary to perform the data analysis and generate the visualisations in the mitopaint manuscript. 
-note that the raw and processed data is not set to update in git commits until final publication, but scripts are reliant on these files for complete functionality.
+this repo is in process, and contains the Rproj. and script files necessary to perform the data analysis and generate the visualisations for the mitopaint manuscript that is in preparation.
+all contents of this repo in its current state are unpublised, and for all intents and purposes not open to use by any users outside of the Brent Ryan lab group.
+note that the data (raw and processed) and outputs (data and figures) are not set to update in git commits until final publication, but scripts are reliant on these files and the structure in the directory for complete functionality.
 
 ## structure
 - `scripts/` – runnable scripts
@@ -126,6 +127,8 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
+                
+plate drift correct mitopaint data (mean per well) v1
 - for mPaintDR2_N3 use the following variables
 <file_name <- "SF240704_mPaintDR2_N3"
 p_sig <- 0.05
@@ -134,6 +137,8 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
+
+plate drift correct mitopaint data (mean per well) v1
 - for mPaintDR2_N4 use the following variables
 <file_name <- "SF240711_mPaintDR2_N4"
 p_sig <- 0.05
