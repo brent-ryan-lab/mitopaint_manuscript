@@ -1,4 +1,3 @@
-
 - write script for 4) robust z-score (mean per well)
 - write script for 5) batch integration (N=3) (mean per well)
 - write script for 6) batch integration QC visualisations (N=3) (mean per well)

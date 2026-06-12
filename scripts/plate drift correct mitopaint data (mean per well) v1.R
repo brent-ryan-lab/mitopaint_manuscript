@@ -2,7 +2,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 11-06-2026
+# Last edit: 12-06-2026
 
 # load packages ####
 library(data.table)

@@ -14,8 +14,12 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `outputs/data/` – results data files
 - `outputs/figures/` – results figure files
 
-
 ## usage
+1. tidy raw mitopaint data (mean per well) v1
+2. plate drift correct mitopaint data (mean per well) v1
+3. plate drift correct mitopaint visualisations (N=3) (mean per well) v1
+4. robust zscore norm mitopaint data (mean per well) v1
+
 tidy raw mitopaint data (mean per well) v1
 - for mPaintDR2_N2 use the following variables
 <file_name <- "SF240627_mPaintDR2_N2"
