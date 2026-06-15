@@ -15,12 +15,31 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `outputs/figures/` – results figure files
 
 ## usage
-1. tidy raw mitopaint data (mean per well) v1
-2. plate drift correct mitopaint data (mean per well) v1
-3. plate drift correct mitopaint visualisations (N=3) (mean per well) v1
-4. robust zscore norm mitopaint data (mean per well) v1
+- `1.` tidy raw mitopaint data (mean per well) v1
+- `2.` plate drift correct mitopaint data (mean per well) v1
+  - `2.1` plate drift correct mitopaint visualisations (N=3) (mean per well) v1
+- `3.` robust zscore norm mitopaint data (mean per well) v1
+  - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
+- `4.` batch integration mitopaint data (N=3) (mean per well) v1
 
-tidy raw mitopaint data (mean per well) v1
+#5. remove redundant mitopaint data (N=3) (mean per well) v1
+#  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
+#6. dimensionality reduction mitopaint data (N=3) (mean per well) v1
+#  6.1 PCA: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.1 PCA batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.2 PCA scree: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.3 PCA biplot: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.4 PCA feature loadings: dim red mitopaint vis (N=3) (mean per well) v1
+#  6.2 UMAP: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.2.1 UMAP batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#  6.3 tSNE: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.3.1 tSNE batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
+#  7.1 mahalanobis distance mitopaint visualisaitons (N=3) (mean per well) v1
+#8. similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
+#9. profile heatmap mitopaint visualisations (N=3) (mean per well) v1
+  
+`tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables
 <file_name <- "SF240627_mPaintDR2_N2"
 batch_name <- "N2"
@@ -54,7 +73,7 @@ meta_cols <- c("Row",
                "Concentration"
 )>
 
-tidy raw mitopaint data (mean per well) v1
+`tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N3 use the following variables
 <file_name <- "SF240704_mPaintDR2_N3"
 batch_name <- "N3"
@@ -88,7 +107,7 @@ meta_cols <- c("Row",
                "Concentration"
 )>
 
-tidy raw mitopaint data (mean per well) v1
+`tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N4 use the following variables
 <file_name <- "SF240711_mPaintDR2_N4"
 batch_name <- "N4"
@@ -122,7 +141,7 @@ meta_cols <- c("Row",
                "Concentration"
 )>
 
-plate drift correct mitopaint data (mean per well) v1
+`plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables
 <file_name <- "SF240627_mPaintDR2_N2"
 p_sig <- 0.05
@@ -132,7 +151,7 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
                 
-plate drift correct mitopaint data (mean per well) v1
+`plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N3 use the following variables
 <file_name <- "SF240704_mPaintDR2_N3"
 p_sig <- 0.05
@@ -142,7 +161,7 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
 
-plate drift correct mitopaint data (mean per well) v1
+`plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N4 use the following variables
 <file_name <- "SF240711_mPaintDR2_N4"
 p_sig <- 0.05
@@ -152,7 +171,7 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
 
-plate drift correct mitopaint visualisations (N=3) (mean per well) v1                
+`plate drift correct mitopaint visualisations (N=3) (mean per well) v1`            
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
 <file_name_N1 <- "SF240627_mPaintDR2_N2"
 file_name_N2 <- "SF240704_mPaintDR2_N3"
@@ -176,7 +195,7 @@ dmso_wells_N3 <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
-robust zscore norm mitopaint data v1
+`robust zscore norm mitopaint data v1`
 - for mPaintDR2_N2 use the following variables
 <file_name <- "SF240627_mPaintDR2_N2"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -185,7 +204,7 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
 
-robust zscore norm mitopaint data v1
+`robust zscore norm mitopaint data v1`
 - for mPaintDR2_N3 use the following variables
 <file_name <- "SF240704_mPaintDR2_N3"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -194,7 +213,7 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
 
-robust zscore norm mitopaint data v1
+`robust zscore norm mitopaint data v1`
 - for mPaintDR2_N4 use the following variables
 <file_name <- "SF240711_mPaintDR2_N4"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
