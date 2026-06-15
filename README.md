@@ -19,10 +19,10 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `2.` plate drift correct mitopaint data (mean per well) v1
   - `2.1` plate drift correct mitopaint visualisations (N=3) (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
-  - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
 - `4.` batch integration mitopaint data (N=3) (mean per well) v1
+- `5.` remove redundant mitopaint data (N=3) (mean per well) v1
 
-# 5. remove redundant mitopaint data (N=3) (mean per well) v1
+#  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
 # 6. dimensionality reduction mitopaint data (N=3) (mean per well) v1
 #  6.1 PCA: dim red mitopaint vis (N=3) (mean per well) v1
@@ -36,8 +36,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #    6.3.1 tSNE batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 # 7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
 #  7.1 mahalanobis distance mitopaint visualisaitons (N=3) (mean per well) v1
-# 8. similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
-# 9. profile heatmap mitopaint visualisations (N=3) (mean per well) v1
+#  8.1 similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
+#  8.2 profile heatmap mitopaint visualisations (N=3) (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables:
@@ -240,3 +240,12 @@ file_name_N2 <- "SF240704_mPaintDR2_N3"
 file_name_N3 <- "SF240711_mPaintDR2_N4"
 file_name <- "mPaintDR2_N2_N3_N4"
 k_weight <- 50>
+
+`remove redundant mitopaint data (N=3) (mean per well) v1`
+- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+dataset_name <- "mPaintDR2_N2_N3_N4"
+cor_thresh <- 0.95
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
