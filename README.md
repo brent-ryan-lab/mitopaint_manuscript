@@ -22,9 +22,9 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
 - `4.` batch integration mitopaint data (N=3) (mean per well) v1
 
-#5. remove redundant mitopaint data (N=3) (mean per well) v1
+# 5. remove redundant mitopaint data (N=3) (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
-#6. dimensionality reduction mitopaint data (N=3) (mean per well) v1
+# 6. dimensionality reduction mitopaint data (N=3) (mean per well) v1
 #  6.1 PCA: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.1.1 PCA batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.1.2 PCA scree: dim red mitopaint vis (N=3) (mean per well) v1
@@ -34,13 +34,14 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #    6.2.1 UMAP batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 #  6.3 tSNE: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.3.1 tSNE batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-#7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
+# 7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
 #  7.1 mahalanobis distance mitopaint visualisaitons (N=3) (mean per well) v1
-#8. similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
-#9. profile heatmap mitopaint visualisations (N=3) (mean per well) v1
+# 8. similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
+# 9. profile heatmap mitopaint visualisations (N=3) (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
-- for mPaintDR2_N2 use the following variables
+- for mPaintDR2_N2 use the following variables:
+
 <file_name <- "SF240627_mPaintDR2_N2"
 batch_name <- "N2"
 rm_cols <- c("Timepoint",
