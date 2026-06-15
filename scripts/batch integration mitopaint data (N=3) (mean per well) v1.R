@@ -1,4 +1,4 @@
-# Title: batch integration (N=3) (mean per well) v1
+# Title: batch integration mitopaint data (N=3) (mean per well) v1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
@@ -11,7 +11,8 @@ library(Seurat)
 file_name_N1 <- "SF240627_mPaintDR2_N2"
 file_name_N2 <- "SF240704_mPaintDR2_N3"
 file_name_N3 <- "SF240711_mPaintDR2_N4"
-file_name <- "mPaint_DR2_N1.2.3"
+file_name <- "mPaintDR2_N2_N3_N4"
+k_weight <- 50
 # create a function to load data ####
 load_data <- function(file_name) {
   # load zscore data as df
@@ -78,4 +79,67 @@ for(batch in c("N1", "N2", "N3")) {
 }
 # remove temp variables from for() loop
 rm(z_mat, meta_df, mat)
-# integrate data (canonical correlation analysis/ CCA) - identifies conserved feature correlation patterns ####
+# integrate data into integrated.seurat ####
+# first, dimensionality is reduced using canonical correlation analysis (CCA)
+# this turns conserved feature correlation patterns into vectors
+# then, finds integration anchors using mutual nearest neighbors (MNN)
+# this finds data pairs which overlap in same neighborhoods
+# these anchors represent data points with "similar profiles" across the dataset
+# and are used as reference points (anchor set) for integration
+integrated.seurat <- IntegrateData(
+  anchorset = FindIntegrationAnchors(
+    object.list = df.seurat,
+    # only integrate features shared across all N
+    anchor.features = Reduce( 
+      intersect,
+      list(colnames(N1$df),
+           colnames(N2$df),
+           colnames(N3$df))
+    ),
+    scale = FALSE
+  ),
+  # k.weight is number of neighbors to consider when weighting anchors
+  # k.weight is dependent on approx no. of well replicates
+  k.weight = k_weight   
+)
+
+# put integrated data in a single table ####
+# all INTEGRATED N data saved in integrated$df
+integrated <- list()
+integrated$df <- as.data.frame(
+  t(GetAssayData(integrated.seurat, assay = "integrated", slot = "data"))
+)
+# all N meta saved in integrated$meta
+integrated$meta <- integrated.seurat@meta.data
+# put unintegrated data in a single table ####
+# all UNINTEGRATED N data saved in integrated$df
+unintegrated <- list()
+unintegrated$df <- rbind(
+  N1$df,
+  N2$df,
+  N3$df
+)
+unintegrated$meta <- rbind(
+  N1$meta,
+  N2$meta,
+  N3$meta
+)
+# save data ####
+# save integrated data in /data/processed
+write.csv(integrated$df,
+          paste(
+            "data/processed/", file_name, "_data_integrated.csv", sep = "")
+)
+write.csv(integrated$meta,
+          paste(
+            "data/processed/", file_name, "_meta_integrated.csv", sep = "")
+)
+write.csv(unintegrated$df,
+          paste(
+            "data/processed/", file_name, "_data_unintegrated.csv", sep = "")
+)
+write.csv(unintegrated$meta,
+          paste(
+            "data/processed/", file_name, "_meta_unintegrated.csv", sep = "")
+)
+rm(list = ls())
