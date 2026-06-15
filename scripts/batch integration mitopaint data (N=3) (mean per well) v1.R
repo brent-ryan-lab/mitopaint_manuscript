@@ -2,17 +2,17 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 12-06-2026
+# Last edit: 15-06-2026
 
 # load packages ####
 library(data.table)
 library(Seurat)
 # set variables ####
-file_name_N1 <- "SF240627_mPaintDR2_N2"
-file_name_N2 <- "SF240704_mPaintDR2_N3"
-file_name_N3 <- "SF240711_mPaintDR2_N4"
-file_name <- "mPaintDR2_N2_N3_N4"
-k_weight <- 50
+file_name_N1 <- NULL
+file_name_N2 <- NULL
+file_name_N3 <- NULL
+file_name <- NULL
+k_weight <- NULL
 # create a function to load data ####
 load_data <- function(file_name) {
   # load zscore data as df

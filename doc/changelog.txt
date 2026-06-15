@@ -1,3 +1,9 @@
+## 2026-06-15
+- added batch integration mitopaint data (N=3) (mean per well) v1
+- data (integrated and unintegrated) from batch integration script save to /data/processed
+- added remove redundant mitopaint data (N=3) (mean per well) v1
+- data (red) from remove redundant features script save to /data/processed
+
 ## 2026-06-12
 - added plate drift correct mitopaint visualisations (N=3) (mean per well) v1 to replace Untitled 3
 - added variable details in README for using plate drift visualisation scripts
