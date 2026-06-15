@@ -7,12 +7,12 @@
 # load packages ####
 library(data.table)
 # set variables ####
-file_name <- NULL
-integrate_state <- NULL
-dataset_name <- NULL
-cor_thresh <- NULL
-var_tol <- NULL
-excl_feats <- NULL
+file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "unintegrated"
+dataset_name <- "mPaintDR2_N2_N3_N4"
+cor_thresh <- 0.95
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 # load data ####
 # load data as df
 df <- as.data.frame(
@@ -90,6 +90,6 @@ redu <- rem_redundant(df,
 # save redu data in /data/processed
 write.csv(redu,
           paste(
-            "data/processed/", file_name, "_data_redu.csv", sep = "")
+            "data/processed/", file_name, "_data_", integrate_state, "_redu.csv", sep = "")
 )
 rm(list = ls())

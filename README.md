@@ -243,9 +243,9 @@ k_weight <- 50>
 
 `remove redundant mitopaint data (N=3) (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
-file_name <- "mPaintDR2_N2_N3_N4"
+<file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
