@@ -21,10 +21,10 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `3.` robust zscore norm mitopaint data (mean per well) v1
 - `4.` batch integration mitopaint data (N=3) (mean per well) v1
 - `5.` remove redundant mitopaint data (N=3) (mean per well) v1
+- `6.` dimensionality reduction mitopaint data (N=3) (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
-# 6. dimensionality reduction mitopaint data (N=3) (mean per well) v1
 #  6.1 PCA: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.1.1 PCA batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.1.2 PCA scree: dim red mitopaint vis (N=3) (mean per well) v1
@@ -41,7 +41,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables:
-
 <file_name <- "SF240627_mPaintDR2_N2"
 batch_name <- "N2"
 rm_cols <- c("Timepoint",
@@ -76,7 +75,6 @@ meta_cols <- c("Row",
 
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N3 use the following variables
-
 <file_name <- "SF240704_mPaintDR2_N3"
 batch_name <- "N3"
 rm_cols <- c("Timepoint",
@@ -111,7 +109,6 @@ meta_cols <- c("Row",
 
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N4 use the following variables
-
 <file_name <- "SF240711_mPaintDR2_N4"
 batch_name <- "N4"
 rm_cols <- c("Timepoint",
@@ -146,7 +143,6 @@ meta_cols <- c("Row",
 
 `plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables
-
 <file_name <- "SF240627_mPaintDR2_N2"
 p_sig <- 0.05
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -157,7 +153,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 
 `plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N3 use the following variables
-
 <file_name <- "SF240704_mPaintDR2_N3"
 p_sig <- 0.05
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -168,7 +163,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
 
 `plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N4 use the following variables
-
 <file_name <- "SF240711_mPaintDR2_N4"
 p_sig <- 0.05
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -179,7 +173,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
 
 `plate drift correct mitopaint visualisations (N=3) (mean per well) v1`            
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
-
 <file_name_N1 <- "SF240627_mPaintDR2_N2"
 file_name_N2 <- "SF240704_mPaintDR2_N3"
 file_name_N3 <- "SF240711_mPaintDR2_N4"
@@ -204,7 +197,6 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
 `robust zscore norm mitopaint data v1`
 - for mPaintDR2_N2 use the following variables
-
 <file_name <- "SF240627_mPaintDR2_N2"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
@@ -214,7 +206,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
 
 `robust zscore norm mitopaint data v1`
 - for mPaintDR2_N3 use the following variables
-
 <file_name <- "SF240704_mPaintDR2_N3"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
@@ -224,7 +215,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
 
 `robust zscore norm mitopaint data v1`
 - for mPaintDR2_N4 use the following variables
-
 <file_name <- "SF240711_mPaintDR2_N4"
 dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
@@ -234,7 +224,6 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 
 `batch integration mitopaint data (N=3) (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
-
 <file_name_N1 <- "SF240627_mPaintDR2_N2"
 file_name_N2 <- "SF240704_mPaintDR2_N3"
 file_name_N3 <- "SF240711_mPaintDR2_N4"
@@ -249,3 +238,14 @@ dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
+
+`dimensionality reduction mitopaint data (N=3) (mean per well) v1`
+- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+dims_use <- 1:50
+k_param <- 15
+res <- 1
+perplexity <- 20
+max_iter <- 4000>
