@@ -9,14 +9,14 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- NULL
-redu_state <- NULL
-integrate_state <- NULL
-dims_use <- NULL
-k_param <- NULL
-res <- NULL
-perplexity <- NULL
-max_iter <- NULL
+file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+dims_use <- 1:50
+k_param <- 15
+res <- 1
+perplexity <- 20
+max_iter <- 4000
 # load data ####
 # load data as df
 if (redu_state == "redu") {
@@ -300,26 +300,26 @@ DimPlot(
 # save data ####
 write.csv(pca$embeddings,
           paste(
-            "data/processed/", file_name, "_pca_embeddings.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_pca_embeddings.csv", sep = "")
 )
 write.csv(pca$var,
           paste(
-            "data/processed/", file_name, "_pca_var.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_pca_var.csv", sep = "")
 )
 write.csv(pca$loadings,
           paste(
-            "data/processed/", file_name, "_pca_loadings.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_pca_loadings.csv", sep = "")
 )
 write.csv(pca$top_features_df,
           paste(
-            "data/processed/", file_name, "_pca_top_features.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_pca_top_features.csv", sep = "")
 )
 write.csv(tsne$embeddings,
           paste(
-            "data/processed/", file_name, "_tsne_embeddings.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_tsne_embeddings.csv", sep = "")
 )
 write.csv(umap$embeddings,
           paste(
-            "data/processed/", file_name, "_umap_embeddings.csv", sep = "")
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv", sep = "")
 )
 rm(list = ls())
