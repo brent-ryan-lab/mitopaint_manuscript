@@ -297,6 +297,11 @@ DimPlot(
                "Batch",
                "UMAP_NN")
 )
+# save meta ####
+write.csv(df.seurat@meta.data,
+          paste(
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv", sep = "")
+)
 # save data ####
 write.csv(pca$embeddings,
           paste(
