@@ -22,18 +22,19 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `4.` batch integration mitopaint data (N=3) (mean per well) v1
 - `5.` remove redundant mitopaint data (N=3) (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (N=3) (mean per well) v1
+  - `6.1` PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
-#  6.1 PCA: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.1 PCA batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.2 PCA scree: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.3 PCA biplot: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.4 PCA feature loadings: dim red mitopaint vis (N=3) (mean per well) v1
-#  6.2 UMAP: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.2.1 UMAP batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-#  6.3 tSNE: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.3.1 tSNE batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#  6.1 pca: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.1 pca batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.2 pca scree: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.3 pca biplot: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.4 pca feature loadings: dim red mitopaint vis (N=3) (mean per well) v1
+#  6.2 umap: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.2.1 umap batch integration: dim red mitopaint vis (N=3) (mean per well) v1
+#  6.3 tsne: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.3.1 tsne batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 # 7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
 #  7.1 mahalanobis distance mitopaint visualisaitons (N=3) (mean per well) v1
 #  8.1 similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
@@ -249,3 +250,26 @@ k_param <- 15
 res <- 1
 perplexity <- 20
 max_iter <- 4000>
+
+`PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1`
+- use the following file variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated">
+- use the following plot variables 
+<x_lab <- paste0(
+  "PC_1 (",
+  round(var[1, "Percent_Variance"], 2),
+  "%)"
+)
+y_lab <- paste0(
+  "PC_2 (",
+  round(var[2, "Percent_Variance"], 2),
+  "%)"
+)
+size_title <- 10
+size_axis <- 8
+size_point <- 2
+plot_width <- 4
+plot_height <- 3.2
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
