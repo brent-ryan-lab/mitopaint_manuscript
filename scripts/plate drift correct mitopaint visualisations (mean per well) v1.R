@@ -12,18 +12,33 @@ library(ggplot2)
 library(cowplot)
 library(stringr)
 library(ggpubr)
+library(purrr)
 # set variables ####
-file_name_N1 <- NULL
-file_name_N2 <- NULL
-file_name_N3 <- NULL
-file_name <- NULL
-dmso_wells_N1 <- NULL
-dmso_wells_N2 <- NULL
-dmso_wells_N3 <- NULL
-pos_control <- NULL
-pastel_cols <- NULL
+batches_info <- list(
+  N1 = list(file_name = "SF240627_mPaintDR2_N2",
+            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
+  N2 = list(file_name = "SF240704_mPaintDR2_N3",
+            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
+  N3 = list(file_name = "SF240711_mPaintDR2_N4",
+            dmso_wells =  c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                            "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                            "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                            "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                            "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
+)
+file_name <- "mPaint_DR2_N1.2.3"
+pos_control <- "CCCP_30"
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 # create a function to load data ####
-load_data <- function(file_name, dmso_wells) {
+load_data <- function(batch_name, file_name, dmso_wells) {
   # load plate drift corrected data as df
   df <- as.data.frame(
     fread(
@@ -64,8 +79,12 @@ load_data <- function(file_name, dmso_wells) {
   # keep rownames as WELL_BATCH
   rownames(fits) <- fits$V1
   fits$V1 <- NULL
+  # make sure ID is numeric for column indexing later
+  fits$ID <- as.integer(fits$ID)
   # return list of drift corrected data, raw data, metadata, and drift fits
   return(list(
+    batch_name = batch_name,
+    file_name = file_name,
     df = df,
     df_raw = df_raw,
     meta = meta,
@@ -74,12 +93,18 @@ load_data <- function(file_name, dmso_wells) {
   ))
 }
 # run function to load data ####
-# use explicit DMSO wells variable in case DMSO wells are different 
-N1 <- load_data(file_name_N1, dmso_wells_N1)
-N2 <- load_data(file_name_N2, dmso_wells_N2)
-N3 <- load_data(file_name_N3, dmso_wells_N3)
 # make a super list of all N, to be used in lapply() loops
-batches <- list(N1 = N1, N2 = N2, N3 = N3)
+batches <- imap(
+  batches_info,
+  function(batch_info, batch_name) {
+    load_data(
+      batch_name = batch_name,
+      file_name = batch_info$file_name,
+      # use explicit DMSO wells variable in case DMSO wells are different 
+      dmso_wells = batch_info$dmso_wells
+    )
+  }
+)
 # create function to select feature IDs for plate drift QC plots ####
 # this function will actually be run wrapped in the later plotting function
 select_ids <- function(fit_table, n_random = 4, seed = 42) {
@@ -128,15 +153,16 @@ qc_plots <- function(batch_obj, plot_condition = "DMSO_0") {
   fits <- batch_obj$fits
   dmso_wells <- batch_obj$dmso_wells
   # select for dmso
+  # , , preserves the row order in the selection of data from meta
   meta_dmso <- filter(meta, Well %in% dmso_wells)
-  df_dmso <- df[rownames(df) %in% rownames(meta_dmso),]
-  df_raw_dmso <- df_raw[rownames(df_raw) %in% rownames(meta_dmso),]
+  df_dmso <- df[rownames(meta_dmso), , drop = FALSE]
+  df_raw_dmso <- df_raw[rownames(meta_dmso), , drop = FALSE]
   # select for plot condition 
   # _p will be identical to _dmso if plot condition is just DMSO
   # _p grey points will get covered by black _dmso points if identical
   meta_p <- filter(meta, Condition == plot_condition)
-  df_p <- df[rownames(df) %in% rownames(meta_p),]
-  df_raw_p <- df_raw[rownames(df_raw) %in% rownames(meta_p),]
+  df_p <- df[rownames(meta_p), , drop = FALSE]
+  df_raw_p <- df_raw[rownames(meta_p), , drop = FALSE]
   # select for IDs to plot
   qc_ids <- select_ids(fits)
   # make plots list
@@ -249,20 +275,12 @@ qc_plots <- function(batch_obj, plot_condition = "DMSO_0") {
 }
 # run function to generate plate drift QC plots (for dmso only) ####
 plots_dmso <- lapply(batches, qc_plots)
-# open N1 plot in viewer
-plots_dmso$N1$qc_plot
-# open N2 plot in viewer
-plots_dmso$N2$qc_plot
-# open N3 plot in viewer
-plots_dmso$N3$qc_plot
+# open dmso qc plots in viewer
+walk(plots_dmso, ~ print(.x$qc_plot))
 # run function to generate plate drift QC plots (for dmso and pos_control) ####
 plots_p <- lapply(batches, qc_plots, plot_condition = pos_control)
-# open N1 plot in viewer
-plots_p$N1$qc_plot
-# open N2 plot in viewer
-plots_p$N2$qc_plot
-# open N3 plot in viewer
-plots_p$N3$qc_plot
+# open positive control qc plots in viewer
+walk(plots_p, ~ print(.x$qc_plot))
 # create function to calculate % of drift corrected features per N ####
 perc_drift <- function(batch_obj, batch_name) {
   fits <- batch_obj$fits
@@ -278,12 +296,16 @@ perc_drift <- function(batch_obj, batch_name) {
   )
 }
 # run function to calculate % of drift corrected features per N ####
-drift_df <- bind_rows(
-  perc_drift(N1, "N1"),
-  perc_drift(N2, "N2"),
-  perc_drift(N3, "N3")
+drift_df <- imap_dfr(
+  batches,
+  function(batch_obj, batch_name) {
+    perc_drift(batch_obj, batch_name)
+  }
 )
-drift_df$Batch <- factor(drift_df$Batch, levels = c("N1","N2","N3"))
+drift_df$Batch <- factor(
+  drift_df$Batch,
+  levels = names(batches)
+)
 drift_df$Drift <- factor(drift_df$Drift,
                          levels = c("Polynomial","Linear","None"))
 # plot stacked bar of % of drift corrected features in each N ####
@@ -332,60 +354,38 @@ drift_perc_plot <- ggplot(drift_df,
   )
 drift_perc_plot
 # save plots ####
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N1, "_qc_plot.pdf", sep = ""),
-  plots_dmso$N1$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N2, "_qc_plot.pdf", sep = ""),
-  plots_dmso$N2$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N3, "_qc_plot.pdf", sep = ""),
-  plots_dmso$N3$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N1, "_qc_p_plot.pdf", sep = ""),
-  plots_p$N1$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N2, "_qc_p_plot.pdf", sep = ""),
-  plots_p$N2$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
-ggsave(
-  paste(
-    "outputs/figures/", file_name_N3, "_qc_p_plot.pdf", sep = ""),
-  plots_p$N3$qc_plot,
-  width = 13.4,
-  height = 6.4,
-  units = "in",
-  dpi = 300
-)
+# save dmso drift qc plots, for however many number of N
+iwalk(plots_dmso, function(batch_obj, batch_name) {
+  ggsave(
+    paste(
+      "outputs/figures/",
+      batch_obj$file_name,
+      "_qc_plot.pdf",
+      sep = ""
+    ),
+    batch_obj$qc_plot,
+    width = 13.4,
+    height = 6.4,
+    units = "in",
+    dpi = 300
+  )
+})
+# save dmso + pos control drift qc plots, for however many number of N
+iwalk(plots_p, function(batch_obj, batch_name) {
+  ggsave(
+    paste(
+      "outputs/figures/",
+      batch_obj$file_name,
+      "_qc_p_plot.pdf",
+      sep = ""
+    ),
+    batch_obj$qc_plot,
+    width = 13.4,
+    height = 6.4,
+    units = "in",
+    dpi = 300
+  )
+})
 ggsave(
   paste(
     "outputs/figures/", file_name, "drift_perc_plot.pdf", sep = ""),
