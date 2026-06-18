@@ -2,17 +2,52 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 11-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
 library(tidyverse)
+library(stringr)
+library(purrr)
 # set variables ####
-file_name <- NULL
-batch_name <- NULL
-rm_cols <- NULL
-nuc_count <- NULL
-meta_cols <- NULL
+batches_info <- list(
+  N1 = list(file_name = "SF240627_mPaintDR2_N2",
+            batch_name = "N2"
+            ),
+  N2 = list(file_name <- "SF240704_mPaintDR2_N3",
+            batch_name <- "N3"
+            ),
+  N3 = list(file_name = "SF240711_mPaintDR2_N4",
+            batch_name <- "N4"
+            ))
+rm_cols = c("Timepoint",
+            "Number of Analyzed Fields",
+            "Time [s]",
+            "Temperature",
+            "Target Temperature",
+            "CO2",	"Target CO2",
+            "Nuclei - Number of Objects",
+            "Non-border cells Selected - Number of Objects",
+            "Non-border cells Selected - Nucleus Area [µm²] - Mean per Well",
+            "Non-border cells Selected - Nucleus Roundness - Mean per Well",
+            "Non-border cells Selected - Cell Area [µm²] - Mean per Well",
+            "Non-border cells Selected - Cell Roundness - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+            "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Area [µm²] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Width [µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Length [µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
+            "Cell Type",	
+            "Cell Count"
+)
+nuc_count = "Non-border cells Selected - Number of Objects"
+meta_cols = c("Row",
+              "Column",
+              "Compound",	
+              "Concentration")
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 
@@ -24,19 +59,15 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
     )
   # remove any rows with low nuclei
   df <- df %>% 
-    filter(nuc_count > 100)
-  
+    filter(.data[[nuc_count]] > 100)
   # remove unwanted columns
   df <- df %>%
     select(-any_of(rm_cols))
-  
   # separate metadata 
   meta <- df %>%
     select(any_of(meta_cols))
-  
   df <- df %>%
     select(-any_of(meta_cols))
-  
   # populate additional metadata
   meta$Well  <- paste(meta$Column, meta$Row, sep = "_")
   meta$Batch <- batch_name
@@ -45,7 +76,6 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   meta$Condition <- paste(meta$Compound, meta$Concentration, sep = "_")
   rownames(meta) <- meta$ID
   rownames(df)   <- meta$ID
-  
   # clean column names
   names(df) <- names(df) |>
     str_remove("^Non-border cells Selected - ") |>
@@ -53,35 +83,47 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
     str_replace("mKeima ph4/TMRM", "mt-Keima pH4") |>
     str_replace("mKeima ph7", "mt-Keima pH7") |>
     str_trim(side = "right")
-  
   # convert all features to numeric
   df[] <- lapply(df, as.numeric)
-  
   # remove any columns with NA
-  df <- df[, colSums(is.na(df)) == 0]
-  
+  df <- df[, colSums(is.na(df)) == 0, drop = FALSE]
   # remove any rows with NA
-  df <- df[rowSums(is.na(df)) == 0, ]
-  
+  df <- df[rowSums(is.na(df)) == 0, , drop = FALSE]
   # keep meta and df aligned
-  meta <- meta[rownames(df), ]
-  
+  meta <- meta[rownames(df), , drop = FALSE]
   # return data and metadata as a list
-  return(list(data = df, meta = meta))
+  return(list(data = df
+              meta = meta,
+              file_name = file_name,
+              batch_name = batch_name)
+         )
 }
 # run function to load and tidy data ####
-df_tidy <- load_data(file_name, batch_name, rm_cols, meta_cols, nuc_count)
-# open data to inspect
-View(df_tidy[["data"]])
-# open meta to inspect
-View(df_tidy[["meta"]])
-# save tidy data ####
-write.csv(df_tidy$data,
-          paste(
-            "data/processed/", file_name, "_data_tidy.csv", sep = "")
-          )
-write.csv(df_tidy$meta,
-          paste(
-            "data/processed/", file_name, "_meta_tidy.csv", sep = "")
+batches <- map(
+  batches_info,
+  function(batch_info) {
+    load_data(
+      file_name = batch_info$file_name,
+      batch_name = batch_info$batch_name,
+      rm_cols = rm_cols,
+      meta_cols = meta_cols,
+      nuc_count = nuc_count
+    )
+  }
 )
+# open data to inspect
+View(batches$N1$data)
+# open meta to inspect
+View(batches$N1$meta)
+# save tidy data ####
+walk(batches, function(batch_obj) {
+  write.csv(
+    batch_obj$data,
+    paste("data/processed/", batch_obj$file_name, "_data_tidy.csv", sep = "")
+  )
+  write.csv(
+    batch_obj$meta,
+    paste("data/processed/", batch_obj$file_name, "_meta_tidy.csv", sep = "")
+  )
+})
 rm(list = ls())
