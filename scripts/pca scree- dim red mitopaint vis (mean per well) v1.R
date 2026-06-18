@@ -70,4 +70,4 @@ ggsave(paste("outputs/figures/pca/", file_name, "scree.pdf"),
        height = plot_height,
        units = "in",
        dpi = 300)
- 
+rm(list = ls())
