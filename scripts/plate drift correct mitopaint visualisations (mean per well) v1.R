@@ -1,4 +1,4 @@
-# Title: plate drift correct mitopaint visualisations (N=3) (mean per well) v1
+# Title: plate drift correct mitopaint visualisations (mean per well) v1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
