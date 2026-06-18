@@ -185,7 +185,7 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 file_name <- "mPaintDR2_N2_N3_N4"
 k_weight <- 50>
 
-`remove redundant mitopaint data (N=3) (mean per well) v1`
+`remove redundant mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
