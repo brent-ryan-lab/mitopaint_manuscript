@@ -7,12 +7,21 @@
 # load packages ####
 library(data.table)
 library(Seurat)
+library(purrr)
 # set variables ####
-file_name_N1 <- NULL
-file_name_N2 <- NULL
-file_name_N3 <- NULL
-file_name <- NULL
-k_weight <- NULL
+batches_info <- list(
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2"
+  ),
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3"
+  ),
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4"
+  )
+)
+file_name <- "mPaintDR2_N2_N3_N4"
+k_weight <- 50
 # create a function to load data ####
 load_data <- function(file_name) {
   # load zscore data as df
@@ -42,43 +51,54 @@ load_data <- function(file_name) {
   ))
 }
 # run function to load data ####
-N1 <- load_data(file_name_N1)
-N2 <- load_data(file_name_N2)
-N3 <- load_data(file_name_N3)
-# make df.seurat container of each N as a seurat object ####
-df.seurat <- list()
-# create seurat object of N1, N2, N3 zscore and meta in for() loop
-for(batch in c("N1", "N2", "N3")) {
+batches <- map(
+  batches_info,
+  function(batch_info) {
+    load_data(
+      file_name = batch_info$file_name
+    )
+  }
+)
+# create function to make seurat object ####
+# create function to convert one batch to a Seurat object ####
+make_seurat_object <- function(batch_obj) {
   # fetch zscore and metadata
-  z_mat   <- get(batch)$df
-  meta_df <- get(batch)$meta
+  z_mat <- batch_obj$df
+  meta_df <- batch_obj$meta
   # transpose zscore matrix
+  # Seurat expects features as rows and wells/samples as columns
   mat <- t(as.matrix(z_mat))
   # create seurat object for each batch
-  df.seurat[[batch]] <- CreateSeuratObject(
+  seurat_obj <- CreateSeuratObject(
     counts = mat,
-    # assay is saved as MP for mitopaint
     assay = "MP",
     meta.data = meta_df,
-    # include all wells (skip usual RNAseq filter)
     min.cells = 0,
     min.features = 0
   )
   # manually copy counts to data layer to circumvent v5 seurat structure syntax
-  df.seurat[[batch]] <- SetAssayData(
-    df.seurat[[batch]],
+  seurat_obj <- SetAssayData(
+    seurat_obj,
     assay = "MP",
     layer = "data",
-    new.data = GetAssayData(df.seurat[[batch]], assay = "MP", layer = "counts")
+    new.data = GetAssayData(
+      seurat_obj,
+      assay = "MP",
+      layer = "counts"
+    )
   )
-  # scale data - centre normalises, and is necessary for seurat package functions
-  df.seurat[[batch]] <- ScaleData(
-    df.seurat[[batch]],
+  # scale data
+  seurat_obj <- ScaleData(
+    seurat_obj,
     verbose = FALSE
   )
+  return(seurat_obj)
 }
-# remove temp variables from for() loop
-rm(z_mat, meta_df, mat)
+# run function to make seurat object in df.seurat container ####
+df.seurat <- map(
+  batches,
+  make_seurat_object
+)
 # integrate data into integrated.seurat ####
 # first, dimensionality is reduced using canonical correlation analysis (CCA)
 # this turns conserved feature correlation patterns into vectors
@@ -90,11 +110,9 @@ integrated.seurat <- IntegrateData(
   anchorset = FindIntegrationAnchors(
     object.list = df.seurat,
     # only integrate features shared across all N
-    anchor.features = Reduce( 
+    anchor.features = Reduce(
       intersect,
-      list(colnames(N1$df),
-           colnames(N2$df),
-           colnames(N3$df))
+      map(batches, ~ colnames(.x$df))
     ),
     scale = FALSE
   ),
@@ -102,30 +120,36 @@ integrated.seurat <- IntegrateData(
   # k.weight is dependent on approx no. of well replicates
   k.weight = k_weight   
 )
-
 # put integrated data in a single table ####
-# all INTEGRATED N data saved in integrated$df
 integrated <- list()
+# all integrated batch data saved in integrated$df
 integrated$df <- as.data.frame(
-  t(GetAssayData(integrated.seurat, assay = "integrated", slot = "data"))
+  t(
+    GetAssayData(
+      integrated.seurat,
+      assay = "integrated",
+      layer = "data"
+    )
+  )
 )
-# all N meta saved in integrated$meta
+# all batch metadata saved in integrated$meta
 integrated$meta <- integrated.seurat@meta.data
 # put unintegrated data in a single table ####
-# all UNINTEGRATED N data saved in integrated$df
 unintegrated <- list()
-unintegrated$df <- rbind(
-  N1$df,
-  N2$df,
-  N3$df
-)
-unintegrated$meta <- rbind(
-  N1$meta,
-  N2$meta,
-  N3$meta
-)
+# all unintegrated batch data saved in unintegrated$df
+unintegrated$df <- purrr::map(
+  batches,
+  "df"
+) |>
+  dplyr::bind_rows()
+
+# all unintegrated metadata saved in unintegrated$meta
+unintegrated$meta <- purrr::map(
+  batches,
+  "meta"
+) |>
+  dplyr::bind_rows()
 # save data ####
-# save integrated data in /data/processed
 write.csv(integrated$df,
           paste(
             "data/processed/", file_name, "_data_integrated.csv", sep = "")
