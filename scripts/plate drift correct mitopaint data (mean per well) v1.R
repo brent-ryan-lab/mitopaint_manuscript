@@ -2,40 +2,85 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 12-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
 library(tidyverse)
+library(purrr)
 # set variables ####
-file_name <- NULL
-p_sig <- NULL
-dmso_wells <- NULL
+batches_info <- list(
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+  ),
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+  ),
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+  )
+)
+p_sig <- 0.05
+# create function to load data ####
+load_data <- function(file_name, dmso_wells) {
+  # load tidy data
+  df <- as.data.frame(
+    fread(
+      paste("data/processed/", file_name, "_data_tidy.csv", sep = ""),
+      header = TRUE
+    )
+  )
+  rownames(df) <- df$V1
+  df$V1 <- NULL
+  # load tidy metadata
+  meta <- as.data.frame(
+    fread(
+      paste("data/processed/", file_name, "_meta_tidy.csv", sep = ""),
+      header = TRUE
+    )
+  )
+  rownames(meta) <- meta$V1
+  meta$V1 <- NULL
+  return(list(
+    file_name = file_name,
+    dmso_wells = dmso_wells,
+    df = df,
+    meta = meta
+  ))
+}
 # load data ####
-df <- as.data.frame(
-  fread(
-    paste(
-      "data/processed/", file_name, "_data_tidy.csv", sep = ""), 
-    header = TRUE)
+batches <- map(
+  batches_info,
+  function(batch_info) {
+    load_data(
+      file_name = batch_info$file_name,
+      dmso_wells = batch_info$dmso_wells
+    )
+  }
 )
-rownames(df) <- df$V1
-df$V1 <- NULL
-meta <- as.data.frame(
-  fread(
-    paste(
-      "data/processed/", file_name, "_meta_tidy.csv", sep = ""), 
-    header = TRUE)
-)
-rownames(meta) <- meta$V1
-meta$V1 <- NULL
 # create function to calculate plate drift ####
 # function will calculate possible models of plate drift 
 # 0 = intercept only, 1 = linear, 2 = poly, based on DMSO control wells
 # then will ANOVA test which is the model of best fit for each feature
 calc_drift <- function(df, meta, dmso_wells, p_sig) {
   # subset dmso wells
-  meta_dmso <- meta[meta$Well %in% dmso_wells, ]
-  df_dmso <- df[rownames(df) %in% rownames(meta_dmso), ]
+  meta_dmso <- meta[meta$Well %in% dmso_wells, , drop = FALSE]
+  df_dmso <- df[rownames(meta_dmso), , drop = FALSE]
   # create vector of all features
   features <- colnames(df)
   # lapply() calculatea fit table for all features
@@ -51,7 +96,7 @@ calc_drift <- function(df, meta, dmso_wells, p_sig) {
     # calculate lm for poly model (2) = curved drift
     # raw must = TRUE to use actual polynomial terms and not orthogonal terms
     fit_2 <- lm(y ~ poly(order, 2, raw = TRUE))
-    # anova test for best fit between all models for each feature
+    # anova test to compare between each model
     an <- anova(fit_0, fit_1, fit_2)
     # output coefficients for each model
     data.frame(
@@ -110,9 +155,20 @@ calc_drift <- function(df, meta, dmso_wells, p_sig) {
   return(fit_table_best)
 }
 # run function to calculate plate drift ####
-fits <- calc_drift(df, meta, dmso_wells, p_sig)
+batches <- map(
+  batches,
+  function(batch_obj) {
+    batch_obj$fits <- calc_drift(
+      df = batch_obj$df,
+      meta = batch_obj$meta,
+      dmso_wells = batch_obj$dmso_wells,
+      p_sig = p_sig
+    )
+    batch_obj
+  }
+)
 # open best fits models for drift corr to inspect
-View(fits)
+View(batches$N1$fits)
 # create function to apply plate drift correction ####
 drift_corr <- function(df, meta, dmso_wells, fits) {
   # compute predicted drift based on best fit model
@@ -160,24 +216,40 @@ return(list(
   # return 1. df of correction factors, 
   corr_table = corr_table,
   # return 2. df of corrected data
-  corr_df = corr_df,
+  corr_df = corr_df
 ))
 }
 # run function to apply plate drift correction ####
-corr <- drift_corr(df, meta, dmso_wells, fits)
+batches <- map(
+  batches,
+  function(batch_obj) {
+    corr <- drift_corr(
+      df = batch_obj$df,
+      meta = batch_obj$meta,
+      dmso_wells = batch_obj$dmso_wells,
+      fits = batch_obj$fits
+    )
+    batch_obj$corr_table <- corr$corr_table
+    batch_obj$corr_df <- corr$corr_df
+    batch_obj
+  }
+)
 # open corr_df to inspect
-View(corr$corr_df)
+View(batches$N1$corr_df)
 # save corr data ####
-write.csv(fits,
-          paste(
-            "outputs/data/", file_name, "_platedrift_fits.csv", sep = "")
-)
-write.csv(corr$corr_table,
-          paste(
-            "outputs/data/", file_name, "_platedrift_corrtable.csv", sep = "")
-)
-write.csv(corr$corr_df,
-          paste(
-            "data/processed/", file_name, "_platedrift_corr.csv", sep = "")
-)
+walk(batches, function(batch_obj) {
+  file_name <- batch_obj$file_name
+  write.csv(
+    batch_obj$fits,
+    paste("outputs/data/", file_name, "_platedrift_fits.csv", sep = "")
+  )
+  write.csv(
+    batch_obj$corr_table,
+    paste("outputs/data/", file_name, "_platedrift_corrtable.csv", sep = "")
+  )
+  write.csv(
+    batch_obj$corr_df,
+    paste("data/processed/", file_name, "_platedrift_corr.csv", sep = "")
+  )
+})
 rm(list = ls())
