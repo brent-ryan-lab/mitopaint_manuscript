@@ -1,4 +1,5 @@
 # Title: PCA- dim red mitopaint vis (mean per well) v1
+# Step: 6.1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript

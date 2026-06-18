@@ -1,4 +1,5 @@
-# Title: dimensionality reduction mitopaint data (N=3) (mean per well) v1
+# Title: dimensionality reduction mitopaint data (mean per well) v1
+# Step: 6
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
