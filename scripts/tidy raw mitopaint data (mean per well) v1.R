@@ -11,15 +11,19 @@ library(stringr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1 = list(file_name = "SF240627_mPaintDR2_N2",
-            batch_name = "N2"
-            ),
-  N2 = list(file_name <- "SF240704_mPaintDR2_N3",
-            batch_name <- "N3"
-            ),
-  N3 = list(file_name = "SF240711_mPaintDR2_N4",
-            batch_name <- "N4"
-            ))
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2",
+    batch_name = "N2"
+  ),
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3",
+    batch_name = "N3"
+  ),
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4",
+    batch_name = "N4"
+  )
+)
 rm_cols = c("Timepoint",
             "Number of Analyzed Fields",
             "Time [s]",
@@ -92,7 +96,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # keep meta and df aligned
   meta <- meta[rownames(df), , drop = FALSE]
   # return data and metadata as a list
-  return(list(data = df
+  return(list(data = df,
               meta = meta,
               file_name = file_name,
               batch_name = batch_name)
