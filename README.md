@@ -17,26 +17,25 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 ## usage
 - `1.` tidy raw mitopaint data (mean per well) v1
 - `2.` plate drift correct mitopaint data (mean per well) v1
-  - `2.1` plate drift correct mitopaint visualisations (N=3) (mean per well) v1
+  - `2.1` plate drift correct mitopaint visualisations (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
 - `4.` batch integration mitopaint data (N=3) (mean per well) v1
 - `5.` remove redundant mitopaint data (N=3) (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (N=3) (mean per well) v1
-  - `6.1` PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1
+  - `6.1` pca- dim red mitopaint vis (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
-#  6.1 pca: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.1 pca batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.2 pca scree: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.3 pca biplot: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.4 pca feature loadings: dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.1 pca batch integration- dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.2 pca scree- dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.3 pca biplot- dim red mitopaint vis (N=3) (mean per well) v1
+#    6.1.4 pca feature loadings- dim red mitopaint vis (N=3) (mean per well) v1
 #  6.2 umap: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.2.1 umap batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 #  6.3 tsne: dim red mitopaint vis (N=3) (mean per well) v1
 #    6.3.1 tsne batch integration: dim red mitopaint vis (N=3) (mean per well) v1
 # 7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
-#  7.1 mahalanobis distance mitopaint visualisaitons (N=3) (mean per well) v1
+#  7.1 mahalanobis distance mitopaint visualisations (N=3) (mean per well) v1
 #  8.1 similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
 #  8.2 profile heatmap mitopaint visualisations (N=3) (mean per well) v1
   
@@ -172,27 +171,29 @@ dmso_wells <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                 "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                 "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")>
 
-`plate drift correct mitopaint visualisations (N=3) (mean per well) v1`            
+`plate drift correct mitopaint visualisations (mean per well) v1`            
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
-<file_name_N1 <- "SF240627_mPaintDR2_N2"
-file_name_N2 <- "SF240704_mPaintDR2_N3"
-file_name_N3 <- "SF240711_mPaintDR2_N4"
+<batches_info <- list(
+  N1 = list(file_name = "SF240627_mPaintDR2_N2",
+            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
+  N2 = list(file_name = "SF240704_mPaintDR2_N3",
+            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
+  N3 = list(file_name = "SF240711_mPaintDR2_N4",
+            dmso_wells =  c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                            "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                            "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                            "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                            "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
+)
 file_name <- "mPaint_DR2_N1.2.3"
-dmso_wells_N1 <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
-dmso_wells_N2 <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
-dmso_wells_N3 <- c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
@@ -251,7 +252,7 @@ res <- 1
 perplexity <- 20
 max_iter <- 4000>
 
-`PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1`
+`PCA- dim red mitopaint vis (mean per well) v1`
 - use the following file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
