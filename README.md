@@ -19,25 +19,25 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `2.` plate drift correct mitopaint data (mean per well) v1
   - `2.1` plate drift correct mitopaint visualisations (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
-- `4.` batch integration mitopaint data (N=3) (mean per well) v1
-- `5.` remove redundant mitopaint data (N=3) (mean per well) v1
-- `6.` dimensionality reduction mitopaint data (N=3) (mean per well) v1
+- `4.` batch integration mitopaint data (mean per well) v1
+- `5.` remove redundant mitopaint data (mean per well) v1
+- `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
-#  5.1 remove redundant mitopaint visualisations (N=3) (mean per well) v1
-#    6.1.1 pca batch integration- dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.2 pca scree- dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.3 pca biplot- dim red mitopaint vis (N=3) (mean per well) v1
-#    6.1.4 pca feature loadings- dim red mitopaint vis (N=3) (mean per well) v1
-#  6.2 umap: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.2.1 umap batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-#  6.3 tsne: dim red mitopaint vis (N=3) (mean per well) v1
-#    6.3.1 tsne batch integration: dim red mitopaint vis (N=3) (mean per well) v1
-# 7. mahalanobis distance mitopaint data (N=3) (mean per well) v1
-#  7.1 mahalanobis distance mitopaint visualisations (N=3) (mean per well) v1
-#  8.1 similarity heatmap mitopaint visualisations (N=3) (mean per well) v1
-#  8.2 profile heatmap mitopaint visualisations (N=3) (mean per well) v1
+#  5.1 remove redundant mitopaint visualisations (mean per well) v1
+#    6.1.1 pca batch integration- dim red mitopaint vis (mean per well) v1
+#    6.1.2 pca scree- dim red mitopaint vis (mean per well) v1
+#    6.1.3 pca biplot- dim red mitopaint vis (mean per well) v1
+#    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
+#  6.2 umap: dim red mitopaint vis (mean per well) v1
+#    6.2.1 umap batch integration: dim red mitopaint vis (mean per well) v1
+#  6.3 tsne: dim red mitopaint vis (mean per well) v1
+#    6.3.1 tsne batch integration: dim red mitopaint vis (mean per well) v1
+# 7. mahalanobis distance mitopaint data (mean per well) v1
+#  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
+#  8.1 similarity heatmap mitopaint visualisations (mean per well) v1
+#  8.2 profile heatmap mitopaint visualisations (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
@@ -194,7 +194,7 @@ cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
 
-`dimensionality reduction mitopaint data (N=3) (mean per well) v1`
+`dimensionality reduction mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
@@ -206,11 +206,12 @@ perplexity <- 20
 max_iter <- 4000>
 
 `PCA- dim red mitopaint vis (mean per well) v1`
-- use the following file variables
+- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+- file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated">
-- use the following plot variables 
+- plot variables
 <x_lab <- paste0(
   "PC_1 (",
   round(var[1, "Percent_Variance"], 2),
