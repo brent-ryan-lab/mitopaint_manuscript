@@ -169,11 +169,19 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
   )
 )>
                 
-`batch integration mitopaint data (N=3) (mean per well) v1`
+`batch integration mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
-<file_name_N1 <- "SF240627_mPaintDR2_N2"
-file_name_N2 <- "SF240704_mPaintDR2_N3"
-file_name_N3 <- "SF240711_mPaintDR2_N4"
+<batches_info <- list(
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2"
+  ),
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3"
+  ),
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4"
+  )
+)
 file_name <- "mPaintDR2_N2_N3_N4"
 k_weight <- 50>
 
