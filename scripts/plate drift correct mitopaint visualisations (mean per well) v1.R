@@ -2,7 +2,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 11-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
@@ -34,7 +34,7 @@ batches_info <- list(
                             "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                             "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
 )
-file_name <- "mPaint_DR2_N1.2.3"
+file_name <- "mPaint_DR2_N2_3_4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 # create a function to load data ####

@@ -1,3 +1,12 @@
+## 2026-06-18
+- updated pca- dim red mitopaint vis (mean per well) v1 to be generalisable to any dataset, not just mPaintDR2_N
+- updated plate drift correct mitopaint visualisations (mean per well) v1 to be generalisable to any dataset, not just mPaintDR2_N
+- updated plate drift correct mitopaint visualisations (mean per well) v1 set variables and README variables to include batches_info that can then be generalisable to any number of N
+
+## 2026-06-16
+- updated batch integration mitopaint data (N=3) (mean per well) v1 to save metadata with NN labels for PCA, tSNE, UMAP
+- updated PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1 to plot PCAs coloured by compound, concentration, compound (shape) and conc, and NN (incl label)
+
 ## 2026-06-15
 - added batch integration mitopaint data (N=3) (mean per well) v1
 - data (integrated and unintegrated) from batch integration script save to /data/processed
