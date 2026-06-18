@@ -1,8 +1,9 @@
-# Title: remove redundant mitopaint data (N=3) (mean per well) v1
+# Title: remove redundant mitopaint data (mean per well) v1
+# Step: 5
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 15-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
@@ -78,14 +79,12 @@ rem_redundant <- function(df,
   }
   return(data)
 }
-
 # run function to remove redundant features ####
 redu <- rem_redundant(df,
                       dataset_name,
                       excl_feats,
                       var_tol,
                       cor_thresh)
-
 # save data ####
 # save redu data in /data/processed
 write.csv(redu,
