@@ -1,8 +1,8 @@
-# Title: PCA: dim red mitopaint vis (N=3) (mean per well) mPaintDR2_N2_N3_N4 v1
+# Title: PCA- dim red mitopaint vis (mean per well) v1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 16-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
@@ -70,13 +70,20 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 plots <- list()
 # make data cbind of meta and df
 data <- cbind(meta, df)
+# reorder plot data if only treated with DMSO, CCCP, ROT
+if (all(unique(meta$Compound) %in% c("DMSO", "CCCP", "ROT"))) {
+  data <- data %>%
+    mutate(
+      Compound = factor(
+        Compound,
+        levels = c("DMSO", "CCCP", "ROT")
+      )
+    )
+} else {
+  data <- data
+}
 # plot is p1
-plots$p1 <- ggplot(data %>%
-                     mutate(
-                       Compound = factor(Compound,
-                                         levels = c("DMSO", "CCCP", "ROT"))
-                       ),
-                       aes(x = PC_1, y = PC_2)
+plots$p1 <- ggplot(data,aes(x = PC_1, y = PC_2)
                    ) +
   geom_point(aes(color = Compound), size = size_point) +
   labs(title = "PCA by Compound",
@@ -165,9 +172,8 @@ plots$p3 <- ggplot(data, aes(x = PC_1, y = PC_2)) +
   ) +
   theme(legend.position = "right")
 plots$p3
-
 # p4: pc1 x pc1 by compound and concentration ####
-plots$p4 <- ggplot(data, aes(x = PC_1, y = PC_2)) +
+plots$p4 <- ggplot(data,aes(x = PC_1, y = PC_2)) +
   geom_point(aes(color = Concentration, shape = Compound), size = size_point) +
   labs(title = "PCA by Compound & Concentration",
        x = x_lab,
@@ -190,6 +196,28 @@ plots$p4 <- ggplot(data, aes(x = PC_1, y = PC_2)) +
   ) +
   theme(legend.position = "right")
 plots$p4
+# p5: pc1 x pc2 by batch ####
+plots$p5 <- ggplot(data, aes(x = PC_1, y = PC_2)
+) +
+  geom_point(aes(color = Batch), size = size_point) +
+  labs(title = "PCA by Batch",
+       x = x_lab,
+       y = y_lab) +
+  theme_pubr() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = size_title, face = "bold"),
+    axis.text = element_text(size = size_axis),
+    axis.title = element_text(size = size_axis),
+    legend.title = element_text(size = size_axis),
+    legend.text = element_text(size = size_axis),
+    panel.grid = element_blank(),
+    plot.margin = margin(10, 10, 10, 10)
+  ) +
+  scale_color_manual(
+    values = pastel_cols
+  ) + 
+  theme(legend.position = "right")
+plots$p5
 # save plots ####
 ggsave(paste("outputs/figures/pca/", file_name, "pca_1.pdf"),
        plots$p1,
@@ -197,17 +225,28 @@ ggsave(paste("outputs/figures/pca/", file_name, "pca_1.pdf"),
        height = plot_height,
        units = "in",
        dpi = 300)
-
 ggsave(paste("outputs/figures/pca/", file_name, "pca_2.pdf"),
        plots$p2,
        width = plot_width,
        height = plot_height,
        units = "in",
        dpi = 300)
-
 ggsave(paste("outputs/figures/pca/", file_name, "pca_3.pdf"),
        plots$p3,
        width = plot_width,
        height = plot_height,
        units = "in",
        dpi = 300)
+ggsave(paste("outputs/figures/pca/", file_name, "pca_4.pdf"),
+       plots$p4,
+       width = plot_width,
+       height = plot_height,
+       units = "in",
+       dpi = 300)
+ggsave(paste("outputs/figures/pca/", file_name, "pca_5.pdf"),
+       plots$p5,
+       width = plot_width,
+       height = plot_height,
+       units = "in",
+       dpi = 300)
+rm(list = ls())
