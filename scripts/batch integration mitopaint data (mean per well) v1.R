@@ -1,8 +1,8 @@
-# Title: batch integration mitopaint data (N=3) (mean per well) v1
+# Title: batch integration mitopaint data (mean per well) v1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 15-06-2026
+# Last edit: 18-06-2026
 
 # load packages ####
 library(data.table)
