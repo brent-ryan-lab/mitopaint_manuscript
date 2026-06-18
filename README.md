@@ -23,11 +23,12 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `5.` remove redundant mitopaint data (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v1
+    - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (mean per well) v1
 #    6.1.1 pca batch integration- dim red mitopaint vis (mean per well) v1
-#    6.1.2 pca scree- dim red mitopaint vis (mean per well) v1
+
 #    6.1.3 pca biplot- dim red mitopaint vis (mean per well) v1
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #  6.2 umap: dim red mitopaint vis (mean per well) v1
@@ -186,7 +187,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 k_weight <- 50>
 
 `remove redundant mitopaint data (mean per well) v1`
-- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+- for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 dataset_name <- "mPaintDR2_N2_N3_N4"
@@ -195,7 +196,7 @@ var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
 
 `dimensionality reduction mitopaint data (mean per well) v1`
-- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+- for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
@@ -205,8 +206,8 @@ res <- 1
 perplexity <- 20
 max_iter <- 4000>
 
-`PCA- dim red mitopaint vis (mean per well) v1`
-- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
+`pca- dim red mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
 - file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
@@ -228,3 +229,19 @@ size_point <- 2
 plot_width <- 4
 plot_height <- 3.2
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
+
+`pca scree- dim red mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+- file variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated">
+- plot variables
+<x_lab <- "Number of PCs"
+y_lab <- "Cumulative % Variance Explained"
+size_axis <- 8
+size_point <- 1
+plot_width <- 2.5
+plot_height <- 2.5
+text_nudge <- 6>
+
