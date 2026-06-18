@@ -9,7 +9,7 @@
 library(data.table)
 # set variables ####
 file_name <- "mPaintDR2_N2_N3_N4"
-integrate_state <- "unintegrated"
+integrate_state <- "integrated"
 dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
