@@ -1,3 +1,8 @@
+## 2026-06-19
+- added pca biplot- dim red mitopaint vis (mean per well) v1
+- added classic readouts mitopaint data (mean per well) v1
+
+
 ## 2026-06-18
 - updated pca- dim red mitopaint vis (mean per well) v1 to be generalisable to any dataset, not just mPaintDR2_N
 - updated plate drift correct mitopaint visualisations (mean per well) v1 to be generalisable to any dataset, not just mPaintDR2_N
