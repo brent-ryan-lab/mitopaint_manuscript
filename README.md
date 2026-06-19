@@ -24,12 +24,11 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v1
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
+    - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (mean per well) v1
 #    6.1.1 pca batch integration- dim red mitopaint vis (mean per well) v1
-
-#    6.1.3 pca biplot- dim red mitopaint vis (mean per well) v1
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #  6.2 umap: dim red mitopaint vis (mean per well) v1
 #    6.2.1 umap batch integration: dim red mitopaint vis (mean per well) v1
@@ -37,8 +36,12 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #    6.3.1 tsne batch integration: dim red mitopaint vis (mean per well) v1
 # 7. mahalanobis distance mitopaint data (mean per well) v1
 #  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
-#  8.1 similarity heatmap mitopaint visualisations (mean per well) v1
-#  8.2 profile heatmap mitopaint visualisations (mean per well) v1
+# 8. similarity heatmap mitopaint visualisations (mean per well) v1
+#   8.1 profile heatmap mitopaint visualisations (mean per well) v1
+# 9. classic readouts mitopaint data (mean per well) v1
+#   9.1 classic readouts barplot vis (mean per well) v1
+#   9.2 classic readouts pca vis (mean per well) v1
+#   9.3 classic readouts pca pearson corr vis (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
