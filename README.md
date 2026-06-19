@@ -25,6 +25,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.1` pca- dim red mitopaint vis (mean per well) v1
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
+- `9.` classic readouts mitopaint data (mean per well) v1
 
 #  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
 #  5.1 remove redundant mitopaint visualisations (mean per well) v1
@@ -38,10 +39,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
 # 8. similarity heatmap mitopaint visualisations (mean per well) v1
 #   8.1 profile heatmap mitopaint visualisations (mean per well) v1
-# 9. classic readouts mitopaint data (mean per well) v1
-#   9.1 classic readouts barplot vis (mean per well) v1
-#   9.2 classic readouts pca vis (mean per well) v1
-#   9.3 classic readouts pca pearson corr vis (mean per well) v1
+#   9.1 classic readouts pca vis (mean per well) v1
+#   9.2 classic readouts pca pearson corr vis (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
@@ -275,3 +274,60 @@ size_title <- 13
 size_axis <- 10
 plot_width <- 7
 plot_height <- 7>
+
+`classic readouts mitopaint data (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+- file variables
+<batches_info <- list(
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N2"
+  ),
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N3"
+  ),
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N4"
+  )
+)
+nuc_count = "Non-border cells Selected - Number of Objects"
+meta_cols = c("Row",
+              "Column",
+              "Compound",	
+              "Concentration")
+file_name <- "mPaint_DR2_Classic_N2_3_4">
+- plot variables
+<plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+plot_lab <- c("DMSO", "CCCP", "ROT")
+plot_feats <- c("Intensity Cytoplasm CellRox Mean",
+                "Intensity Cytoplasm TMRM Mean",
+                "Mitochondria Selected Ratio Width to Length",
+                "Number of Selected Spots/ Selected Cell")
+y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
+           "Cytoplasm MMP Intensity (a.u.)",
+           "Mitochondria Width:Length (a.u.)",
+           "Mitophagy Spots (a.u.)")
+x_lab <- "Compound"
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+point_size <- 3
+size_annot <- 6
+size_axis <- 12
+plot_width <- 3
+plot_height <- 4>
