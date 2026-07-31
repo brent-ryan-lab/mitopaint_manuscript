@@ -144,6 +144,48 @@ file_name <- "mPaint_DR2_N2_3_4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
+`plate drift raw mitopaint visualisations (mean per well) v1`
+- for SF240215_mPaintDrift_DMSO_N1 use the following variables
+<batches_info <- list(
+  N1 = list(
+    file_name = "SF240215_mPaintDrift_DMSO_N1",
+    batch_name = "N1"
+  )
+)
+meta_cols <- c("Row",
+                "Column",
+                "Compound",	
+                "Concentration")
+rm_cols <- c("Timepoint",
+            "Number of Analyzed Fields",
+            "Time [s]",
+            "Temperature",
+            "Target Temperature",
+            "CO2",	"Target CO2",
+            "Nuclei - Number of Objects",
+            "Non-border cells Selected - Number of Objects",
+            "Non-border cells Selected - Nucleus Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - Nucleus Roundness - Mean per Well",
+            "Non-border cells Selected - Cell Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - Cell Roundness - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+            "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Width [¬µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Length [¬µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
+            "Cell Type",	
+            "Cell Count"
+)
+plot_var <- c("Intensity Cytoplasm Region TMRM test Mean",
+              "Intensity Cytoplasm Region CellRox Deep Red test Mean")
+legend_titles <- c(
+  "TMRM Intensity",
+  "CellROX Intensity"
+)>
+
 `robust zscore norm mitopaint data v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
 <batches_info <- list(
