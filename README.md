@@ -18,6 +18,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `1.` tidy raw mitopaint data (mean per well) v1
 - `2.` plate drift correct mitopaint data (mean per well) v1
   - `2.1` plate drift correct mitopaint visualisations (mean per well) v1
+  - `2.2` plate drift raw mitopaint visualisations (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
 - `4.` batch integration mitopaint data (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
