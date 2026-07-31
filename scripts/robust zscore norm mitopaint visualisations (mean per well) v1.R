@@ -6,6 +6,13 @@
 # Last edit: 31-07-26
 
 # load packages ####
+library(data.table)
+library(purrr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(scales)
 # set variables ####
 batches_info <- list(
   N1 = list(
