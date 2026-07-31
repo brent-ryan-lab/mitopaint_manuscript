@@ -20,6 +20,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `2.1` plate drift correct mitopaint visualisations (mean per well) v1
   - `2.2` plate drift raw mitopaint visualisations (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
+  - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
 - `4.` batch integration mitopaint data (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
@@ -28,7 +29,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
 
-#  3.1 robust zscore norm mitopaint visualisations (mean per well) v1
+
 #  5.1 remove redundant mitopaint visualisations (mean per well) v1
 #    6.1.1 pca batch integration- dim red mitopaint vis (mean per well) v1
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
@@ -207,6 +208,19 @@ legend_titles <- c(
   ),
   N3 = list(
     file_name = "SF240711_mPaintDR2_N4",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+  )
+)>
+
+`robust zscore norm mitopaint visualisations (mean per well) v1`
+- for mPaintDR2_N2 use the following variables 
+<batches_info <- list(
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                    "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
