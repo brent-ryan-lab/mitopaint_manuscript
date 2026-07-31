@@ -3,9 +3,17 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 17-07-2026
+# Last edit: 31-07-26
 
 # load packages ####
+library(data.table)
+library(dplyr)
+library(stringr)
+library(purrr)
+library(tibble)
+library(ggplot2)
+library(colorspace)
+library(viridis)
 # set file variables ####
 batches_info <- list(
   N1 = list(
@@ -42,6 +50,10 @@ rm_cols <- c("Timepoint",
 )
 plot_var <- c("Intensity Cytoplasm Region TMRM test Mean",
               "Intensity Cytoplasm Region CellRox Deep Red test Mean")
+legend_titles <- c(
+  "TMRM Intensity",
+  "CellROX Intensity"
+)
 # create a function to load data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols) {
   # load df 
@@ -91,6 +103,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols) {
 }
 # run function to load data
 batches <- map(
+  # map loops over all elements in batches (if there is more than one N)
   batches_info,
   function(batch_info) {
     load_data(
@@ -106,34 +119,38 @@ View(batches$N1$data)
 # open meta to inspect
 View(batches$N1$meta)
 # create a function to plot plate overview ####
-plot_plate <- function(feature, batch_obj) {
-  
+plot_plate <- function(feature, legend_title, batch_obj) {
+  # load data and metadata
   meta <- batch_obj$meta
   df <- batch_obj$data
-  
+  # plotting data subsets columns to just the row, column and plot_var
   plot_df <- meta |>
-    dplyr::mutate(
+    mutate(
       Row_num = as.integer(Row),
       Col_num = as.integer(Column),
       value = df[[feature]]
     )
-  
+  # plotting data made into a grid plate map of 384w plate (including edge wells)
   plate_df <- expand.grid(
     Row_num = 1:16,
     Col_num = 1:24
   ) |>
     as_tibble() |>
-    dplyr::left_join(
+    # left_join connects row and column to plot_var
+    # tibble now includes rows for edge wells (which are NA if only inner 308w were seeded)
+    left_join(
       plot_df |>
-        dplyr::select(Row_num, Col_num, value),
+        select(Row_num, Col_num, value),
       by = c("Row_num", "Col_num")
     ) |>
-    dplyr::mutate(
+   mutate(
       x = Col_num,
+      # rows are ordered top to bottom
       y = 17 - Row_num
     )
-  
+  # ggplot plate plot overview
   ggplot(plate_df, aes(x = x, y = y)) +
+    # each well is a circle
     geom_point(
       aes(fill = value),
       shape = 21,
@@ -141,16 +158,26 @@ plot_plate <- function(feature, batch_obj) {
       colour = "black",
       stroke = 0.4
     ) +
+    # fill is viridis
     scale_fill_gradientn(
-      colours = c("blue", "yellow", "red"),
+      name = legend_title,
+      colours = rev(
+        lighten(
+          viridis(100),
+          amount = 0.3
+        )
+      ),
+      # NA (edge wells) are white
       na.value = "white"
     ) +
     scale_x_continuous(
       breaks = 1:24,
       labels = 1:24,
+      position = "top",
       expand = c(0.02, 0.02)
     ) +
     scale_y_continuous(
+      # rows are ordered top to bottom
       breaks = 1:16,
       labels = 16:1,
       expand = c(0.02, 0.02)
@@ -164,11 +191,66 @@ plot_plate <- function(feature, batch_obj) {
       legend.title = element_text(size = 10)
     )
 }
-
-plots <- purrr::imap(
-  setNames(plot_var, plot_var),
-  ~ plot_plate(
-    feature = .x,
-    batch_obj = batches$N1
-  )
+# run function to plot plate overview ####
+plots <- map(
+  # loop through each N in batches
+  batches,
+  function(batch_obj) {
+    # loop through each feature in plot_var (full name) and legend_titles (shorthand)
+    # length of plot_var and legend_titles must match, and be in matching order
+    map2(
+      plot_var,
+      legend_titles,
+      function(feature, legend_title) {
+        # run plot_plate function
+        plot_plate(
+          feature = feature,
+          legend_title = legend_title,
+          batch_obj = batch_obj
+        )
+      }
+    ) |>
+      # set plot names to match legend_titles
+      set_names(legend_titles)
+  }
 )
+# print plots (walk through each N and each plot_var)
+walk(
+  plots,
+  ~ walk(.x, print)
+)
+# save plots ####
+iwalk(
+  # loops through each N
+  plots,
+  function(batch_plots, batch_name) {
+    # loops through each plot_var
+    iwalk(
+      batch_plots,
+      function(plot, plot_name) {
+        # safe_name is the legend_titles with spaces replaced with _
+        safe_name <- str_replace_all(
+          plot_name,
+          "[^[:alnum:]]+",
+          "_"
+        )
+        # batch_file_name is the file_name for that N
+        batch_file_name <- batches[[batch_name]]$file_name
+        # therefore filename is something like: 
+        # "SF240215_mPaintDrift_DMSO_N1_CellROX_Intensity_raw_drift"
+        # and is saved in outputs/figures/
+        ggsave(
+          filename = paste0(
+            "outputs/figures/",
+            batch_file_name,
+            "_",
+            safe_name,
+            "_raw_drift.pdf"),
+          plot = plot,
+          # plot size manually set here
+          width = 9,
+          height = 6)
+      }
+    ) # end of loop for each plot_var
+  }
+) # end of loop for each N
