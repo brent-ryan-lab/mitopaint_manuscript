@@ -1,3 +1,10 @@
+## 2026-08-31
+- updated plate drift raw mitopaint visualisations (mean per well) v1 to include tidied plots, plot color, and save plots
+- added robust zscore norm mitopaint visualisations (mean per well) v1 to include density plot of DMSO feature distributions before and after z score norm, and save plots
+
+## 2026-08-18
+- added plate drift raw mitopaint visualisations (mean per well) v1
+
 ## 2026-06-19
 - added pca biplot- dim red mitopaint vis (mean per well) v1
 - added classic readouts mitopaint data (mean per well) v1
