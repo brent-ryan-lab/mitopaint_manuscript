@@ -34,7 +34,7 @@ rem_redundant <- function(df,
                           dataset_name = NULL,
                           excl_feats = NULL,
 # default assumes features with variance below 0.000000000001
-# have negligable variance contributed to data structure
+# have negligible variance contributed to data structure
                           var_tol = 1e-12,
 # default assumes 0.95 pearson correlation threshold
 # ie. features with >90% shared variance or are near identical, are redundant
