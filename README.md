@@ -23,14 +23,13 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
 - `4.` batch integration mitopaint data (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
+- `5.1` remove redundant mitopaint visualisations (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v1
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
 
-
-#  5.1 remove redundant mitopaint visualisations (mean per well) v1
 #    6.1.1 pca batch integration- dim red mitopaint vis (mean per well) v1
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #  6.2 umap: dim red mitopaint vis (mean per well) v1
@@ -253,6 +252,18 @@ dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
+
+`remove redundant mitopaint visualisations (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+dataset_name <- "mPaintDR2_N2_N3_N4"
+cor_thresh <- 0.95
+cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
+cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
 `dimensionality reduction mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
