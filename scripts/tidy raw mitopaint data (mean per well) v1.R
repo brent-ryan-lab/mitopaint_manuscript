@@ -14,15 +14,15 @@ library(purrr)
 batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
-    batch_name = "N2"
+    batch_name = "N1"
   ),
   N2 = list(
     file_name = "SF240704_mPaintDR2_N3",
-    batch_name = "N3"
+    batch_name = "N2"
   ),
   N3 = list(
     file_name = "SF240711_mPaintDR2_N4",
-    batch_name = "N4"
+    batch_name = "N3"
   )
 )
 rm_cols = c("Timepoint",

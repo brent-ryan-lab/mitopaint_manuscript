@@ -254,3 +254,4 @@ iwalk(
     ) # end of loop for each plot_var
   }
 ) # end of loop for each N
+rm(list = ls())

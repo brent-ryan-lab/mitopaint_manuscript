@@ -567,3 +567,4 @@ ggsave(paste(
        height = 5.3,
        units = "in",
        dpi = 300)
+rm(list = ls())

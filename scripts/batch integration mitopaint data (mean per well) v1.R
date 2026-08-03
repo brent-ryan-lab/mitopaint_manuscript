@@ -60,7 +60,6 @@ batches <- map(
     )
   }
 )
-# create function to make seurat object ####
 # create function to convert one batch to a Seurat object ####
 make_seurat_object <- function(batch_obj) {
   # fetch zscore and metadata

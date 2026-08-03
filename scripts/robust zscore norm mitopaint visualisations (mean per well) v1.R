@@ -194,4 +194,4 @@ iwalk(
     )
   } # end of loop for each N
 )
-
+rm(list = ls())

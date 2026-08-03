@@ -485,3 +485,4 @@ purrr::iwalk(
     )
   }
 )
+rm(list = ls())
