@@ -1,14 +1,11 @@
-
-- write script for 5) batch integration (N=3) (mean per well)
-- write script for 6) batch integration QC visualisations (N=3) (mean per well)
-- write script for 7) remove redundant features (N=3) (mean per well)
-- write script for 8) redundant features QC visualisations (N=3) (mean per well)
-- write script for 9) plots: heat map (N=3) (mean per well)
-- write script for 10) plots: PCA (N=3) (mean per well)
-- write script for 11) plots: UMAP (N=3) (mean per well)
+- write script for 6.1.1) batch integration QC visualisations (N=3) (mean per well)
+- write script for 8) plots: heat map (N=3) (mean per well)
+- write script for 6.2) plots: UMAP (N=3) (mean per well)
 
 - define variables and run scripts for MitoPaintDR2 N=3
 - define variables and run scripts for MitoSpace N=3
 - define variables and run scripts for FDA Screen N=8
-- define variables and run scripts for MitoSpace titre N=2
+- define variables and run scripts for MPaint MitoSpace titre N=3
+- define variables and run scripts for CPaint MitoSpace titre N=3
+- define variables and run scripts for MPaintDR Timecourse N=2
 - define variables and run scripts for MitoInducers N=1
