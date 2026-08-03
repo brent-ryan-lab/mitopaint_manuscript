@@ -1,3 +1,6 @@
+## 2026-08-03
+- added remove redundant mitopaint visualisations (mean per well) v1 to include redu_curve, redu_pie, pca_cutoff_grid, and save plots
+
 ## 2026-08-31
 - updated plate drift raw mitopaint visualisations (mean per well) v1 to include tidied plots, plot color, and save plots
 - added robust zscore norm mitopaint visualisations (mean per well) v1 to include density plot of DMSO feature distributions before and after z score norm, and save plots
