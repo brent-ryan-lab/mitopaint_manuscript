@@ -48,15 +48,15 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 <batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
-    batch_name = "N2"
+    batch_name = "N1"
   ),
   N2 = list(
     file_name = "SF240704_mPaintDR2_N3",
-    batch_name = "N3"
+    batch_name = "N2"
   ),
   N3 = list(
     file_name = "SF240711_mPaintDR2_N4",
-    batch_name = "N4"
+    batch_name = "N3"
   )
 )
 rm_cols = c("Timepoint",
@@ -354,7 +354,7 @@ plot_height <- 7>
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N2"
+    batch_name = "N1"
   ),
   N2 = list(
     file_name = "SF240704_mPaintDR2_N3_Classic",
@@ -363,7 +363,7 @@ plot_height <- 7>
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N3"
+    batch_name = "N2"
   ),
   N3 = list(
     file_name = "SF240711_mPaintDR2_N4_Classic",
@@ -372,7 +372,7 @@ plot_height <- 7>
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N4"
+    batch_name = "N3"
   )
 )
 nuc_count = "Non-border cells Selected - Number of Objects"
