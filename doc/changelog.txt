@@ -1,3 +1,6 @@
+## 2026-08-04
+- added batch integration mitopaint vis (mean per well) v1 to include pca plot integrated and unintegrated, and umap plot integrated and unintegrated, and all coloured by batch or compound
+
 ## 2026-08-03
 - added remove redundant mitopaint visualisations (mean per well) v1 to include redu_curve, redu_pie, pca_cutoff_grid, and save plots
 
