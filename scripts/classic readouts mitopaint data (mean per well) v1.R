@@ -25,7 +25,7 @@ batches_info <- list(
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N2"
+    batch_name = "N1"
   ),
   N2 = list(
     file_name = "SF240704_mPaintDR2_N3_Classic",
@@ -34,7 +34,7 @@ batches_info <- list(
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N3"
+    batch_name = "N2"
   ),
   N3 = list(
     file_name = "SF240711_mPaintDR2_N4_Classic",
@@ -43,7 +43,7 @@ batches_info <- list(
                    "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N4"
+    batch_name = "N3"
   )
 )
 nuc_count = "Non-border cells Selected - Number of Objects"
@@ -90,9 +90,6 @@ load_data <- function(file_name, batch_name, dmso_wells) {
   # keep rownames as WELL_BATCH
   rownames(df) <- df$V1
   df$V1 <- NULL
-  # remove any rows with low nuclei
-  df <- df %>% 
-    filter(.data[[nuc_count]] > 100)
   # separate metadata 
   meta <- df %>%
     select(any_of(meta_cols))
@@ -191,6 +188,19 @@ all <- map(
   bind_rows() |>
   filter(Condition %in% plot_cond)
 all <- all |>
+  column_to_rownames("ID")
+# all_all is not filtered for conditions
+all_all <- map(
+  batches,
+  function(batch_obj) {
+    meta <- batch_obj$meta
+    data <- batch_obj$df_norm[, plot_feats, drop = FALSE] |>
+      rownames_to_column("ID")
+    left_join(meta, data, by = "ID")
+  }
+) |>
+  bind_rows() 
+all_all <- all_all |>
   column_to_rownames("ID")
 # calculate batch level means in all_mean ####
 # grouping by Batch and Condition, summarises the mean
@@ -449,7 +459,7 @@ aligned_plots <- cowplot::align_plots(
 names(aligned_plots) <- plot_feats
 # save data ####
 write.csv(
-  all,
+  all_all,
   paste("data/processed/", file_name, "_norm.csv", sep = "")
 )
 write.csv(
