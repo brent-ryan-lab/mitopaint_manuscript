@@ -39,7 +39,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
 # 8. similarity heatmap mitopaint visualisations (mean per well) v1
 #   8.1 profile heatmap mitopaint visualisations (mean per well) v1
-#   9.2 classic readouts pca pearson corr vis (mean per well) v1
+#   9.2 classic readouts pca pearson corr heatmap vis (mean per well) v1
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
