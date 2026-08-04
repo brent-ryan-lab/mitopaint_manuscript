@@ -30,6 +30,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
+  - `9.1` classic readouts pca vis (mean per well) v1
 
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
@@ -406,3 +407,10 @@ size_annot <- 6
 size_axis <- 12
 plot_width <- 3
 plot_height <- 4>
+
+`classic readouts pca vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name_paint <- "mPaintDR2_N2_N3_N4"
+file_name_classic <- "mPaint_DR2_Classic_N2_3_4"
+redu_state <- "redu"
+integrate_state <- "integrated">
