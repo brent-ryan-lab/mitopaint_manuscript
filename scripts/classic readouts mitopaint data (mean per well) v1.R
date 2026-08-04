@@ -450,7 +450,7 @@ names(aligned_plots) <- plot_feats
 # save data ####
 write.csv(
   all,
-  paste("outputs/data/", file_name, "_norm.csv", sep = "")
+  paste("data/processed/", file_name, "_norm.csv", sep = "")
 )
 write.csv(
   summary_df,
