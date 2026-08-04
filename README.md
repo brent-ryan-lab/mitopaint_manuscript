@@ -26,7 +26,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `5.` remove redundant mitopaint data (mean per well) v1
 - `5.1` remove redundant mitopaint visualisations (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
-  - `6.1` pca- dim red mitopaint vis (mean per well) v1
+  - `6.1` pca- dim red mitopaint vis (mean per well) v2
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
@@ -284,28 +284,11 @@ res <- 1
 perplexity <- 20
 max_iter <- 4000>
 
-`pca- dim red mitopaint vis (mean per well) v1`
+`pca- dim red mitopaint vis (mean per well) v2`
 - for mPaintDR2_N2_N3_N4 use the following variables
-- file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- "integrated">
-- plot variables
-<x_lab <- paste0(
-  "PC_1 (",
-  round(var[1, "Percent_Variance"], 2),
-  "%)"
-)
-y_lab <- paste0(
-  "PC_2 (",
-  round(var[2, "Percent_Variance"], 2),
-  "%)"
-)
-size_title <- 10
-size_axis <- 8
-size_point <- 2
-plot_width <- 4
-plot_height <- 3.2
+integrate_state <- "integrated"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
 `pca scree- dim red mitopaint vis (mean per well) v1`
