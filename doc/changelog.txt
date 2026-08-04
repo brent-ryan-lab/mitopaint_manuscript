@@ -1,4 +1,7 @@
 ## 2026-08-04
+- update pca-dim red mitopaint vis (mean per well) to instead of manual plot, to use plot_pca function and fixed legend spacing = therefore match visuals of classic readouts pca vis (v1 -> v2)
+- added classic readouts pca vis (mean per well) v1 to plot pca coloured to MMP, ROS, Mito Spots and Mito Morph readouts
+- update classic readouts mitopaint data (mean per well) v1 to also save all_all = batch combined dmso normalised data not filtered for conditions
 - added batch integration mitopaint vis (mean per well) v1 to include pca plot integrated and unintegrated, and umap plot integrated and unintegrated, and all coloured by batch or compound
 
 ## 2026-08-03
