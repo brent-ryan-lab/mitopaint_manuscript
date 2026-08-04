@@ -449,6 +449,10 @@ aligned_plots <- cowplot::align_plots(
 names(aligned_plots) <- plot_feats
 # save data ####
 write.csv(
+  all,
+  paste("outputs/data/", file_name, "_norm.csv", sep = "")
+)
+write.csv(
   summary_df,
   paste("outputs/data/", file_name, "_final_means.csv", sep = "")
 )
