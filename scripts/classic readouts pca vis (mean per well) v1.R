@@ -187,7 +187,7 @@ iwalk(
     
     ggsave(
       filename = paste0(
-        "outputs/figures/",
+        "outputs/figures/pca/",
         file_name_paint,
         "_",
         plot_name,
