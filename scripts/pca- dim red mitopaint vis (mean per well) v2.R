@@ -134,7 +134,7 @@ plots$pca_concentration <- plot_pca(
   data,
   colour_var = "Concentration",
   title_text = "PCA by Concentration",
-  legend_title = "Concentration (μM)",
+  legend_title = "Concentration (uM)",
   colour_scale = scale_colour_gradientn(
     colours = rev(lighten(viridis(100),
         amount = 0.3))
@@ -198,7 +198,7 @@ plots$pca_compound_concentration <- plot_pca(
   colour_var = "Concentration",
   shape_var = "Compound",
   title_text = "PCA by Compound & Concentration",
-  legend_title = "Concentration (μM)",
+  legend_title = "Concentration (uM)",
   colour_scale = scale_colour_gradientn(
     colours = rev(lighten(viridis(100),
                           amount = 0.3))
