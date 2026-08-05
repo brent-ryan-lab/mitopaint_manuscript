@@ -1,6 +1,9 @@
-- write script for 6.1.1) batch integration QC visualisations (N=3) (mean per well)
-- write script for 8) plots: heat map (N=3) (mean per well)
-- write script for 6.2) plots: UMAP (N=3) (mean per well)
+- write script for 6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
+- write script for 7. mahalanobis distance mitopaint data (mean per well) v1
+- write script for 7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
+- write script for 8. similarity heatmap mitopaint visualisations (mean per well) v1
+- write script for 8.1 profile heatmap mitopaint visualisations (mean per well) v1
+- write script for 9.2 classic readouts pca pearson corr heatmap vis (mean per well) v1
 
 - define variables and run scripts for MitoPaintDR2 N=3
 - define variables and run scripts for MitoSpace N=3
