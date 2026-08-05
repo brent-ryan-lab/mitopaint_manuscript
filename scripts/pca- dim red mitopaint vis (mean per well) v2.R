@@ -195,10 +195,10 @@ plots$pca_nn
 # p4: pc1 x pc1 by compound and concentration ####
 plots$pca_compound_concentration <- plot_pca(
   data,
-  colour_var = "Concentration (μM)",
+  colour_var = "Concentration",
   shape_var = "Compound",
   title_text = "PCA by Compound & Concentration",
-  legend_title = "Concentration",
+  legend_title = "Concentration (μM)",
   colour_scale = scale_colour_gradientn(
     colours = rev(lighten(viridis(100),
                           amount = 0.3))
