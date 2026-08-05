@@ -181,6 +181,13 @@ plots_fixed <- map(
   add_fixed_legend_space
 )
 # save plots ####
+# create output folders
+dir.create(
+  "outputs/figures/pca",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+# save all plots
 iwalk(
   plots_fixed,
   function(plot, plot_name) {
