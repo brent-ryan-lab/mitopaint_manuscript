@@ -274,12 +274,37 @@ plots$uncorr_umap_drug <- plot_umap(dim_red$unintegrated,
 plots$uncorr_umap_drug
 # save plots ####
 # loop save all plots in plots list
+# create output folders
+dir.create(
+  "outputs/figures/pca",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+dir.create(
+  "outputs/figures/umap",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+# save all plots
 iwalk(
   plots,
   function(plot, plot_name) {
+    # save plots in corresponding subfolder for pca or umap
+    plot_folder <- case_when(
+      str_detect(plot_name, regex("pca", ignore_case = TRUE)) ~ "pca",
+      str_detect(plot_name, regex("umap", ignore_case = TRUE)) ~ "umap",
+      TRUE ~ "other"
+    )
+    dir.create(
+      paste0("outputs/figures/", plot_folder),
+      recursive = TRUE,
+      showWarnings = FALSE
+    )
     ggsave(
-      paste0(
+      filename = paste0(
         "outputs/figures/",
+        plot_folder,
+        "/",
         file_name,
         "_",
         plot_name,
