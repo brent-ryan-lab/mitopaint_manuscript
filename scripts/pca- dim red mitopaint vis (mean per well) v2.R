@@ -165,8 +165,8 @@ plots$pca_nn <- ggplot(
     size = 3,
     linewidth = 0.35,
     fontface = "bold",
-    box.padding = 0.4,
-    point.padding = 0.3,
+    box.padding = 0.15,
+    point.padding = 0.2,
     max.overlaps = Inf,
     segment.colour = NA,
     show.legend = FALSE
