@@ -34,7 +34,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
-#  6.2 umap: dim red mitopaint vis (mean per well) v1
+#  6.2 umap- dim red mitopaint vis (mean per well) v1
 # 7. mahalanobis distance mitopaint data (mean per well) v1
 #  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
 # 8. similarity heatmap mitopaint visualisations (mean per well) v1
