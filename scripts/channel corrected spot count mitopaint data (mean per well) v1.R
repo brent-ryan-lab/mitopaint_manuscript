@@ -16,6 +16,8 @@ library(purrr)
 library(grid)
 library(stringr)
 # set file variables ####
+# make sure order of plot_cond and plot_lab are the same
+# make sure order of plot_feats and y_lab are the same
 batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2_SpotComparison",
@@ -33,9 +35,6 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration")
 file_name <- "mPaint_DR2_SpotComparison"
-# set plot variables ####
-# make sure order of plot_cond and plot_lab are the same
-# make sure order of plot_feats and y_lab are the same
 plot_cond <- c("DMSO_0", "CCCP_30")
 plot_lab <- c("DMSO", "CCCP")
 plot_feats <- c("Number of Selected Spots/ Selected Cell",
