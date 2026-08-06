@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 31-07-26
+# Last edit: 06-08-26
 
 # load packages ####
 library(data.table)
@@ -14,6 +14,7 @@ library(tibble)
 library(ggplot2)
 library(colorspace)
 library(viridis)
+library(cowplot)
 # set file variables ####
 batches_info <- list(
   N1 = list(
@@ -214,15 +215,54 @@ plots <- map(
       set_names(legend_titles)
   }
 )
+
+# create function to add fixed legend space ####
+add_fixed_legend_space <- function(plot,
+                                   plot_width = 1.2,
+                                   legend_width = 0.2) {
+  legend <- get_legend(
+    plot +
+      theme(
+        legend.position = "right",
+        legend.box.margin = margin(0, 0, 0, 0)
+      )
+  )
+  plot_without_legend <- plot +
+    theme(
+      legend.position = "none",
+      plot.margin = margin(5, 0, 5, 5)
+    )
+  plot_grid(
+    plot_without_legend,
+    legend,
+    nrow = 1,
+    rel_widths = c(
+      plot_width,
+      legend_width
+    ),
+    align = "h",
+    axis = "tb"
+  )
+}
+# apply consistent legend space to plots ####
+plots_fixed <- map(
+  plots,
+  function(batch_plots) {
+    map(
+      batch_plots,
+      add_fixed_legend_space
+    )
+  }
+)
 # print plots (walk through each N and each plot_var)
 walk(
-  plots,
+  plots_fixed,
   ~ walk(.x, print)
 )
 # save plots ####
 iwalk(
   # loops through each N
-  plots,
+  plots_fixed,
   function(batch_plots, batch_name) {
     # loops through each plot_var
     iwalk(

@@ -1,3 +1,9 @@
+## 2026-08-05
+- add umap- dim red mitopaint vis (mean per well) v1
+- save plots to pca/umap subfolder to classic readouts pca vis, batch integration mitopaint vis
+- add legend units, update NN box padding, save plots to pca subfolder to pca- dim red mitopaint vis (mean per well) v2 
+- update last edit date on pca- dim red mitopaint vis (mean per well) v2
+
 ## 2026-08-04
 - update pca-dim red mitopaint vis (mean per well) to instead of manual plot, to use plot_pca function and fixed legend spacing = therefore match visuals of classic readouts pca vis (v1 -> v2)
 - added classic readouts pca vis (mean per well) v1 to plot pca coloured to MMP, ROS, Mito Spots and Mito Morph readouts
