@@ -1,3 +1,6 @@
+## 2026-08-06
+- update plate drift raw mitopaint visualisations (mean per well) v1 to apply consistent legend space to plots to avoid squishing from legend title length
+
 ## 2026-08-05
 - add umap- dim red mitopaint vis (mean per well) v1
 - save plots to pca/umap subfolder to classic readouts pca vis, batch integration mitopaint vis
