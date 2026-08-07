@@ -1,3 +1,6 @@
+## 2026-08-07
+- update classic readouts mitopaint data (mean per well) v1 to save batch combined, non normalised, non readout filtered data
+
 ## 2026-08-06
 - add channel corrected spot count mitopaint data (mean per well) v1 to compare z prime without and with post hoc mt-keima ph4 channel correction
 - update plate drift raw mitopaint visualisations (mean per well) v1 to apply consistent legend space to plots to avoid squishing from legend title length
