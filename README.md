@@ -17,14 +17,14 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 ## usage
 - `1.` tidy raw mitopaint data (mean per well) v1
 - `2.` plate drift correct mitopaint data (mean per well) v1
-  - `2.1` plate drift correct mitopaint visualisations (mean per well) v1
-  - `2.2` plate drift raw mitopaint visualisations (mean per well) v1
+  - `2.1` plate drift correct mitopaint vis (mean per well) v1
+  - `2.2` plate drift raw mitopaint vis (mean per well) v1
 - `3.` robust zscore norm mitopaint data (mean per well) v1
-  - `3.1` robust zscore norm mitopaint visualisations (mean per well) v1
+  - `3.1` robust zscore norm mitopaint vis (mean per well) v1
 - `4.` batch integration mitopaint data (mean per well) v1
   - `4.1` batch integration mitopaint vis (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
-- `5.1` remove redundant mitopaint visualisations (mean per well) v1
+- `5.1` remove redundant mitopaint vis (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v2
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
@@ -32,14 +32,18 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
   - `9.1` classic readouts pca vis (mean per well) v1
+    - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
+#   6.3 abs zscore feature ranking vis (mean per well) v1
 # 7. mahalanobis distance mitopaint data (mean per well) v1
-#  7.1 mahalanobis distance mitopaint visualisations (mean per well) v1
-# 8. similarity heatmap mitopaint visualisations (mean per well) v1
-#   8.1 profile heatmap mitopaint visualisations (mean per well) v1
-#   9.2 classic readouts pca pearson corr heatmap vis (mean per well) v1
+#  7.1 pca- mahalanobis distance mitopaint vis (mean per well) v1
+#  7.2 dr- mahalanobis distance mitopaint vis (mean per well) v1
+#  7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
+# 8. similarity heatmap mitopaint vis (mean per well) v1
+#   8.1 profile heatmap mitopaint vis (mean per well) v1
+
   
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
@@ -116,7 +120,7 @@ meta_cols = c("Row",
 )
 p_sig <- 0.05>
 
-`plate drift correct mitopaint visualisations (mean per well) v1`            
+`plate drift correct mitopaint vis (mean per well) v1`            
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
 <batches_info <- list(
   N1 = list(file_name = "SF240627_mPaintDR2_N2",
@@ -138,11 +142,11 @@ p_sig <- 0.05>
                             "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                             "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
 )
-file_name <- "mPaint_DR2_N2_3_4"
+file_name <- "mPaint_DR2_N2_N3_N4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
-`plate drift raw mitopaint visualisations (mean per well) v1`
+`plate drift raw mitopaint vis (mean per well) v1`
 - for SF240215_mPaintDrift_DMSO_N1 use the following variables
 <batches_info <- list(
   N1 = list(
@@ -213,7 +217,7 @@ legend_titles <- c(
   )
 )>
 
-`robust zscore norm mitopaint visualisations (mean per well) v1`
+`robust zscore norm mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2 use the following variables 
 <batches_info <- list(
   N1 = list(
@@ -260,7 +264,7 @@ cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
 
-`remove redundant mitopaint visualisations (mean per well) v1`
+`remove redundant mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
@@ -403,6 +407,28 @@ plot_height <- 4>
 file_name_classic <- "mPaint_DR2_Classic_N2_3_4"
 redu_state <- "redu"
 integrate_state <- "integrated">
+
+`classic readouts pca pearson corr heatmap vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<classic_file_name <- "mPaint_DR2_Classic_N2_N3_N4"
+file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+redu_state <- "redu"
+meta_cols <- c("Row", "Column", "Compound", "Concentration", "Well", "Batch", "Condition")
+feature_patterns <- c(
+  MMP = "tmrm",
+  ROS = "cellrox",
+  Morph = "mitochondria",
+  Spots = "spots|mkeima")
+annot_colors <- list(
+  Feature = c(
+    ROS = "#DC267F",
+    MMP = "#FFB000",
+    Morph = "#23CC86",
+    Spots = "#FE6100",
+    Other = "grey"))
+col_scale <- c("blue", "white", "red")
+dims_plot <- c("PC_1", "PC_2")>
 
 `channel corrected spot count mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables
