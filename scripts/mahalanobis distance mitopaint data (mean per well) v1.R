@@ -165,3 +165,4 @@ ggsave(
   units = "in",
   dpi = 300
 )
+rm(list = ls())
