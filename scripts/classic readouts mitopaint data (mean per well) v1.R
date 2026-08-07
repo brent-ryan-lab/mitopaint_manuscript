@@ -172,11 +172,11 @@ batches <- map(
     batch_obj
   }
 )
-# combine Ns in all ####
+# combine Ns in all_norm_filt ####
 # creates single dataframe col binding data and meta 
-# then row binding all N
-# all is filtered to features and conditions of interest (plot_feats, plot_cond)
-all <- map(
+# then row binding all_norm_filt N
+# all_norm_filt is filtered to features and conditions of interest (plot_feats, plot_cond)
+all_norm_filt <- map(
   batches,
   function(batch_obj) {
     meta <- batch_obj$meta
@@ -187,10 +187,10 @@ all <- map(
 ) |>
   bind_rows() |>
   filter(Condition %in% plot_cond)
-all <- all |>
+all_norm_filt <- all_norm_filt |>
   column_to_rownames("ID")
-# all_all is not filtered for conditions
-all_all <- map(
+# all_norm is not filtered for conditions
+all_norm <- map(
   batches,
   function(batch_obj) {
     meta <- batch_obj$meta
@@ -200,12 +200,25 @@ all_all <- map(
   }
 ) |>
   bind_rows() 
-all_all <- all_all |>
+all_norm <- all_norm |>
+  column_to_rownames("ID")
+# all is not filtered for conditions or fold change normalised
+all <- map(
+  batches,
+  function(batch_obj) {
+    meta <- batch_obj$meta
+    data <- batch_obj$data |>
+      rownames_to_column("ID")
+    left_join(meta, data, by = "ID")
+  }
+) |>
+  bind_rows() 
+all <- all |>
   column_to_rownames("ID")
 # calculate batch level means in all_mean ####
 # grouping by Batch and Condition, summarises the mean
 # group means are the coloured dots in the final plot
-all_mean <- all |>
+all_mean <- all_norm_filt |>
   group_by(Batch, Condition) |>
   summarise(
     across(
@@ -218,8 +231,8 @@ all_mean <- all |>
 # calculate mixed effect models for each plot_feats ####
 # factor reorder makes sure levels are in the order of plot_cond
 # control (DMSO_0) must be the first condition given in plot_cond
-all$Condition <- factor(
-  all$Condition,
+all_norm_filt$Condition <- factor(
+  all_norm_filt$Condition,
   levels = plot_cond
 )
 all_mean$Condition <- factor(
@@ -235,7 +248,7 @@ models <- lapply(plot_feats, function(feat) {
     as.formula(
       paste0("`", feat, "` ~ Condition + (1|Batch)")
     ),
-    data = all
+    data = all_norm_filt
   )
 })
 # each model is named after the corresponding feature
@@ -265,7 +278,7 @@ emm_df <- purrr::imap_dfr(
 summary_df <- purrr::map_dfr(
   plot_feats,
   function(feature) {
-    all |>
+    all_norm_filt |>
       dplyr::group_by(Condition) |>
       dplyr::summarise(
         n = dplyr::n(),
@@ -283,7 +296,7 @@ summary_df <- purrr::map_dfr(
 # create a function to make barplot of plot_feat ####
 plot_feature <- function(feature,
                          model,
-                         all,
+                         all_norm_filt,
                          all_mean,
                          pastel_cols) {
   # estimated marginal means
@@ -307,7 +320,7 @@ plot_feature <- function(feature,
   )
   # set maximum y value
   y_max <- max(
-    all[[feature]],
+    all_norm_filt[[feature]],
     na.rm = TRUE
   )
   # annotation positions
@@ -329,7 +342,7 @@ plot_feature <- function(feature,
     )
   # make plot
   ggplot(
-    all,
+    all_norm_filt,
     aes(
       x = Condition,
       y = .data[[feature]],
@@ -445,7 +458,7 @@ plots <- purrr::imap(
   ~ plot_feature(
     feature = .y,
     model = .x,
-    all = all,
+    all_norm_filt = all_norm_filt,
     all_mean = all_mean,
     pastel_cols = pastel_cols
   )
@@ -459,8 +472,16 @@ aligned_plots <- cowplot::align_plots(
 names(aligned_plots) <- plot_feats
 # save data ####
 write.csv(
-  all_all,
+  all_norm,
   paste("data/processed/", file_name, "_norm.csv", sep = "")
+)
+write.csv(
+  all_norm_filt,
+  paste("data/processed/", file_name, "_norm_filt.csv", sep = "")
+)
+write.csv(
+  all,
+  paste("data/processed/", file_name, ".csv", sep = "")
 )
 write.csv(
   summary_df,
