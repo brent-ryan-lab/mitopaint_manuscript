@@ -1,4 +1,4 @@
-# Title: remove redundant mitopaint visualisations (mean per well) v1
+# Title: remove redundant mitopaint vis (mean per well) v1
 # Step: 5.1
 # R: 4.4.1
 # Author: Sarah Franks

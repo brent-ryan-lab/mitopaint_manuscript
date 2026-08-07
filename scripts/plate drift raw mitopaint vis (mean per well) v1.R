@@ -1,4 +1,4 @@
-# Title: plate drift raw mitopaint visualisations (mean per well) v1
+# Title: plate drift raw mitopaint vis (mean per well) v1
 # Step: 2.2
 # R: 4.4.1
 # Author: Sarah Franks

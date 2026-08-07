@@ -1,4 +1,4 @@
-# Title: robust zscore norm mitopaint visualisations (mean per well) v1
+# Title: robust zscore norm mitopaint vis (mean per well) v1
 # Step: 3.1
 # R: 4.4.1
 # Author: Sarah Franks
