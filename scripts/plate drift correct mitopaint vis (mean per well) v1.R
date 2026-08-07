@@ -1,4 +1,4 @@
-# Title: plate drift correct mitopaint visualisations (mean per well) v1
+# Title: plate drift correct mitopaint vis (mean per well) v1
 # Step: 2.1
 # R: 4.4.1
 # Author: Sarah Franks
@@ -35,7 +35,7 @@ batches_info <- list(
                             "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                             "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
 )
-file_name <- "mPaint_DR2_N2_3_4"
+file_name <- "mPaint_DR2_N2_N3_N4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 # create a function to load data ####
