@@ -51,7 +51,7 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaint_DR2_Classic_N2_3_4"
+file_name <- "mPaint_DR2_Classic_N2_N3_N4"
 # set plot variables ####
 # make sure order of plot_cond and plot_lab are the same
 # make sure order of plot_feats and y_lab are the same
