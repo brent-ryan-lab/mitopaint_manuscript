@@ -24,7 +24,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `4.` batch integration mitopaint data (mean per well) v1
   - `4.1` batch integration mitopaint vis (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
-- `5.1` remove redundant mitopaint vis (mean per well) v1
+  - `5.1` remove redundant mitopaint vis (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
   - `6.1` pca- dim red mitopaint vis (mean per well) v2
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
@@ -39,7 +39,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #   6.3 abs zscore feature ranking vis (mean per well) v1
-#   7.2 hits- mahalanobis distance hits vis (mean per well) v1
+#   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 # 8. similarity heatmap mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
@@ -88,6 +88,64 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")>
+              
+- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+<batches_info <- list(
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    batch_name = "N1A"
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    batch_name = "N1B"
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    batch_name = "N2A"
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    batch_name = "N2B"
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    batch_name = "N3A"
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    batch_name = "N3B"
+  )
+)
+rm_cols = c("Timepoint",
+            "Number of Analyzed Fields",
+            "Time [s]",
+            "Temperature",
+            "Target Temperature",
+            "CO2",	"Target CO2",
+            "Nuclei - Number of Objects",
+            "Non-border cells Selected - Number of Objects",
+            "Non-border cells Selected - Nucleus Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - Nucleus Roundness - Mean per Well",
+            "Non-border cells Selected - Cell Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - Cell Roundness - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm TMRM test Mean - Mean per Well",
+            "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Area [¬µm¬≤] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Width [¬µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Length [¬µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
+            "Cell Type",	
+            "Cell Count"
+)
+nuc_count = "Non-border cells Selected - Number of Objects"
+meta_cols = c("Row",
+              "Column",
+              "Compound",	
+              "Concentration",
+              "Condition")>
 
 `plate drift correct mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables

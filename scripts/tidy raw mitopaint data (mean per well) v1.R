@@ -12,17 +12,29 @@ library(stringr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1 = list(
-    file_name = "SF240627_mPaintDR2_N2",
-    batch_name = "N1"
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    batch_name = "N1A"
   ),
-  N2 = list(
-    file_name = "SF240704_mPaintDR2_N3",
-    batch_name = "N2"
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    batch_name = "N1B"
   ),
-  N3 = list(
-    file_name = "SF240711_mPaintDR2_N4",
-    batch_name = "N3"
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    batch_name = "N2A"
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    batch_name = "N2B"
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    batch_name = "N3A"
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    batch_name = "N3B"
   )
 )
 rm_cols = c("Timepoint",
@@ -33,17 +45,18 @@ rm_cols = c("Timepoint",
             "CO2",	"Target CO2",
             "Nuclei - Number of Objects",
             "Non-border cells Selected - Number of Objects",
-            "Non-border cells Selected - Nucleus Area [µm²] - Mean per Well",
+            "Non-border cells Selected - Nucleus Area [¬µm¬≤] - Mean per Well",
             "Non-border cells Selected - Nucleus Roundness - Mean per Well",
-            "Non-border cells Selected - Cell Area [µm²] - Mean per Well",
+            "Non-border cells Selected - Cell Area [¬µm¬≤] - Mean per Well",
             "Non-border cells Selected - Cell Roundness - Mean per Well",
             "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
             "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+            "Non-border cells Selected - Intensity Cytoplasm TMRM test Mean - Mean per Well",
             "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
-            "Non-border cells Selected - mkeima ph7 mitochondria Area [µm²] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Area [¬µm¬≤] - Mean per Well",
             "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
-            "Non-border cells Selected - mkeima ph7 mitochondria Width [µm] - Mean per Well",
-            "Non-border cells Selected - mkeima ph7 mitochondria Length [µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Width [¬µm] - Mean per Well",
+            "Non-border cells Selected - mkeima ph7 mitochondria Length [¬µm] - Mean per Well",
             "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
             "Cell Type",	
             "Cell Count"
@@ -52,7 +65,8 @@ nuc_count = "Non-border cells Selected - Number of Objects"
 meta_cols = c("Row",
               "Column",
               "Compound",	
-              "Concentration")
+              "Concentration",
+              "Condition")
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 
@@ -116,10 +130,6 @@ batches <- map(
     )
   }
 )
-# open data to inspect
-View(batches$N1$data)
-# open meta to inspect
-View(batches$N1$meta)
 # save tidy data ####
 walk(batches, function(batch_obj) {
   write.csv(
