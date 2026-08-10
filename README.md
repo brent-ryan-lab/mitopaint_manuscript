@@ -38,8 +38,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #   6.3 abs zscore feature ranking vis (mean per well) v1
-#  9.3 dr- mahalanobis distance classic readouts vis (mean per well) v1
-#  7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
+#   7.2 dr- mahalanobis distance classic readouts vis (mean per well) v1
+#   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 # 8. similarity heatmap mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
 
