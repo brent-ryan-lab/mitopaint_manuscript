@@ -7,6 +7,7 @@
 
 # load packages ####
 library(data.table)
+library(tidyverse)
 library(ggplot2)
 library(ggpubr)
 library(colorspace)
@@ -15,6 +16,8 @@ library(dplyr)
 library(lme4)
 library(lmerTest)
 library(emmeans)
+library(purrr)
+library(cowplot)
 # set file variables ####
 file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
@@ -207,7 +210,35 @@ mahalanobis_hits <- function(obj, md, pc_use) {
   # test 2, model-based pairwise comparison table
   md_contrasts_df <- as.data.frame(md_contrasts)
   # test 2, mahalanobis lmme summary
-  md_model_results <- md_contrasts_df 
+  md_model_results <- md_contrasts_df
+  # test 2, populate table with matching metadata
+  # make a lookup table from the metadata
+  condition_lookup <- md_df |>
+    distinct(Condition, Compound, Concentration)
+  # add Condition / Compound / Concentration to the contrast table
+  md_model_results <- md_contrasts_df |>
+    separate(
+      contrast,
+      into = c("Condition", "Control"),
+      sep = " - ",
+      remove = FALSE
+    ) |>
+    left_join(
+      condition_lookup,
+      by = "Condition"
+    ) |>
+    select(
+      Condition,
+      Compound,
+      Concentration,
+      contrast,
+      estimate,
+      SE,
+      df,
+      t.ratio,
+      p.value,
+      everything()
+    )
   # return list
   return(list(
     md = md,
@@ -218,51 +249,93 @@ mahalanobis_hits <- function(obj, md, pc_use) {
 }
 # run function to calculate mahalanobis hits ####
 md_stats <- mahalanobis_hits(data, md, pc_use)
-# wip: create function to pca plot by mahalanobis p ####
+# pca plot by mahalanobis p ####
+# colour_var by p value
 plots$pca_md_p <- plot_pca(
   data,
   md_stats$md_chi_p[,-c(1:2)],
   colour_var = "p_md",
-  title_text = "PCA by Mahalanobis Chi-quared p-val",
-  legend_title = "Mahalanobis\nChi-quared p-val",
+  title_text = "PCA by Mahalanobis Chi-squared p-val",
+  legend_title = "Mahalanobis\nChi-squared p-val",
   colour_scale = scale_colour_gradientn(
     colours = rev(lighten(viridis(100),
                           amount = 0.3))
   )
 )
 plots$pca_md_p
-
-plots$pca_md_p <- plot_pca(
+# colour_var by significance
+plots$pca_md_hit <- plot_pca(
   data,
   md_stats$md_chi_p[,-c(1:2)],
   colour_var = "md_sig",
-  title_text = "PCA by Mahalanobis Chi-quared p-val",
-  legend_title = "Mahalanobis\nChi-quared p-val",
+  title_text = "PCA by Mahalanobis Chi-squared Hit",
+  legend_title = "Mahalanobis\nChi-squared Hit",
   colour_scale = scale_colour_manual(values = pastel_cols)
 )
-plots$pca_md_p
-# wip: run function to pca plot by mahalanobis p ####
-# wip: create function to dot plot hits ####
-plot_dot_lmme
-# wip: run function to dot plot hits ####
-# wip: save data ####
+plots$pca_md_hit
+# create function to add fixed legend space ####
+add_fixed_legend_space <- function(plot,
+                                   plot_width = 1,
+                                   legend_width = 0.4) {
+  legend <- get_legend(
+    plot +
+      theme(
+        legend.position = "right"
+      )
+  )
+  plot_without_legend <- plot +
+    theme(
+      legend.position = "none"
+    )
+  plot_grid(
+    plot_without_legend,
+    legend,
+    nrow = 1,
+    rel_widths = c(plot_width, legend_width)
+  )
+}
+plots_fixed <- map(
+  plots,
+  # apply fixed legend space to all plots so that PCA is square (not squished), and legend is consistent width
+  add_fixed_legend_space
+)
+plots_fixed
+# save data ####
 write.csv(
   md,
   paste("data/processed/", file_name, "_mahal_", "PC", pc_use,".csv", sep = "")
 )
+write.csv(
+  md_stats$md_chi_p,
+  paste("data/processed/", file_name, "_mahal_chi_p_", "PC", pc_use,".csv", sep = "")
+)
+write.csv(
+  md_stats$md_lmme_p,
+  paste("data/processed/", file_name, "_mahal_lmme_p_", "PC", pc_use,".csv", sep = "")
+)
 # wip: save plots ####
-ggsave(
-  filename = paste0(
-    "outputs/figures/pca/",
-    file_name,
-    "_",
-    "pca_md",
-    ".pdf"
-  ),
-  plot = plots$pca_md,
-  width = 3.7,
-  height = 3,
-  units = "in",
-  dpi = 300
+dir.create(
+  "outputs/figures/pca",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+# save all plots
+iwalk(
+  plots_fixed,
+  function(plot, plot_name) {
+    
+    ggsave(
+      filename = paste0(
+        "outputs/figures/pca/",
+        file_name,
+        "_",
+        plot_name,
+        ".pdf"
+      ),
+      plot = plot,
+      width = 3.7,
+      height = 3
+    )
+  }
 )
 rm(list = ls())
