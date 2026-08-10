@@ -31,6 +31,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
+  - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
   - `9.1` classic readouts pca vis (mean per well) v1
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
@@ -38,12 +39,11 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 
 #    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #   6.3 abs zscore feature ranking vis (mean per well) v1
-#   7.2 dr- mahalanobis distance classic readouts vis (mean per well) v1
+#   7.2 hits- mahalanobis distance hits vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 # 8. similarity heatmap mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
 
-  
 `tidy raw mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
 <batches_info <- list(
@@ -350,6 +350,23 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
+
+`dr- mahalanobis distance classic readouts vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
+classic_file_name <- "mPaint_DR2_Classic_N2_N3_N4"
+integrate_state <- "integrated"
+plot_feats <- c("Intensity Cytoplasm CellRox Mean",
+                "Intensity Cytoplasm TMRM Mean",
+                "Mitochondria Selected Ratio Width to Length",
+                "Number of Selected Spots/ Selected Cell")
+y_lab <- c("Cytoplasm ROS Intensity",
+           "Cytoplasm MMP Intensity",
+           "Mitochondria Width:Length",
+           "Mitophagy Spots")
+plot_cond <- c("CCCP", "ROT")
+pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
 `classic readouts mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
