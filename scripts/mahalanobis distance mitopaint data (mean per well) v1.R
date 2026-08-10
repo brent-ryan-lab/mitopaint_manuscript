@@ -23,7 +23,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,

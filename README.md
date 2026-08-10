@@ -348,7 +348,8 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
-pc_use <- 10>
+pc_use <- 10
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
 
 `classic readouts mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
