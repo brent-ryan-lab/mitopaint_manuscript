@@ -11,11 +11,16 @@ library(ggplot2)
 library(ggpubr)
 library(colorspace)
 library(viridis)
+library(dplyr)
+library(lme4)
+library(lmerTest)
+library(emmeans)
 # set file variables ####
 file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -77,7 +82,7 @@ mahalanobis_data <- function(obj,
     center = dmso_mu,
     cov = dmso_sigma
   ))
-  colnames(mahalanobis_dist) <- paste("mahalanobis_distance_", "PC_", pc_use, sep = "")
+  colnames(mahalanobis_dist) <- paste("mahalanobis_d2_", "PC_", pc_use, sep = "")
   return(mahalanobis_dist)
 }
 # run function to calculate mahalanobis ####
@@ -137,20 +142,115 @@ plots$pca_md<- plot_pca(
   data,
   md,
   colour_var = colnames(md)[1],
-  title_text = "PCA by Mahalanobis Distance to DMSO",
-  legend_title = "Mahalanobis\nDistance",
+  title_text = "PCA by Mahalanobis D-squared to DMSO",
+  legend_title = "Mahalanobis\nD-squared",
   colour_scale = scale_colour_gradientn(
     colours = rev(lighten(viridis(100),
                           amount = 0.3))
   )
 )
 plots$pca_md
-# save data ####
+# create function to calculate mahalanobis hits ####
+mahalanobis_hits <- function(obj, md, pc_use) {
+  # test 1 = mahalanobis d-squared p val to chi squared val
+  # test 1 is calculated on a well level
+  # test 2 = linear mixed effect model to find sig of mahalanobis d-squared, accounting for batch effect
+  # test 2 is calculated on a condition level across batches
+  # combine Mahalanobis distance with metadata
+  md_df <- cbind(data$meta, md)
+  # get the Mahalanobis distance column name
+  md_col <- colnames(md)[1]
+  # ensure grouping variables are factors
+  md_df$Batch <- factor(md_df$Batch)
+  md_df$Condition <- factor(md_df$Condition)
+  # test 1, p-value for each well based on chi-square distribution
+  md_df$p_md <- pchisq(
+    md_df[[md_col]],
+    df = pc_use,
+    lower.tail = FALSE
+  )
+  # test 1, significance flag
+  md_df$md_sig <- md_df$p_md < 0.05
+  # test 1, optional chi-square cutoff for plotting / reporting
+  md_cutoff <- qchisq(0.95, df = pc_use)
+  # test 1, wells above the cutoff
+  md_df$md_sig_cutoff <- md_df[[md_col]] > md_cutoff
+  # test 1, mahalanobis chi squared summary 
+  md_well_results <- md_df |>
+    select(
+      Batch,
+      Condition,
+      all_of(md_col),
+      p_md,
+      md_sig,
+      md_sig_cutoff
+    )
+  # test 2, batch aware linear mixed model on mahalanobis distance
+  md_model <- lmer(
+    as.formula(
+      paste0("`", md_col, "` ~ Condition + (1|Batch)")
+    ),
+    data = md_df
+  )
+  # test 2, estimated marginal means
+  md_emm <- emmeans(
+    md_model,
+    ~ Condition
+  )
+  # test 2, contrasts only DMSO v. other conditions
+  md_contrasts <- contrast(
+    md_emm,
+    method = "trt.vs.ctrl",
+    ref = "DMSO_0",
+    adjust = "bonferroni"
+  )
+  # test 2, model-based pairwise comparison table
+  md_contrasts_df <- as.data.frame(md_contrasts)
+  # test 2, mahalanobis lmme summary
+  md_model_results <- md_contrasts_df 
+  # return list
+  return(list(
+    md = md,
+    md_chi_p = md_well_results,
+    md_chi_cutoff = md_cutoff,
+    md_lmme_p = md_model_results
+  ))
+}
+# run function to calculate mahalanobis hits ####
+md_stats <- mahalanobis_hits(data, md, pc_use)
+# wip: create function to pca plot by mahalanobis p ####
+plots$pca_md_p <- plot_pca(
+  data,
+  md_stats$md_chi_p[,-c(1:2)],
+  colour_var = "p_md",
+  title_text = "PCA by Mahalanobis Chi-quared p-val",
+  legend_title = "Mahalanobis\nChi-quared p-val",
+  colour_scale = scale_colour_gradientn(
+    colours = rev(lighten(viridis(100),
+                          amount = 0.3))
+  )
+)
+plots$pca_md_p
+
+plots$pca_md_p <- plot_pca(
+  data,
+  md_stats$md_chi_p[,-c(1:2)],
+  colour_var = "md_sig",
+  title_text = "PCA by Mahalanobis Chi-quared p-val",
+  legend_title = "Mahalanobis\nChi-quared p-val",
+  colour_scale = scale_colour_manual(values = pastel_cols)
+)
+plots$pca_md_p
+# wip: run function to pca plot by mahalanobis p ####
+# wip: create function to dot plot hits ####
+plot_dot_lmme
+# wip: run function to dot plot hits ####
+# wip: save data ####
 write.csv(
   md,
   paste("data/processed/", file_name, "_mahal_", "PC", pc_use,".csv", sep = "")
 )
-# save plots ####
+# wip: save plots ####
 ggsave(
   filename = paste0(
     "outputs/figures/pca/",
