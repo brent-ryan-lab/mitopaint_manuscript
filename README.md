@@ -29,6 +29,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.1` pca- dim red mitopaint vis (mean per well) v2
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
+    - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
@@ -37,7 +38,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
-#    6.1.4 pca feature loadings- dim red mitopaint vis (mean per well) v1
 #   6.3 abs zscore feature ranking vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
@@ -446,6 +446,24 @@ size_title <- 13
 size_axis <- 10
 plot_width <- 7
 plot_height <- 7>
+
+pca feature loadings- dim red mitopaint vis (mean per well) v1
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+redu_state <- "redu"
+annot_colors <- c(
+    CellROX = "#DC267F",
+    TMRM = "#FFB000",
+    `mt-Keima pH7` = "#23CC86",
+    `mt-Keima pH4` = "#FE6100",
+    Other = "grey")
+feature_patterns <- c(
+  CellROX = "cellrox",
+  TMRM = "tmrm",
+  `mt-Keima pH7` = "mt-keima ph7",
+  `mt-Keima pH4` = "mt-keima ph4")
+dims_plot <- c("PC_1", "PC_2")>
 
 `umap- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
