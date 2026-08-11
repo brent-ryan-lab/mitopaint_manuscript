@@ -209,4 +209,4 @@ width = 7,
 height = 5,
 units = "in",
 dpi = 300)
-
+rm(list = ls())
