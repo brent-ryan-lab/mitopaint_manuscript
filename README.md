@@ -33,6 +33,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
+- `8.` similarity heatmap mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
   - `9.1` classic readouts pca vis (mean per well) v1
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
@@ -41,7 +42,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #   6.3 abs zscore feature ranking vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
-# 8. similarity heatmap mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
 
 `tidy raw mitopaint data (mean per well) v1`
@@ -496,6 +496,17 @@ y_lab <- c("Cytoplasm ROS Intensity",
            "Mitophagy Spots")
 plot_cond <- c("CCCP", "ROT")
 pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)>
+
+`similarity heatmap mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+annot_feats_disc <- c("Compound", "Batch")
+annot_feats_cont <- c("Concentration")
+col_scale <- c("blue", "white", "red")
+agg_well <- TRUE>
 
 `classic readouts mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
