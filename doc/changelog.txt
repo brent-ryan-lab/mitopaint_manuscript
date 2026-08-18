@@ -1,5 +1,18 @@
+## 2026-08-12
+- add similarity heatmap vis (mean per well) v1 to make similarity heatmap of pearson corr of well/ batch level profiles, and save correlation distance clustering stats
+
+## 2026-08-11
+- add pca feature loadings- dim red mitopaint vis (mean per well) v1 to plot stacked bar plot of PC loadings by channel
+
+## 2026-08-10
+- update mahalanobis distance mitopaint data (mean per well) v1 to plot pca coloured by chi squared hits, chi squared p value and save lmm p values table
+- update mahalanobis distance mitopaint data (mean per well) v1 with function to calculate mahalanobis distance hits by chi squared and linear mixed effect model
+- add dr- mahalanobis distance classic readouts vis (mean per well) v1 to plot dose response curves/ dot plots of mahalnobis distance or classic readout to compare readout sensitivty
+
 ## 2026-08-07
 - update classic readouts mitopaint data (mean per well) v1 to save batch combined, non normalised, non readout filtered data
+- add classic readouts pca pearson core heatmap vis (mean per well) v1 to make heatmap visualising correlation of classic readouts to PC direction
+- add mahalanobis distance mitopaint data (mean per well) v1 to calculate mahalanobis distance to DMSO and plot pca coloured by mahalanobis distance
 
 ## 2026-08-06
 - add channel corrected spot count mitopaint data (mean per well) v1 to compare z prime without and with post hoc mt-keima ph4 channel correction
