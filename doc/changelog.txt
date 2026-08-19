@@ -1,3 +1,6 @@
+## 2026-08-18
+- update dr- mahalanobis distance classic readouts vis (mean per well) v1 to have black outline for points in dotplot dr
+
 ## 2026-08-12
 - add similarity heatmap vis (mean per well) v1 to make similarity heatmap of pearson corr of well/ batch level profiles, and save correlation distance clustering stats
 

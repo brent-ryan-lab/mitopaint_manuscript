@@ -203,7 +203,8 @@ plot_dot <- function(results_df,
   y_max <- max(plot_df$y, na.rm = TRUE) * 1.1
   # plot data
   ggplot(plot_df, aes(x = x, y = y)) +
-    geom_point(colour = pastel_col, shape = 16, size = 3) +
+    geom_point(
+      fill = pastel_col,colour = "black",shape = 21,size = 3,stroke = 0.6) +
     # dashed line at p = 0.05 sig
     geom_hline(yintercept = -log10(0.05), linetype = "dashed", colour = "grey70") +
     labs(
