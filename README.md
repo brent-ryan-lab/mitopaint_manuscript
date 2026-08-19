@@ -31,6 +31,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
     - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
+  - `6.3` abs zscore feature ranking vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
 - `8.` similarity heatmap mitopaint vis (mean per well) v1
@@ -39,7 +40,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
-#   6.3 abs zscore feature ranking vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
@@ -467,10 +467,20 @@ dims_plot <- c("PC_1", "PC_2")>
 
 `umap- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
-file_name <- "mPaintDR2_N2_N3_N4"
+<file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
+
+`abs zscore feature ranking vis (mean per well) `v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+ctrl_cond <- "DMSO_0"
+plot_cond <- c("CCCP_30", "ROT_10")
+contrast_all <- TRUE
+rank <- 10>
 
 `mahalanobis distance mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
