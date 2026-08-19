@@ -45,6 +45,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
 
 `tidy raw mitopaint data (mean per well) v1`
+
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
 <batches_info <- list(
   N1 = list(
@@ -148,6 +149,7 @@ meta_cols = c("Row",
               "Condition")>
 
 `plate drift correct mitopaint data (mean per well) v1`
+
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
 <batches_info <- list(
   N1 = list(
@@ -252,8 +254,67 @@ p_sig <- 0.05
                             "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                             "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
 )
+perc_width <- 4.2
+perc_height <- 6.4
 file_name <- "mPaint_DR2_N2_N3_N4"
 pos_control <- "CCCP_30"
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
+
+- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+<batches_info <- list(
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  )
+)
+perc_width <- 6.2
+perc_height <- 6.4
+file_name <- "mPaintSpace2_N1_N2_N3"
+pos_control <- "CCCP_20"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
 `plate drift raw mitopaint vis (mean per well) v1`
@@ -327,6 +388,58 @@ legend_titles <- c(
   )
 )>
 
+- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+<batches_info <- list(
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  )
+)>
+
 `robust zscore norm mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2 use the following variables 
 <batches_info <- list(
@@ -339,7 +452,59 @@ legend_titles <- c(
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
   )
 )>
-                
+
+- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+<batches_info <- list(
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  )
+)>
+
 `batch integration mitopaint data (mean per well) v1`
 - for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
 <batches_info <- list(
