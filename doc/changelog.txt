@@ -1,4 +1,5 @@
 ## 2026-08-19
+- update robust zscore norm mitopaint vis (mean per well) v1 to explicitly make x axes labels 45 degree, scientific notation for raw values, align plots and fix aspect ratio
 - update plate drift correct mitopaint vis (mean per well) v1 to avoid ties when selecting ids for qc plots, add perc_width and perc_height variables for saving dims stacked bar plot
 - add abs zscore feature ranking vis (mean per well) v1 to plot features ranked by biggest emm difference between conditions
 
