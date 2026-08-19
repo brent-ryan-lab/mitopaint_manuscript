@@ -15,13 +15,53 @@ library(ggpubr)
 library(scales)
 # set variables ####
 batches_info <- list(
-  N1 = list(
-    file_name = "SF240627_mPaintDR2_N2",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
   )
 )
 # create a function to load data ####
@@ -95,6 +135,15 @@ batches <- map(
   }
 )
 # create function to plot density of feature values before z score correction ####
+# make format x labels helper function (so that it is scientific notation just for raw values)
+format_x_labels <- function(x) {
+  if (max(abs(x), na.rm = TRUE) < 100) {
+    scales::label_number()(x)
+  } else {
+    scales::label_scientific()(x)
+  }
+}
+
 plot_density <- function(df, plot_title) {
   # df is the input data matrix of rows = wells, cols = features
   df |>
@@ -119,6 +168,10 @@ plot_density <- function(df, plot_title) {
       fill = NA,
       linewidth = 0.5
     ) +
+    # format x labels to scientific notation if large range
+    scale_x_continuous(
+      labels = format_x_labels
+    ) +
     labs( 
       # title is given at beginning of function with plot_title
       title = plot_title,
@@ -127,10 +180,13 @@ plot_density <- function(df, plot_title) {
     ) +
     theme_pubr()+
     theme(
+      aspect.ratio = 1,
+      plot.margin = margin(t = 5, r = 5, b = 15, l = 5),
       panel.grid = element_blank(),
       plot.title = element_text(size = 12, hjust = 0.5),
       axis.text = element_text(size = 10),
-      axis.title = element_text(size = 10)
+      axis.title = element_text(size = 10),
+      axis.text.x = element_text(angle = 45, hjust = 1)
     )
 }
 # run function to plot density of feature values before and after z score correction ####
@@ -160,9 +216,14 @@ plots <- map(
 ) # close bracket for map() loop
 
 # print plots into viewer (NOTE: may take a long time as 3000+ lines per plot)  
-walk(
-  plots,
-  ~ walk(.x, print)
+# walk(plots,~ walk(.x, print))
+
+# align plots
+plots <- purrr::map(plots, ~ cowplot::align_plots(
+    plotlist = .x,
+    align = "v",
+    axis = "l"
+  )
 )
 # save plots ####
 iwalk(
@@ -188,7 +249,7 @@ iwalk(
           ),
           plot = plot,
           width = 3,
-          height = 3
+          height = 3.2
         )
       } # end of loop for each plot_var
     )
