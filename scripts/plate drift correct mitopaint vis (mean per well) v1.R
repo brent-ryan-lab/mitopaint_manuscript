@@ -16,27 +16,59 @@ library(ggpubr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1 = list(file_name = "SF240627_mPaintDR2_N2",
-            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
-  N2 = list(file_name = "SF240704_mPaintDR2_N3",
-            dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                           "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                           "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                           "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                           "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")),
-  N3 = list(file_name = "SF240711_mPaintDR2_N4",
-            dmso_wells =  c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                            "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                            "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                            "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                            "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"))
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9")
+  )
 )
-file_name <- "mPaint_DR2_N2_N3_N4"
-pos_control <- "CCCP_30"
+perc_width <- 6.2
+perc_height <- 6.4
+file_name <- "mPaintSpace2_N1_N2_N3"
+pos_control <- "CCCP_20"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 # create a function to load data ####
 load_data <- function(batch_name, file_name, dmso_wells) {
@@ -116,26 +148,26 @@ select_ids <- function(fit_table, n_random = 4, seed = 42) {
   # slice select 4 examples with poly drift
   lm2_slice <- bind_rows(
     # 1. decreasing slope
-    slice_min(lm2, best_grad2, n = 1),
+    slice_min(lm2, best_grad2, n = 1, with_ties = FALSE),
     # 2. increasing slope
-    slice_max(lm2, best_grad2, n = 1),
+    slice_max(lm2, best_grad2, n = 1, with_ties = FALSE),
     # 3. strong fit (low p)
-    slice_min(lm2, best_p, n = 1),
+    slice_min(lm2, best_p, n = 1, with_ties = FALSE),
     # 4. weak fit (p just below p_sig/ 0.05)
-    slice_max(lm2, best_p, n = 1)
+    slice_max(lm2, best_p, n = 1, with_ties = FALSE)
   )
   # select feature IDs with linear drift
   lm1 <- filter(fit_table, best_grad2 == 0, best_p != 0)
   # slice select 4 examples with linear drift
   lm1_slice <- bind_rows(
     # 1. decreasing slope
-    slice_min(lm1, best_grad1, n = 1),
+    slice_min(lm1, best_grad1, n = 1, with_ties = FALSE),
     # 2. increasing slope
-    slice_max(lm1, best_grad1, n = 1),
+    slice_max(lm1, best_grad1, n = 1, with_ties = FALSE),
     # 3. strong fit (low p)
-    slice_min(lm1, best_p, n = 1),
+    slice_min(lm1, best_p, n = 1, with_ties = FALSE),
     # 4. weak fit (p just below p_sig/ 0.05)
-    slice_max(lm1, best_p, n = 1)
+    slice_max(lm1, best_p, n = 1, with_ties = FALSE)
   )
   # select feature IDs with no drift
   lm0 <- filter(fit_table, best_p == 0)
@@ -391,8 +423,8 @@ ggsave(
   paste(
     "outputs/figures/", file_name, "drift_perc_plot.pdf", sep = ""),
   drift_perc_plot,
-  width = 4.2,
-  height = 6.4,
+  width = perc_width,
+  height = perc_height,
   units = "in",
   dpi = 300
 )
