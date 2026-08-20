@@ -152,8 +152,7 @@ dim_red <- map(
 # create function to plot pca ####
 plot_pca <- function(data,
                      grouping_var,
-                     title_text
-                     ) {
+                     title_text) {
   # assumes DMSO, CCCP and ROT are in the dataset
   compound_levels <- c("DMSO", "CCCP", "ROT")
   # plot_df is combined data and metadata
@@ -161,29 +160,49 @@ plot_pca <- function(data,
   meta <- data[["seurat"]]@meta.data
   plot_df <- df %>%
     cbind(meta)
-  # Set the order of Compound only when plotting by Compound
-  if (grouping_var == "Compound") {
-    plot_df$Compound <- factor(
-      plot_df$Compound,
-      levels = compound_levels
-    )
-  }
   # pull PC variance explained 
   pc1_var <- round(data$pca_var$Percent_Variance[1], 2)
   pc2_var <- round(data$pca_var$Percent_Variance[2], 2)
   x_lab <- paste0("PC_1 (", pc1_var, "%)")
   y_lab <- paste0("PC_2 (", pc2_var, "%)")
-  # plot pca
-  ggplot(plot_df, aes(x = PC_1, y = PC_2, color = .data[[grouping_var]])) +
-    geom_point(shape = 16, size = 1.5) +
-    # color using pastel_cols for grouping_var
-    scale_color_manual(values = pastel_cols) +
-    # tidy theme
+  # if grouping_var is compound:
+  # set order to compound_levels
+  if (grouping_var == "Compound") {
+    plot_df$Compound_plot <- ifelse(
+      plot_df$Compound %in% compound_levels,
+      as.character(plot_df$Compound),
+      "Other"
+    )
+    # set colours of thos not in compound level to grey70
+    plot_df$Compound_plot <- factor(
+      plot_df$Compound_plot,
+      levels = c(compound_levels, "Other")
+    )
+    cols <- c(
+      setNames(lighten(viridis::viridis(3), amount = 0.3), compound_levels),
+      Other = "grey70"
+    )
+    # plot main structure
+    p <- ggplot(plot_df, aes(x = PC_1, y = PC_2, color = Compound_plot)) +
+      geom_point(shape = 16, size = 1.5) +
+      # plot colors (if group_var is compound)
+      scale_color_manual(values = cols)
+  } else {
+    # plot main structure
+    p <- ggplot(plot_df, aes(x = PC_1, y = PC_2, color = .data[[grouping_var]])) +
+      geom_point(shape = 16, size = 1.5) +
+      # plot colors (if group_var is anything else)
+      scale_color_manual(values = pastel_cols)
+  }
+  # tidy theme
+  p +
     theme_pubr() +
     theme(
-      plot.title = element_text(hjust = 0.5,
-                                size = 9,
-                                face = "bold"),
+      plot.title = element_text(
+        hjust = 0.5,
+        size = 9,
+        face = "bold"
+      ),
       axis.text = element_text(size = 7),
       axis.title = element_text(size = 7),
       legend.position = "none",
@@ -191,9 +210,11 @@ plot_pca <- function(data,
       legend.text = element_text(size = 7),
       panel.grid = element_blank()
     ) +
-    labs(title = title_text,
-         x = x_lab,
-         y = y_lab)
+    labs(
+      title = title_text,
+      x = x_lab,
+      y = y_lab
+    )
 }
 # run function to plot pca ####
 plots$corr_pca_batch <- plot_pca(dim_red$integrated, 
@@ -218,34 +239,43 @@ plots$uncorr_pca_drug <- plot_pca(dim_red$unintegrated,
 plots$uncorr_pca_drug 
 # create function to plot umap ####
 plot_umap <- function(data,
-                     grouping_var,
-                     title_text
-) {
-  # assumes DMSO, CCCP and ROT are in the dataset
+                      grouping_var,
+                      title_text) {
   compound_levels <- c("DMSO", "CCCP", "ROT")
-  # plot_df is combined data and metadata
   df <- data[["umap_embeddings"]]
   meta <- data[["seurat"]]@meta.data
   plot_df <- df %>%
-    cbind(meta) 
-  # Set the order of Compound only when plotting by Compound
+    cbind(meta)
   if (grouping_var == "Compound") {
-    plot_df$Compound <- factor(
-      plot_df$Compound,
-      levels = compound_levels
+    plot_df$Compound_plot <- ifelse(
+      plot_df$Compound %in% compound_levels,
+      as.character(plot_df$Compound),
+      "Other"
     )
+    plot_df$Compound_plot <- factor(
+      plot_df$Compound_plot,
+      levels = c(compound_levels, "Other")
+    )
+    cols <- c(
+      setNames(lighten(viridis::viridis(3), amount = 0.3), compound_levels),
+      Other = "grey70"
+    )
+    p <- ggplot(plot_df, aes(x = umap_1, y = umap_2, colour = Compound_plot)) +
+      geom_point(shape = 16, size = 1.5) +
+      scale_color_manual(values = cols)
+  } else {
+    p <- ggplot(plot_df, aes(x = umap_1, y = umap_2, colour = .data[[grouping_var]])) +
+      geom_point(shape = 16, size = 1.5) +
+      scale_color_manual(values = pastel_cols)
   }
-  # plot umap
-  ggplot(plot_df, aes(x = umap_1, y = umap_2, color = .data[[grouping_var]])) +
-    geom_point(shape = 16, size = 1.5) +
-    # color using pastel_cols for grouping_var
-    scale_color_manual(values = pastel_cols) +
-    # tidy theme
+  p +
     theme_pubr() +
     theme(
-      plot.title = element_text(hjust = 0.5,
-                                size = 9,
-                                face = "bold"),
+      plot.title = element_text(
+        hjust = 0.5,
+        size = 9,
+        face = "bold"
+      ),
       axis.text = element_text(size = 7),
       axis.title = element_text(size = 7),
       legend.position = "none",
@@ -253,7 +283,11 @@ plot_umap <- function(data,
       legend.text = element_text(size = 7),
       panel.grid = element_blank()
     ) +
-    labs(title = title_text)
+    labs(
+      title = title_text,
+      x = "UMAP_1",
+      y = "UMAP_2"
+    )
 }
 # run function to plot umap ####
 plots$corr_umap_batch <- plot_umap(dim_red$integrated, 
@@ -289,6 +323,12 @@ dir.create(
   recursive = TRUE,
   showWarnings = FALSE
 )
+
+legends <- purrr::map(
+  plots,
+  ~ cowplot::get_legend(.x + theme(legend.position = "right"))
+)
+
 # save all plots
 iwalk(
   plots,
@@ -320,4 +360,32 @@ iwalk(
     )
   }
 )
+
+iwalk(legends, function(leg, plot_name) {
+  plot_folder <- case_when(
+    str_detect(plot_name, regex("pca", ignore_case = TRUE)) ~ "pca",
+    str_detect(plot_name, regex("umap", ignore_case = TRUE)) ~ "umap",
+    TRUE ~ "other"
+  )
+  dir.create(
+    paste0("outputs/figures/", plot_folder, "/legends"),
+    recursive = TRUE,
+    showWarnings = FALSE
+  )
+  ggsave(
+    filename = paste0(
+      "outputs/figures/",
+      plot_folder,
+      "/legends/",
+      file_name,
+      "_",
+      plot_name,
+      "_legend.pdf"
+    ),
+    plot = cowplot::plot_grid(leg),
+    width = 2.5,
+    height = 3.5
+  )
+})
+
 rm(list = ls())

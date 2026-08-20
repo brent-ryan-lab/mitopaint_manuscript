@@ -4,6 +4,7 @@
 - update  batch integration mitopaint vis (mean per well) v1 to remove NA and avoid errors with dimred
 - update remove redundant mitopaint vis (mean per well) v1 to subset data before calculating PCA to just DMSO, CCCP, ROT
 - update pca- dim red mitopaint vis (mean per well) v2 to include cols if statement to decide whether to use viridis or base ggplot colors depending on colorvar length, and to use fixed lefend space function to save legend separately if legend is long
+- update batch integration mitopaint vis (mean per well) v1 to save legends separately
 
 ## 2026-08-19
 - update robust zscore norm mitopaint vis (mean per well) v1 to explicitly make x axes labels 45 degree, scientific notation for raw values, align plots and fix aspect ratio
