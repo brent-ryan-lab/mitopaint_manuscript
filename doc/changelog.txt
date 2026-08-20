@@ -1,3 +1,10 @@
+## 2026-08-20
+- update tidy raw mitopaint data (mean per well) v1 to make sure remove NA also removes non finite values (sources of NA errors later in pipeline), and to remove conditions based on rm_cond
+- update remove redundant mitopaint data (mean per well) v1 to make sure remove features with low variances also removes features with NA variance
+- update  batch integration mitopaint vis (mean per well) v1 to remove NA and avoid errors with dimred
+- update remove redundant mitopaint vis (mean per well) v1 to subset data before calculating PCA to just DMSO, CCCP, ROT
+- update pca- dim red mitopaint vis (mean per well) v2 to include cols if statement to decide whether to use viridis or base ggplot colors depending on colorvar length, and to use fixed lefend space function to save legend separately if legend is long
+
 ## 2026-08-19
 - update robust zscore norm mitopaint vis (mean per well) v1 to explicitly make x axes labels 45 degree, scientific notation for raw values, align plots and fix aspect ratio
 - update plate drift correct mitopaint vis (mean per well) v1 to avoid ties when selecting ids for qc plots, add perc_width and perc_height variables for saving dims stacked bar plot

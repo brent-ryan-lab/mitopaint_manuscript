@@ -18,10 +18,12 @@ library(purrr)
 library(stringr)
 library(tibble)
 library(rlang)
+library(viridis)
+library(cluster)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
-dataset_name <- "mPaintDR2_N2_N3_N4"
+dataset_name <- "mPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
@@ -51,6 +53,7 @@ meta <- as.data.frame(
 # keep rownames as WELL_BATCH
 rownames(meta) <- meta$V1
 meta$V1 <- NULL
+pastel_cols_5 <- lighten(viridis(n=5), amount = 0.3)
 # create function to remove redundant features ####
 # this function removes: 
 # features with variance below tolerance threshold
@@ -75,7 +78,9 @@ rem_redundant <- function(df,
   removed_pattern <- sum(!keep_pattern)
   # remove low variance
   variances <- apply(data, 2, var, na.rm = TRUE)
-  keep_variance <- variances > var_tol
+  # also remove features with NA variance
+  # NA = variance unable to be computed due to too many NA values
+  keep_variance <- !is.na(variances) & variances > var_tol
   data <- data[, keep_variance, drop = FALSE]
   removed_variance <- sum(!keep_variance)
   # remove highly correlated features
@@ -325,6 +330,11 @@ run_pca <- function(feature_matrix,
                     k_param = 15,
                     resolution = 1,
                     seed = 42) {
+  # keep only rows where Compound is in the selected conditions 
+  keep_rows <- metadata$Compound %in% c("DMSO", "CCCP", "ROT")
+  metadata <- metadata[keep_rows, , drop = FALSE]
+  feature_matrix <- feature_matrix[rownames(metadata), , drop = FALSE]
+  
   # put data frame and meta into a Seurat
   seurat_obj <- CreateSeuratObject(
     counts = t(as.matrix(feature_matrix)),

@@ -8,9 +8,9 @@
 # load packages ####
 library(data.table)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
-integrate_state <- "unintegrated"
-dataset_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+dataset_name <- "mPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
@@ -49,7 +49,9 @@ rem_redundant <- function(df,
   removed_pattern <- sum(!keep_pattern)
   # remove low variance
   variances <- apply(data, 2, var, na.rm = TRUE)
-  keep_variance <- variances > var_tol
+  # also remove features with NA variance
+  # NA = variance unable to be computed due to too many NA values
+  keep_variance <- !is.na(variances) & variances > var_tol
   data <- data[, keep_variance, drop = FALSE]
   removed_variance <- sum(!keep_variance)
   # remove highly correlated features

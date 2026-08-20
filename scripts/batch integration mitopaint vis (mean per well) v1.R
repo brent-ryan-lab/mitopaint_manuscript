@@ -13,10 +13,10 @@ library(Seurat)
 library(ggplot2)
 library(ggpubr)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- c("integrated", "unintegrated")
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500
 # create function to load data ####
@@ -41,6 +41,10 @@ load_data <- function(file_name, integrate_state) {
   # keep rownames as WELL_BATCH
   rownames(meta) <- meta$V1
   meta$V1 <- NULL
+  # remove any columns with NA/ non finite values
+  df <- df[, colSums(!is.finite(as.matrix(df))) == 0, drop = FALSE]
+  # remove any rows with NA/ non finite values
+  df <- df[apply(df, 1, function(x) all(is.finite(x))), , drop = FALSE]
   # return list of drift corrected data, raw data, metadata, and drift fits
   return(list(
     df = df,

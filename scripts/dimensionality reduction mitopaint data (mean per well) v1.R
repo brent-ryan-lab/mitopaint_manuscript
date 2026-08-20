@@ -10,7 +10,7 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
@@ -48,6 +48,10 @@ meta <- as.data.frame(
 # keep rownames as WELL_BATCH
 rownames(meta) <- meta$V1
 meta$V1 <- NULL
+# remove any columns with NA/ non finite values
+df <- df[, colSums(!is.finite(as.matrix(df))) == 0, drop = FALSE]
+# remove any rows with NA/ non finite values
+df <- df[apply(df, 1, function(x) all(is.finite(x))), , drop = FALSE]
 # put data in Seurat object df.seurat ####
 # assign data and meta to seurat object
 df.seurat <- CreateSeuratObject(
@@ -130,7 +134,7 @@ for (i in 1:ncol(pca$loadings)) {
   )
 }
 # visually inspect top features for PC1 
-View(as.data.frame(pca$top_features[[1]]))
+# View(as.data.frame(pca$top_features[[1]]))
 # convert pca top features into a single long df
 # imap_dfr() function loops over the list and binds all rows at the end
 # function(pc_...) gives the contents of the list, and list number (PC)

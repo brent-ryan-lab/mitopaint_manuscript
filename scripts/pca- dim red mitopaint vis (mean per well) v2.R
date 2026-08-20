@@ -18,7 +18,7 @@ library(cowplot)
 file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- "viridis"
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -119,13 +119,23 @@ plot_pca <- function(data,
 # p1: pc1 x pc2 by compound ####
 # initialise plots list
 plots <- list()
+# color if statement
+if (pastel_cols == "viridis") {
+  cols <- lighten(
+    viridis(
+      n = length(unique(data$meta$Compound))),
+    amount = 0.3)
+} else {
+  cols <- scales::hue_pal()(length(unique(data$meta$Compound)))
+}
+# plot
 plots$pca_compound <- plot_pca(
   data,
   colour_var = "Compound",
   title_text = "PCA by Compound",
   legend_title = "Compound",
   colour_scale = scale_colour_manual(
-    values = pastel_cols
+    values = cols
   )
 )
 plots$pca_compound
@@ -193,58 +203,114 @@ plots$pca_nn <- ggplot(
   )
 plots$pca_nn
 # p4: pc1 x pc1 by compound and concentration ####
-plots$pca_compound_concentration <- plot_pca(
-  data,
-  colour_var = "Concentration",
-  shape_var = "Compound",
-  title_text = "PCA by Compound & Concentration",
-  legend_title = "Concentration (uM)",
-  colour_scale = scale_colour_gradientn(
-    colours = rev(lighten(viridis(100),
-                          amount = 0.3))
-  )
-)
-plots$pca_compound_concentration
+#plots$pca_compound_concentration <- plot_pca(
+#  data,
+#  colour_var = "Concentration",
+#  shape_var = "Compound",
+#  title_text = "PCA by Compound & Concentration",
+#  legend_title = "Concentration (uM)",
+#  colour_scale = scale_colour_gradientn(
+#    colours = rev(lighten(viridis(100),
+#                          amount = 0.3))
+#  )
+#)
+# plots$pca_compound_concentration
 # p5: pc1 x pc2 by batch ####
+# color if statement
+if (length(unique(data$meta$Batch)) < 10) {
+  cols <- lighten(
+    viridis(
+      n = length(unique(data$meta$Batch))),
+    amount = 0.3)
+} else {
+  cols <- scales::hue_pal()(length(unique(data$meta$Batch)))
+}
+# plot
 plots$pca_batch <- plot_pca(
   data,
   colour_var = "Batch",
   title_text = "PCA by Batch",
   legend_title = "Batch",
   colour_scale = scale_colour_manual(
-    values = pastel_cols
+    values = cols
   )
 )
 plots$pca_batch
 # create function to add fixed legend space ####
 add_fixed_legend_space <- function(plot,
+                                   plot_name,
                                    plot_width = 1,
-                                   legend_width = 0.4) {
+                                   legend_width = 0.4,
+                                   legend_cutoff = 11,
+                                   legend_file = NULL) {
+  
+  # get number of legend entries from the plot data
+  n_legend <- NULL
+  
+  # detect compound plot specifically
+  if (plot_name == "pca_compound") {
+    n_legend <- length(unique(data$meta$Compound))
+  }
+  
+  # extract legend
   legend <- get_legend(
     plot +
-      theme(
-        legend.position = "right"
-      )
+      theme(legend.position = "right")
   )
+  
   plot_without_legend <- plot +
-    theme(
-      legend.position = "none"
+    theme(legend.position = "none")
+  
+  # if the legend is too long, save it separately and leave blank space in the plot
+  if (!is.null(n_legend) && n_legend > legend_cutoff) {
+    
+    if (!is.null(legend_file)) {
+      ggsave(
+        filename = legend_file,
+        plot = cowplot::plot_grid(legend),
+        width = 3,
+        height = 4,
+        units = "in",
+        dpi = 300
+      )
+    }
+    
+    return(
+      plot_grid(
+        plot_without_legend,
+        ggplot() + theme_void(),
+        nrow = 1,
+        rel_widths = c(plot_width, legend_width)
+      )
     )
+  }
+  
+  # otherwise keep the legend beside the plot
   plot_grid(
     plot_without_legend,
     legend,
     nrow = 1,
-    rel_widths = c(
-      plot_width,
-      legend_width
-    )
+    rel_widths = c(plot_width, legend_width)
   )
 }
 # apply consistent legend space to plots ####
 plots_fixed <- map(
-  plots,
-  add_fixed_legend_space
+  names(plots),
+  function(plot_name) {
+    add_fixed_legend_space(
+      plot = plots[[plot_name]],
+      plot_name = plot_name,
+      legend_cutoff = 11,
+      legend_file = if (plot_name == "pca_compound") {
+        paste0("outputs/figures/pca/", file_name, "_pca_compound_legend.pdf")
+      } else {
+        NULL
+      }
+    )
+  }
 )
+
+names(plots_fixed) <- names(plots)
 # save plots ####
 iwalk(
   plots_fixed,

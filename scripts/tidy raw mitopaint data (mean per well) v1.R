@@ -67,6 +67,7 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration",
               "Condition")
+rm_cond = "UT_0"
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 
@@ -103,13 +104,19 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
     str_replace("mKeima ph7", "mt-Keima pH7") |>
     str_trim(side = "right")
   # convert all features to numeric
-  df[] <- lapply(df, as.numeric)
-  # remove any columns with NA
-  df <- df[, colSums(is.na(df)) == 0, drop = FALSE]
-  # remove any rows with NA
-  df <- df[rowSums(is.na(df)) == 0, , drop = FALSE]
+  df[] <- lapply(df, function(x) as.numeric(as.character(x)))
+  # remove any columns with NA/ non finite values
+  df <- df[, colSums(!is.finite(as.matrix(df))) == 0, drop = FALSE]
+  # remove any rows with NA/ non finite values
+  df <- df[apply(df, 1, function(x) all(is.finite(x))), , drop = FALSE]
   # keep meta and df aligned
   meta <- meta[rownames(df), , drop = FALSE]
+  # remove any rows with Condition in rm_cond
+  if (!is.null(rm_cond)) {
+    keep_rows <- !meta$Condition %in% rm_cond
+    meta <- meta[keep_rows, , drop = FALSE]
+    df <- df[rownames(meta), , drop = FALSE]
+  }
   # return data and metadata as a list
   return(list(data = df,
               meta = meta,
