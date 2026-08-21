@@ -40,6 +40,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
+#   4.2 batch integration evaluation stats mitopaint data (mean per well) v1
+#   6.1.5 pca grid- dim red mitopaint vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
@@ -258,7 +260,7 @@ p_sig <- 0.05
 )
 perc_width <- 4.2
 perc_height <- 6.4
-file_name <- "mPaint_DR2_N2_N3_N4"
+file_name <- "mPaintDR2_N2_N3_N4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
@@ -758,7 +760,7 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
-classic_file_name <- "mPaint_DR2_Classic_N2_N3_N4"
+classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm CellRox Mean",
                 "Intensity Cytoplasm TMRM Mean",
@@ -819,7 +821,7 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaint_DR2_Classic_N2_3_4">
+file_name <- "mPaintDR2_Classic_N2_3_4">
 - plot variables
 <plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
 plot_lab <- c("DMSO", "CCCP", "ROT")
@@ -842,13 +844,13 @@ plot_height <- 4>
 `classic readouts pca vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name_paint <- "mPaintDR2_N2_N3_N4"
-file_name_classic <- "mPaint_DR2_Classic_N2_3_4"
+file_name_classic <- "mPaintDR2_Classic_N2_3_4"
 redu_state <- "redu"
 integrate_state <- "integrated">
 
 `classic readouts pca pearson corr heatmap vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
-<classic_file_name <- "mPaint_DR2_Classic_N2_N3_N4"
+<classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
 file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
@@ -887,7 +889,7 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaint_DR2_SpotComparison"
+file_name <- "mPaintDR2_SpotComparison"
 plot_cond <- c("DMSO_0", "CCCP_30")
 plot_lab <- c("DMSO", "CCCP")
 plot_feats <- c("Number of Selected Spots/ Selected Cell",
