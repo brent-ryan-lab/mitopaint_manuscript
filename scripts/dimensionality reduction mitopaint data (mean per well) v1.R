@@ -12,7 +12,7 @@ library(tidyverse)
 # set variables ####
 file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
-integrate_state <- "integrated"
+integrate_state <- "unintegrated"
 dims_use <- 1:50
 k_param <- 15
 res <- 1
