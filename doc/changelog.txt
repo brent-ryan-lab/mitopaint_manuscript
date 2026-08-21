@@ -1,3 +1,6 @@
+## 2026-08-21
+- update dimensionality reduction mitopaint data (mean per well) v1 to save neighbour graphs, and rename file to v2 to reflect change
+
 ## 2026-08-20
 - update tidy raw mitopaint data (mean per well) v1 to make sure remove NA also removes non finite values (sources of NA errors later in pipeline), and to remove conditions based on rm_cond
 - update remove redundant mitopaint data (mean per well) v1 to make sure remove features with low variances also removes features with NA variance
