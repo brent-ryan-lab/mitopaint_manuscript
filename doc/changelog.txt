@@ -1,4 +1,5 @@
 ## 2026-08-21
+- add batch integration evaluation stats mitopaint data (mean per well) v1
 - update dimensionality reduction mitopaint data (mean per well) v1 to save neighbour graphs, and rename file to v2 to reflect change
 
 ## 2026-08-20

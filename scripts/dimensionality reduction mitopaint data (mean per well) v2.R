@@ -10,7 +10,7 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "unintegrated"
 dims_use <- 1:50
@@ -91,6 +91,7 @@ df.seurat <- RunPCA(
   seed.use = 42
 )
 # find pca nearest neighbors for seurat
+# keep neighbor object
 df.seurat <- FindNeighbors(
   df.seurat,
   # dims_use dictates how many PC dimensions to use
@@ -99,13 +100,25 @@ df.seurat <- FindNeighbors(
   # k_param dictates how many nearest neighbors each point should have
   # this is dependent of number of technical well replicates in experiment
   k.param = k_param,
+  return.neighbor = TRUE,
+  reduction = "pca",
+  graph.name = "pca_neighbor"
+)
+# also keep graphs for clustering
+df.seurat <- FindNeighbors(
+  df.seurat,
+  dims = dims_use,
+  k.param = k_param,
+  return.neighbor = FALSE,
   reduction = "pca",
   graph.name = c("pca_nn", "pca_snn")
 )
 # save nn graphs in graphs
 graphs <- list()
 graphs$pca_nn <- df.seurat@graphs[["pca_nn"]]
-graphs$pca_snn <- df.seurat@graphs[["pca_snn"]]
+# save neighbor in neighbors
+neighbors <- list()
+neighbors$pca_neighbor <- df.seurat@neighbors[["pca_neighbor"]]
 # find pca clusters for seurat, based on pca nearest neighbors
 df.seurat <- FindClusters(
   df.seurat,
@@ -228,6 +241,7 @@ df.seurat <- RunTSNE(
   seed.use = 42
 )
 # find tsne nearest neighbors for seurat
+# keep neighbor object
 df.seurat <- FindNeighbors(
   df.seurat,
   # dims dictates to use the two tsne dimensions
@@ -235,12 +249,23 @@ df.seurat <- FindNeighbors(
   # k_param dictates how many nearest neighbors each point should have
   # this is dependent of number of technical well replicates in experiment
   k.param = k_param,
+  return.neighbor = TRUE,
+  reduction = "tsne",
+  graph.name = "tsne_neighbor"
+)
+# also keep graphs for clustering
+df.seurat <- FindNeighbors(
+  df.seurat,
+  dims = 1:2,
+  k.param = k_param,
+  return.neighbor = FALSE,
   reduction = "tsne",
   graph.name = c("tsne_nn", "tsne_snn")
 )
 # save nn graphs in graphs
 graphs$tsne_nn <- df.seurat@graphs[["tsne_nn"]]
-graphs$tsne_snn <- df.seurat@graphs[["tsne_snn"]]
+# save neighbor in neighbors
+neighbors$tsne_neighbor <- df.seurat@neighbors[["tsne_neighbor"]]
 # find tsne clusters for seurat, based on tsne nearest neighbors
 df.seurat <- FindClusters(
   df.seurat,
@@ -281,6 +306,7 @@ df.seurat <- RunUMAP(
   seed.use = 42
 )
 # find umap nearest neighbors for seurat
+# keep neighbor object
 df.seurat <- FindNeighbors(
   df.seurat,
   # dims dictates to use the two umap dimensions
@@ -288,12 +314,23 @@ df.seurat <- FindNeighbors(
   # k_param dictates how many nearest neighbors each point should have
   # this is dependent of number of technical well replicates in experiment
   k.param = k_param,
+  return.neighbor = TRUE,
+  reduction = "umap",
+  graph.name = "umap_neighbor"
+)
+# also keep graphs for clustering
+df.seurat <- FindNeighbors(
+  df.seurat,
+  dims = 1:2,
+  k.param = k_param,
+  return.neighbor = FALSE,
   reduction = "umap",
   graph.name = c("umap_nn", "umap_snn")
 )
 # save nn graphs in graphs
 graphs$umap_nn <- df.seurat@graphs[["umap_nn"]]
-graphs$umap_snn <- df.seurat@graphs[["umap_snn"]]
+# save neighbor in neighbors
+neighbors$umap_neighbor <- df.seurat@neighbors[["umap_neighbor"]]
 # find umap clusters for seurat, based on umap nearest neighbors
 df.seurat <- FindClusters(
   df.seurat,
@@ -348,8 +385,8 @@ write.csv(umap$embeddings,
           paste(
             "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv", sep = "")
 )
-# save nn and snn edge list
-dir.create("data/processed/graphs", recursive = TRUE, showWarnings = FALSE)
+# save nn edge list
+dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 iwalk(graphs, function(g, graph_name) {
   edge_df <- Matrix::summary(g)
   edge_df$from <- rownames(g)[edge_df$i]
@@ -366,4 +403,12 @@ iwalk(graphs, function(g, graph_name) {
     row.names = FALSE
   )
 })
+# save knn matrix of neighbor indices
+neighbors$knn_pca <- SeuratObject::Indices(neighbors$pca_neighbor)
+neighbors$knn_tsne <- SeuratObject::Indices(neighbors$tsne_neighbor)
+neighbors$knn_umap <- SeuratObject::Indices(neighbors$umap_neighbor)
+write.csv(neighbors$knn_umap,
+          paste(
+            "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv", sep = "")
+)
 rm(list = ls())

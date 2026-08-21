@@ -164,7 +164,7 @@ plot_plate <- function(feature, legend_title, batch_obj) {
       name = legend_title,
       colours = rev(
         lighten(
-          viridis(100),
+          viridisLite::viridis(100),
           amount = 0.3
         )
       ),
