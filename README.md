@@ -23,6 +23,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `3.1` robust zscore norm mitopaint vis (mean per well) v1
 - `4.` batch integration mitopaint data (mean per well) v1
   - `4.1` batch integration mitopaint vis (mean per well) v1
+  -  `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
   - `5.1` remove redundant mitopaint vis (mean per well) v1
 - `6.` dimensionality reduction mitopaint data (mean per well) v1
@@ -40,7 +41,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
-#   4.2 batch integration evaluation stats mitopaint data (mean per well) v1
 #   6.1.5 pca grid- dim red mitopaint vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
@@ -595,6 +595,13 @@ integrate_state <- c("integrated", "unintegrated")
 pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500>
+
+`batch integration evaluation stats mitopaint data (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- c("integrated", "unintegrated")
+ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")>
 
 `remove redundant mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
