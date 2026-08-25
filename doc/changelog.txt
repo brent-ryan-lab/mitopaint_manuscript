@@ -1,6 +1,8 @@
-## 2026-08-21
+## 2026-08-24
 - update batch integration evaluation stats mitopaint data (mean per well) v1 to calculate asw, gc, kbet, map, lisi, leiden, save summary results table and plot figure visualising all metrics together
 - add batch integration evaluation stats mitopaint data (mean per well) v1
+
+## 2026-08-21
 - update dimensionality reduction mitopaint data (mean per well) v1 to save neighbour graphs, and rename file to v2 to reflect change
 
 ## 2026-08-20
