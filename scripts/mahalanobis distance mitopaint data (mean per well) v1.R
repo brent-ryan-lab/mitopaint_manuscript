@@ -19,7 +19,7 @@ library(emmeans)
 library(purrr)
 library(cowplot)
 # set file variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
@@ -313,7 +313,7 @@ write.csv(
   md_stats$md_lmme_p,
   paste("data/processed/", file_name, "_mahal_lmme_p_", "PC", pc_use,".csv", sep = "")
 )
-# wip: save plots ####
+# save plots ####
 dir.create(
   "outputs/figures/pca",
   recursive = TRUE,

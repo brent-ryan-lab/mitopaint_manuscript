@@ -772,6 +772,13 @@ redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
 
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pc_use <- 10
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
+
 `dr- mahalanobis distance classic readouts vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
