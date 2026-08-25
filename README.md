@@ -31,6 +31,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
     - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
+    - `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
   - `6.3` abs zscore feature ranking vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
@@ -41,7 +42,6 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
-#   6.1.5 pca grid- dim red mitopaint vis (mean per well) v1
 #   7.2 hits- mahalanobis distance mitopaint vis (mean per well) v1
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 #   8.1 profile heatmap mitopaint vis (mean per well) v1
@@ -720,7 +720,7 @@ size_axis <- 10
 plot_width <- 7
 plot_height <- 7>
 
-pca feature loadings- dim red mitopaint vis (mean per well) v1
+`pca feature loadings- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
@@ -737,6 +737,15 @@ feature_patterns <- c(
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")>
+
+`pca grid- dim red mitopaint vis (mean per well) v1`
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 10
+grid_width <- 6>
 
 `umap- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
