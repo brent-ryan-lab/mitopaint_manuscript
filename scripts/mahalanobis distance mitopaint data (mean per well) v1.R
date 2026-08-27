@@ -211,6 +211,15 @@ mahalanobis_hits <- function(obj, md, pc_use) {
   md_contrasts_df <- as.data.frame(md_contrasts)
   # test 2, mahalanobis lmme summary
   md_model_results <- md_contrasts_df
+      # remove brackets in contrast character string
+  md_model_results <- md_contrasts_df |>
+    mutate(
+      contrast = gsub("[()]", "", contrast)
+    )
+  md_contrasts_df <- md_contrasts_df |>
+    mutate(
+      contrast = gsub("[()]", "", contrast)
+    )
   # test 2, populate table with matching metadata
   # make a lookup table from the metadata
   condition_lookup <- md_df |>

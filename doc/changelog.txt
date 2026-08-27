@@ -1,3 +1,8 @@
+## 2026-08-27
+- update mahalanobis distance mitopaint data (mean per well) v1 to remove brackets in md lmme contrast character string to avoid NAs in condition lookup metadata
+- add hits- mahalanobis distance mitopaint vis (mean per well) v1 to plot dot plot of all md lmme hits, and to plot md lmme p value dose response grid
+
+
 ## 2026-08-24
 - update batch integration evaluation stats mitopaint data (mean per well) v1 to calculate asw, gc, kbet, map, lisi, leiden, save summary results table and plot figure visualising all metrics together
 - add batch integration evaluation stats mitopaint data (mean per well) v1
