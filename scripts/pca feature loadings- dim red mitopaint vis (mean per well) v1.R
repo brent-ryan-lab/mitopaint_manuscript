@@ -12,7 +12,7 @@ library(tidytext)
 library(ggplot2)
 library(ggpubr)
 # set file variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_colors <- c(
