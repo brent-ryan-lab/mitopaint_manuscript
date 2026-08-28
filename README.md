@@ -912,6 +912,92 @@ size_axis <- 12
 plot_width <- 3
 plot_height <- 4>
 
+- for mPaintSpace2_N1_N2_N3 use the following variables
+- file variables
+<batches_info <- list(
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N1A"
+  ),
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N1B"
+  ),
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N2A"
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N2B"
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N3A"
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N3B"
+  )
+)
+nuc_count = "Non-border cells Selected - Number of Objects"
+meta_cols = c("Row",
+              "Column",
+              "Compound",	
+              "Concentration")
+file_name <- "mPaintSpace2_N1_N2_N3_Classic">
+- plot variables
+<plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
+               "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
+               "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
+plot_lab <- c("DMSO", "CCCP", "ROT", "NIG", "OLI", "RAP", "VAL", "CYC", "CQ",
+              "BAM15", "MITOQ", "NOC", "CYT")
+plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Intensity Cytoplasm TMRM test Mean",
+                "mkeima ph7 mitochondria Ratio Width to Length",
+                "Number of Mitophagy Spots Selected- per Cell")
+y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
+           "Cytoplasm MMP Intensity (a.u.)",
+           "Mitochondria Width:Length (a.u.)",
+           "Mitophagy Spots (a.u.)")
+x_lab <- "Compound"
+pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
+point_size <- 3
+size_annot <- 6
+size_axis <- 12
+plot_width <- 9
+plot_height <- 3>
+
 `classic readouts pca vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name_paint <- "mPaintDR2_N2_N3_N4"
