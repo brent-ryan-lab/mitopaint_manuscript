@@ -18,6 +18,8 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 grid_width <- 6
+plot_width <- 12
+plot_height <- 10
 # create function to load data ####
 load_data <- function(file_name,
                       md_file_name,
@@ -58,7 +60,6 @@ load_data <- function(file_name,
   return(list(
     md = md,
     meta = meta,
-    md_chi_p = md_chi_p,
     md_lmmme_p = md_lmmme_p
   ))
 }
@@ -70,6 +71,14 @@ data <- load_data(file_name,
 # plot all hits ####
 # filter hits to those with p < 0.05
 plot_df <- data$md_lmmme_p |>
+  # replace exact 0 p.value with slightly smaller than min value
+  mutate(
+    p.value = if_else(
+      p.value == 0,
+      0.9 * min(p.value[p.value > 0], na.rm = TRUE),
+      p.value
+    )
+  ) |>
   filter(p.value < 0.05) |>
   arrange(p.value) |>
   mutate(
@@ -79,13 +88,13 @@ plot_df <- data$md_lmmme_p |>
 plots <- list()
 # all_hits is dot plot of compounds with significant p
 plots$all_hits <- ggplot(plot_df, 
-                         # x = -log(p), higher x is stronger hit
+                         # x = -log(p.value), higher x is stronger hit
                          # y = condition, in desc order (top hits at top)
                          aes(x = -log(p.value), y = Condition)) +
   geom_point() +
   # red dashed line at p = 0.05
   geom_vline(xintercept = -log(0.05), linetype = "dashed", colour = "red") +
-  labs(x = "-log(p)",
+  labs(x = "-log(p.value)",
        y = "Condition",
        title = "Mahalanobis distance hits\n(linear mixed effect model)") +
   theme_pubr() +
@@ -99,48 +108,56 @@ plots$all_hits <- ggplot(plot_df,
   )
 plots$all_hits
 # create function to plot grid of lmme_p by compound ####
+# replace zeros once for determining limits
+p_vals <- data$md_lmmme_p$p.value
+min_pos_p <- min(p_vals[p_vals > 0 & is.finite(p_vals)], na.rm = TRUE)
+zero_replacement <- 0.9 * min_pos_p
 # shared y limits based on all p-values in md_lmmme_p
-y_vals <- -log(data$md_lmmme_p$p.value[data$md_lmmme_p$p.value > 0 & is.finite(data$md_lmmme_p$p.value)])
+y_vals <- -log(ifelse(
+  p_vals == 0,
+  0.9 * min_pos_p,
+  p_vals
+)[is.finite(p_vals)])
 # consistent y limits for all plots based on min and max p val
 y_limits <- range(y_vals, na.rm = TRUE) * c(0.95, 1.05)
 # create function to plot one compound
-plot_compound_hits <- function(df, compound_name, y_limits) {
+plot_compound_hits <- function(df, compound_name, y_limits, zero_replacement) {
   plot_df <- df |>
-    filter(Compound == compound_name) |>
-    mutate(
+    dplyr::filter(Compound == compound_name) |>
+    dplyr::mutate(
+      p.value = dplyr::if_else(
+        p.value == 0,
+        zero_replacement,
+        p.value
+      ),
       neg_log_p = -log(p.value),
-      # non significant points are grey and significant points are black
-      point_col = if_else(neg_log_p < -log(0.05), "grey70", "black")
+      point_col = dplyr::if_else(neg_log_p < -log(0.05), "grey70", "black")
     ) |>
-    arrange(Concentration)
-  # plot
-  ggplot(plot_df, aes(x = Concentration, y = neg_log_p)) +
-    geom_point(aes(colour = point_col)) +
-    scale_colour_identity() +
-    # red dashed line at p = 0.05
-    geom_hline(
+    dplyr::arrange(Concentration)
+  
+  ggplot2::ggplot(plot_df, ggplot2::aes(x = Concentration, y = neg_log_p)) +
+    ggplot2::geom_point(ggplot2::aes(colour = point_col)) +
+    ggplot2::scale_colour_identity() +
+    ggplot2::geom_hline(
       yintercept = -log(0.05),
       linetype = "dashed",
       colour = "red"
     ) +
-    # concentration on log scale
-    scale_x_log10() +
-    scale_y_continuous(limits = y_limits) +
-    labs(
-      x = "log([uM])",
-      y = "-log(p)",
-      # title is compound name
+    ggplot2::scale_x_log10() +
+    ggplot2::scale_y_continuous(limits = y_limits) +
+    ggplot2::labs(
+      x = "log10([uM])",
+      y = "-log10(p.value)",
       title = compound_name
     ) +
-    # tidy theme
-    theme_pubr() +
-    theme(
-      axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
-      axis.text.y = element_text(size = 8),
-      axis.title.x = element_text(size = 8),
-      axis.title.y = element_text(size = 8),
-      plot.title = element_text(hjust = 0.5, size = 10, face = "bold"),
-      panel.grid = element_blank()
+    ggpubr::theme_pubr() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(size = 8, angle = 45, hjust = 1),
+      axis.text.y = ggplot2::element_text(size = 8),
+      axis.title.x = ggplot2::element_text(size = 8),
+      axis.title.y = ggplot2::element_text(size = 8),
+      plot.title = ggplot2::element_text(hjust = 0.5, size = 10, face = "bold"),
+      panel.grid = ggplot2::element_blank()
     )
 }
 # run function to plot grid of lmme_p by compound ####
@@ -152,9 +169,14 @@ compound_order <- data$md_lmmme_p |>
   arrange(min_p) |>
   pull(Compound)
 # loop plot all compounds
-compound_plots <- map(
+compound_plots <- purrr::map(
   compound_order,
-  ~ plot_compound_hits(data$md_lmmme_p, .x, y_limits = y_limits)
+  ~ plot_compound_hits(
+    data$md_lmmme_p,
+    .x,
+    y_limits = y_limits,
+    zero_replacement = zero_replacement
+  )
 )
 # name plots by compound name
 names(compound_plots) <- compound_order
@@ -181,8 +203,8 @@ write.csv(plot_df,
 ggsave(
   filename = paste0("outputs/figures/", file_name, "_md_dr_grid.pdf"),
   plot = plots$p_grid,
-  width = 12,
-  height = 10
+  width = plot_width,
+  height = plot_height
 )
 ggsave(
   filename = paste0("outputs/figures/", file_name, "_md_hits_list.pdf"),
@@ -190,3 +212,4 @@ ggsave(
   width = 3.5,
   height = 6
 )
+rm(list = ls())

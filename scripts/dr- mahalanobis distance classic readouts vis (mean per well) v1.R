@@ -208,7 +208,7 @@ plot_dot <- function(results_df,
     # dashed line at p = 0.05 sig
     geom_hline(yintercept = -log10(0.05), linetype = "dashed", colour = "grey70") +
     labs(
-      x = "log10(Concentration)",
+      x = "log10([uM])",
       y = "-log10(p.value)",
       title = plot_title
     ) +
