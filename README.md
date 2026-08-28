@@ -695,32 +695,15 @@ redu_state <- "redu"
 integrate_state <- "integrated">
 
 `pca biplot- dim red mitopaint vis (mean per well) v1`
-- for mPaintDR2_N2_N3_N4 use the following variables
-- file variables
+- for mPaintDR2_N2_N3_N4 use the following file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated">
-- plot variables
-<chan_cols <- c("#FFB000", "#DC267F", "#23CC86", "#FE6100")
-x_lab <- paste0(
-  "PC_1 (",
-  round(var[1, "Percent_Variance"], 2),
-  "%)"
-)
-y_lab <- paste0(
-  "PC_2 (",
-  round(var[2, "Percent_Variance"], 2),
-  "%)"
-)
-point_size <- 2
-arrow_width <- 1.2
-arrowhead_size <- 0.5
-label_text_size <- 2.5
-label_line_width <- 0.4
-size_title <- 13
-size_axis <- 10
-plot_width <- 7
-plot_height <- 7>
+
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated">
 
 `pca feature loadings- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
