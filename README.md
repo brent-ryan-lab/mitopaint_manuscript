@@ -600,8 +600,14 @@ n_epochs <- 500>
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- c("integrated", "unintegrated")
+integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")>
+
+- for mPaintSpace2_N1_N2_N3 use the following variables:
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_states <- c("integrated", "unintegrated")
+ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")>
 
 `remove redundant mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
