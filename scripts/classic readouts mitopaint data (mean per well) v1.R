@@ -18,32 +18,59 @@ library(lmerTest)
 library(emmeans)
 # set file variables ####
 batches_info <- list(
-  N1 = list(
-    file_name = "SF240627_mPaintDR2_N2_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N1"
+  N1A = list(
+    file_name = "SF260604_mPaintSpace2_N1A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N1A"
   ),
-  N2 = list(
-    file_name = "SF240704_mPaintDR2_N3_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N2"
+  N1B = list(
+    file_name = "SF260604_mPaintSpace2_N1B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N1B"
   ),
-  N3 = list(
-    file_name = "SF240711_mPaintDR2_N4_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N3"
+  N2A = list(
+    file_name = "SF260604_mPaintSpace2_N2A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N2A"
+  ),
+  N2B = list(
+    file_name = "SF260604_mPaintSpace2_N2B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N2B"
+  ),
+  N3A = list(
+    file_name = "SF260701_mPaintSpace2_N3A_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N3A"
+  ),
+  N3B = list(
+    file_name = "SF260701_mPaintSpace2_N3B_Classic",
+    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
+                   "7_9","8_2","9_9","10_2","11_9",
+                   "12_2","13_9","14_2","15_9",
+                   "16_2","17_9","18_2","19_9",
+                   "20_2","21_9","22_2","23_9"),
+    batch_name = "N3B"
   )
 )
 nuc_count = "Non-border cells Selected - Number of Objects"
@@ -51,27 +78,30 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaint_DR2_Classic_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3_Classic"
 # set plot variables ####
 # make sure order of plot_cond and plot_lab are the same
 # make sure order of plot_feats and y_lab are the same
-plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
-plot_lab <- c("DMSO", "CCCP", "ROT")
-plot_feats <- c("Intensity Cytoplasm CellRox Mean",
-                "Intensity Cytoplasm TMRM Mean",
-                "Mitochondria Selected Ratio Width to Length",
-                "Number of Selected Spots/ Selected Cell")
+plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
+               "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
+               "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
+plot_lab <- c("DMSO", "CCCP", "ROT", "NIG", "OLI", "RAP", "VAL", "CYC", "CQ",
+              "BAM15", "MITOQ", "NOC", "CYT")
+plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Intensity Cytoplasm TMRM test Mean",
+                "mkeima ph7 mitochondria Ratio Width to Length",
+                "Number of Mitophagy Spots Selected- per Cell")
 y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
            "Cytoplasm MMP Intensity (a.u.)",
            "Mitochondria Width:Length (a.u.)",
            "Mitophagy Spots (a.u.)")
 x_lab <- "Compound"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
 point_size <- 3
 size_annot <- 6
 size_axis <- 12
-plot_width <- 3
-plot_height <- 4
+plot_width <- 9
+plot_height <- 3
 # pair up plot_feats and y_lab ####
 # pairs link the shorthand (y_lab) for each feature to the full feature name
 y_lab_lookup <- setNames(
@@ -84,7 +114,7 @@ load_data <- function(file_name, batch_name, dmso_wells) {
   df <- as.data.frame(
     fread(
       paste("data/raw/", file_name, ".csv", sep = ""),
-      header = TRUE
+      header = TRUE, skip = "Row"
     )
   )
   # keep rownames as WELL_BATCH
@@ -111,6 +141,8 @@ load_data <- function(file_name, batch_name, dmso_wells) {
     str_trim(side = "right")
   # convert all features to numeric
   df[] <- lapply(df, as.numeric)
+  # remove any low cell count
+  df <- df[df$`Number of Objects` > 100, , drop = FALSE]
   # remove any columns with NA
   df <- df[, colSums(is.na(df)) == 0, drop = FALSE]
   # remove any rows with NA
@@ -301,6 +333,7 @@ plot_feature <- function(feature,
                          pastel_cols) {
   # estimated marginal means
   emm <- emmeans(model, ~ Condition)
+  
   # pairwise contrasts
   # explicitly states first condition given in plot_conds is control
   contrast_df <- contrast(
@@ -311,6 +344,7 @@ plot_feature <- function(feature,
   ) |>
     summary() |>
     as.data.frame()
+  
   # significance labels
   # *** is p<0.001
   contrast_df$label <- cut(
@@ -318,21 +352,13 @@ plot_feature <- function(feature,
     breaks = c(-Inf, 0.001, 0.01, 0.05, Inf),
     labels = c("***", "**", "*", "ns")
   )
+  
   # set maximum y value
   y_max <- max(
     all_norm_filt[[feature]],
     na.rm = TRUE
   )
-  # annotation positions
-  annotation_df <- data.frame(
-    # set annotation x so it always compares to left most condition (control)
-    xmin = 1,
-    xmax = seq_along(plot_cond)[-1],
-    # set annotation y so it does not cover data points or itself
-    y = y_max * (0.95 + 0.1 * seq_along(plot_cond[-1])),
-    # annotation label is defined by pvalue of t test
-    label = contrast_df$label
-  )
+  
   # batch means for this feature
   batch_means <- all_mean |>
     dplyr::transmute(
@@ -340,8 +366,9 @@ plot_feature <- function(feature,
       Condition,
       batch_mean = .data[[feature]]
     )
+  
   # make plot
-  ggplot(
+  p <- ggplot(
     all_norm_filt,
     aes(
       x = Condition,
@@ -387,45 +414,11 @@ plot_feature <- function(feature,
       colour = "black",
       stroke = 0.6
     ) +
-    # significance bars
-    geom_segment(
-      data = annotation_df,
-      aes(
-        x = xmin,
-        xend = xmax,
-        y = y,
-        yend = y
-      ),
-      inherit.aes = FALSE
-    ) +
-    # significance text (adjusted spacing for *)
-    geom_text(
-      data = subset(annotation_df, label != "ns"),
-      aes(
-        x = (xmin + xmax) / 2,
-        y = y * 1.04,
-        label = label
-      ),
-      inherit.aes = FALSE,
-      size = size_annot
-    ) +
-    # significance text (adjusted spacing for ns text, to avoid overlap)
-    geom_text(
-      data = subset(annotation_df, label == "ns"),
-      aes(
-        x = (xmin + xmax) / 2,
-        y = y * 1.05,
-        label = label
-      ),
-      inherit.aes = FALSE,
-      size = size_annot*0.6
-    ) +
     # manual colors
     scale_fill_manual(
       values = pastel_cols
     ) +
-    # manual x category labels 
-    # eg compound instead of condition for consistency across manuscript
+    # manual x category labels
     scale_x_discrete(
       labels = setNames(
         plot_lab,
@@ -439,7 +432,6 @@ plot_feature <- function(feature,
     ) +
     # manual axis labels
     labs(
-      # feature name shorthand, instead of verbose
       y = y_lab_lookup[feature],
       x = x_lab
     ) +
@@ -450,6 +442,68 @@ plot_feature <- function(feature,
       panel.grid = element_blank(),
       legend.position = "none"
     )
+  
+  # If there are more than 3 conditions, just print stars above the corresponding bars.
+  # No ns label.
+  if (length(plot_cond) > 3) {
+    contrast_df$bar_x <- seq_along(plot_cond)[-1]
+    contrast_df$star_y <- y_max * 1.08
+    
+    p <- p +
+      geom_text(
+        data = subset(contrast_df, label != "ns"),
+        aes(
+          x = bar_x,
+          y = star_y,
+          label = label
+        ),
+        inherit.aes = FALSE,
+        size = size_annot,
+        vjust = 0
+      )
+  } else {
+    # original bracket-style annotations for smaller numbers of contrasts
+    annotation_df <- data.frame(
+      xmin = 1,
+      xmax = seq_along(plot_cond)[-1],
+      y = y_max * (0.95 + 0.1 * seq_along(plot_cond[-1])),
+      label = contrast_df$label
+    )
+    
+    p <- p +
+      geom_segment(
+        data = annotation_df,
+        aes(
+          x = xmin,
+          xend = xmax,
+          y = y,
+          yend = y
+        ),
+        inherit.aes = FALSE
+      ) +
+      geom_text(
+        data = subset(annotation_df, label != "ns"),
+        aes(
+          x = (xmin + xmax) / 2,
+          y = y * 1.04,
+          label = label
+        ),
+        inherit.aes = FALSE,
+        size = size_annot
+      ) +
+      geom_text(
+        data = subset(annotation_df, label == "ns"),
+        aes(
+          x = (xmin + xmax) / 2,
+          y = y * 1.05,
+          label = label
+        ),
+        inherit.aes = FALSE,
+        size = size_annot * 0.6
+      )
+  }
+  
+  p
 }
 # run function to make barplot of plot_feat ####
 # loop making plots for each feature defined in plot_feats
@@ -463,6 +517,7 @@ plots <- purrr::imap(
     pastel_cols = pastel_cols
   )
 )
+plots
 # align axis in each plots, so that gird is not misaligned
 aligned_plots <- cowplot::align_plots(
   plotlist = plots,
