@@ -15,10 +15,10 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- scales::hue_pal()(33)
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -185,47 +185,84 @@ plots$umap_nn <- ggplot(
   )
 plots$umap_nn
 # p4: umap1 x umap1 by compound and concentration ####
-plots$umap_compound_concentration <- plot_umap(
-  data,
-  colour_var = "Concentration",
-  shape_var = "Compound",
-  title_text = "UMAP by Compound & Concentration",
-  legend_title = "Concentration (uM)",
-  colour_scale = scale_colour_gradientn(
-    colours = rev(lighten(viridis(100),
-                          amount = 0.3))
-  )
-)
-plots$umap_compound_concentration
+# plots$umap_compound_concentration <- plot_umap(
+#   data,
+#   colour_var = "Concentration",
+#   shape_var = "Compound",
+#   title_text = "UMAP by Compound & Concentration",
+#   legend_title = "Concentration (uM)",
+#   colour_scale = scale_colour_gradientn(
+#     colours = rev(lighten(viridis(100),
+#                           amount = 0.3))
+#   )
+# )
+# plots$umap_compound_concentration
 # create function to add fixed legend space ####
 add_fixed_legend_space <- function(plot,
+                                   plot_name,
                                    plot_width = 1,
-                                   legend_width = 0.4) {
-  legend <- get_legend(
+                                   legend_width = 0.4,
+                                   legend_cutoff = 11,
+                                   legend_file = NULL) {
+  # get number of legend entries from the plot data
+  n_legend <- NULL
+  # detect compound plot specifically
+  if (plot_name == "umap_compound") {
+    n_legend <- length(unique(data$meta$Compound))
+  }
+  # extract legend
+  legend <- cowplot::get_legend(
     plot +
-      theme(
-        legend.position = "right"
-      )
+      theme(legend.position = "right")
   )
   plot_without_legend <- plot +
-    theme(
-      legend.position = "none"
+    theme(legend.position = "none")
+  # if the legend is too long, save it separately and leave blank space in the plot
+  if (!is.null(n_legend) && n_legend > legend_cutoff) {
+    if (!is.null(legend_file)) {
+      ggsave(
+        filename = legend_file,
+        plot = cowplot::plot_grid(legend),
+        width = 3,
+        height = 4,
+        units = "in",
+        dpi = 300
+      )
+    }
+    return(
+      plot_grid(
+        plot_without_legend,
+        ggplot() + theme_void(),
+        nrow = 1,
+        rel_widths = c(plot_width, legend_width)
+      )
     )
+  }
+  # otherwise keep the legend beside the plot
   plot_grid(
     plot_without_legend,
     legend,
     nrow = 1,
-    rel_widths = c(
-      plot_width,
-      legend_width
-    )
+    rel_widths = c(plot_width, legend_width)
   )
 }
 # apply consistent legend space to plots ####
 plots_fixed <- map(
-  plots,
-  add_fixed_legend_space
+  names(plots),
+  function(plot_name) {
+    add_fixed_legend_space(
+      plot = plots[[plot_name]],
+      plot_name = plot_name,
+      legend_cutoff = 11,
+      legend_file = if (plot_name == "umap_compound") {
+        paste0("outputs/figures/umap/", file_name, "_umap_compound_legend.pdf")
+      } else {
+        NULL
+      }
+    )
+  }
 )
+names(plots_fixed) <- names(plots)
 # save plots ####
 # create output folders
 dir.create(
