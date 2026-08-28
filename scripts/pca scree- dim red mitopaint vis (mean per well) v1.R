@@ -11,7 +11,7 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 # load file ####
@@ -63,6 +63,7 @@ p <- ggplot(var, aes(y = Cumulative_Percent_Variance, x = nPC)) +
   theme(axis.text=element_text(size = size_axis), 
         axis.title=element_text(size = size_axis)) +
   theme(legend.position="none")
+p
 # save plot ####
 ggsave(paste("outputs/figures/pca/", file_name, "scree.pdf"),
        p,

@@ -684,19 +684,15 @@ integrate_state <- "integrated"
 pastel_cols <- "hues">
 
 `pca scree- dim red mitopaint vis (mean per well) v1`
-- for mPaintDR2_N2_N3_N4 use the following variables
-- file variables
+- for mPaintDR2_N2_N3_N4 use the following file variables
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated">
-- plot variables
-<x_lab <- "Number of PCs"
-y_lab <- "Cumulative % Variance Explained"
-size_axis <- 8
-size_point <- 1
-plot_width <- 2.5
-plot_height <- 2.5
-text_nudge <- 6>
+
+- for mPaintSpace2_N1_N2_N3 use the following file variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated">
 
 `pca biplot- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
