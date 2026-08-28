@@ -780,6 +780,17 @@ plot_cond <- c("CCCP_30", "ROT_10")
 contrast_all <- TRUE
 rank <- 10>
 
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+ctrl_cond <- "DMSO_0"
+plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valinomycin_5",
+               "Cyclosporin A_10", "ROT_3", "CQ_20", "BAM15_10", "MitoQ_3", "Nocodazole_10",
+               "Cytochalasin D_5")
+contrast_all <- FALSE
+rank <- 10>
+
 `mahalanobis distance mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"
