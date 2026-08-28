@@ -160,7 +160,7 @@ pca_grid
 
 # save plot ####
 ggsave(
-  filename = paste0("outputs/figures/", file_name, "_pca_grid.pdf"),
+  filename = paste0("outputs/figures/pca/", file_name, "_pca_grid.pdf"),
   plot = pca_grid,
   width = plot_width,
   height = plot_height

@@ -739,6 +739,14 @@ feature_patterns <- c(
 dims_plot <- c("PC_1", "PC_2")>
 
 `pca grid- dim red mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 3
+grid_width <- 3>
+
 - for mPaintSpace2_N1_N2_N3 use the following variables
 <file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
