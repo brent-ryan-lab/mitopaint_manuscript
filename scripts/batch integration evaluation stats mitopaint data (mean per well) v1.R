@@ -22,67 +22,64 @@ library(aricode)
 # set variables ####
 file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- c("integrated", "unintegrated")
+integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
-  # load profile matrix as df
-  # df is needed for mean average precision metric
-  df <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames as WELL_BATCH
+  # avoid bug with numeric coercion with as.numeric helper function
+  as_numeric_df <- function(x) {
+    x <- as.data.frame(x)
+    x[] <- lapply(x, function(col) as.numeric(as.character(col)))
+    x
+  }
+  # set paths
+  df_path   <- paste0("data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv")
+  umap_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv")
+  meta_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv")
+  nn_path   <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_nn_edges.csv")
+  knn_path  <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv")
+  # load profiles as df
+  # df is needed for mAP
+  df <- as.data.frame(fread(df_path, header = TRUE))
   rownames(df) <- df$V1
   df$V1 <- NULL
+  df <- as_numeric_df(df)
+  df <- df[, colSums(!is.finite(as.matrix(df))) == 0, drop = FALSE]
+  df <- df[apply(df, 1, function(x) all(is.finite(x))), , drop = FALSE]
   # load umap embeddings as umap
   # umap is needed for kbet, silhouette width, and local inverse simpsons index metrics
-  umap <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames as WELL_BATCH
+  umap <- as.data.frame(fread(umap_path, header = TRUE))
   rownames(umap) <- umap$V1
   umap$V1 <- NULL
-  # load metadata as meta
-  meta <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames as WELL_BATCH
-  rownames(meta) <- meta$V1
-  meta$V1 <- NULL
+  umap <- as_numeric_df(umap)
   # remove any columns with NA/ non finite values
   # there ordinarily shouldnt be any NAs
   # check nrows df and umap to double check concordancy
   umap <- umap[, colSums(!is.finite(as.matrix(umap))) == 0, drop = FALSE]
-  # remove any rows with NA/ non finite values
   umap <- umap[apply(umap, 1, function(x) all(is.finite(x))), , drop = FALSE]
+  # load metadata as meta
+  meta <- as.data.frame(fread(meta_path, header = TRUE))
+  rownames(meta) <- meta$V1
+  meta$V1 <- NULL
   # load umap nn edges 
   # nn edges needed for graph connectivity and leiden metrics
-  nn <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_nn_edges.csv", sep = ""), 
-      header = TRUE)
-  )
+  nn <- as.data.frame(fread(nn_path, header = TRUE))
+  nn$from <- as.character(nn$from)
+  nn$to <- as.character(nn$to)
   # load umap knn matrix of indices 
   # knn matrix needed for kbet metric
-  knn <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames 
+  knn <- as.data.frame(fread(knn_path, header = TRUE))
   rownames(knn) <- knn$V1
   knn$V1 <- NULL
+  knn <- as_numeric_df(knn)
+  # keep only rows shared across df/umap/meta if needed
+  common_ids <- Reduce(intersect, list(rownames(df), rownames(umap), rownames(meta)))
+  df <- df[common_ids, , drop = FALSE]
+  umap <- umap[common_ids, , drop = FALSE]
+  meta <- meta[common_ids, , drop = FALSE]
+  # align knn to the same cells if possible
+  common_knn_ids <- intersect(rownames(knn), common_ids)
+  knn <- knn[common_knn_ids, , drop = FALSE]
   # return list of drift corrected data, raw data, metadata, and drift fits
   return(list(
     df = df,
@@ -94,15 +91,10 @@ load_data <- function(file_name, integrate_state) {
 }
 # run function to load data ####
 # data is a large list containing sublists for integrate_state (integrated, unintegrated)
-data <- integrate_state |>
+data <- integrate_states |>
   set_names() |>
-  map(
-    # each sublist contains corresponding df, umap, meta, nn, knn
-    ~ load_data(
-      file_name = file_name,
-      integrate_state = .x
-    )
-  )
+  purrr::imap(~ tryCatch(load_data(file_name = file_name, integrate_state = .x),
+                         error = function(e) NULL))
 # create function to calculate asw ####
 calc_asw <- function(embeddings, meta, group_var, keep_groups = NULL) {
   # match row order of meta and umap embeddings
@@ -467,7 +459,7 @@ calc_leiden_ari_nmi <- function(nn, meta, label_var = "Compound", keep_groups = 
   g <- igraph::graph_from_edgelist(edge_mat, directed = FALSE)
   g <- igraph::simplify(g, remove.multiple = TRUE, remove.loops = TRUE)
   # run leiden clusters on graph
-  leiden <- igraph::cluster_leiden(g, resolution_parameter = 0.01)
+  leiden <- igraph::cluster_leiden(g, resolution = 0.01)
   leiden_lab <- factor(igraph::membership(leiden))
   # match meta labels to graph vertices actually present
   common <- intersect(names(igraph::membership(leiden)), rownames(meta))
@@ -650,6 +642,7 @@ plot_metric_grid <- function(results_df) {
     )
 }
 plot <- plot_metric_grid(all_results)
+plot
 # save data ####
 write.csv(
   all_results,
