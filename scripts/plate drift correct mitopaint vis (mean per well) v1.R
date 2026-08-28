@@ -421,7 +421,7 @@ iwalk(plots_p, function(batch_obj, batch_name) {
 })
 ggsave(
   paste(
-    "outputs/figures/", file_name, "drift_perc_plot.pdf", sep = ""),
+    "outputs/figures/", file_name, "_drift_perc_plot.pdf", sep = ""),
   drift_perc_plot,
   width = perc_width,
   height = perc_height,
