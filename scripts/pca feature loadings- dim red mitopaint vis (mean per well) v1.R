@@ -27,8 +27,8 @@ feature_patterns <- c(
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")
-plot_width <- 5
-plot_height <- 5
+plot_width <- 6
+plot_height <- 6
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,
