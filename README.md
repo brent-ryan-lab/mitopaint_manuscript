@@ -721,7 +721,9 @@ feature_patterns <- c(
   TMRM = "tmrm",
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
-dims_plot <- c("PC_1", "PC_2")>
+dims_plot <- c("PC_1", "PC_2")
+plot_width <- 7
+plot_height <- 5>
 
 - for mPaintSpace2_N1_N2_N3 use the following variables
 <file_name <- "mPaintSpace2_N1_N2_N3"
@@ -738,7 +740,9 @@ feature_patterns <- c(
   TMRM = "tmrm",
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
-dims_plot <- c("PC_1", "PC_2")>
+dims_plot <- c("PC_1", "PC_2")
+plot_width <- 5
+plot_height <- 5>
 
 `pca grid- dim red mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
