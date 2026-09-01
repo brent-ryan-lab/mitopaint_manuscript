@@ -14,10 +14,14 @@ library(viridis)
 library(tidyverse)
 library(cowplot)
 # set variables ####
-file_name_paint <- "mPaintDR2_N2_N3_N4"
-file_name_classic <- "mPaint_DR2_Classic_N2_3_4"
+file_name_paint <- "mPaintSpace2_N1_N2_N3"
+file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
 redu_state <- "redu"
 integrate_state <- "integrated"
+plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
+                "Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Number of Mitophagy Spots Selected- per Cell",
+                "mkeima ph7 mitochondria Ratio Width to Length")
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
   # load df
@@ -39,6 +43,7 @@ load_data <- function(file_name_paint, file_name_classic) {
   )
   # keep rownames as WELL_BATCH
   rownames(classic) <- classic$V1
+  classic <- classic[rownames(classic) %in% rownames(df),]
   classic$V1 <- NULL
   # load pca embeddings
   pca_embeddings <- as.data.frame(
@@ -156,22 +161,22 @@ add_fixed_legend_space <- function(plot,
 }
 # run function to plot pca ####
 plots$pca_mmp <- plot_pca(data, 
-                          "Intensity Cytoplasm TMRM Mean",
+                          plot_feats[1],
                           "Cytoplasm\nMMP Intensity",
                           "PCA by MMP")
 plots$pca_mmp
 plots$pca_ros <- plot_pca(data, 
-                          "Intensity Cytoplasm CellRox Mean",
+                          plot_feats[2],
                           "Cytoplasm\nROS Intensity",
                           "PCA by ROS")
 plots$pca_ros
 plots$pca_spots <- plot_pca(data, 
-                            "Number of Selected Spots/ Selected Cell" ,
+                            plot_feats[3],
                             "Mitophagy Spots\nper Cell",
                             "PCA by Mitophagy Spots")
 plots$pca_spots
 plots$pca_morph <- plot_pca(data, 
-                           "Mitochondria Selected Ratio Width to Length" ,
+                            plot_feats[4],
                            "Mitochondria Ratio\nWidth to Length",
                            "PCA by Mitochondria Morphology")
 plots$pca_morph
