@@ -27,6 +27,8 @@ feature_patterns <- c(
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")
+plot_width <- 5
+plot_height <- 5
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -205,8 +207,8 @@ ggsave(filename = paste0(
   ".pdf"
 ),
 plot,
-width = 7,
-height = 5,
+width = plot_width,
+height = plot_height,
 units = "in",
 dpi = 300)
 rm(list = ls())

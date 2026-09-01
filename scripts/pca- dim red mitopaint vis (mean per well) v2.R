@@ -15,10 +15,10 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- "viridis"
+pastel_cols <- "hues"
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
