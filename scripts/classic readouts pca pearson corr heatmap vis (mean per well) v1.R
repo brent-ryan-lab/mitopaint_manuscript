@@ -16,8 +16,8 @@ library(colorspace)
 library(ComplexHeatmap)
 library(circlize)
 # set file variables ####
-classic_file_name <- "mPaint_DR2_Classic_N2_N3_N4"
-file_name <- "mPaintDR2_N2_N3_N4"
+classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 meta_cols <- c("Row", "Column", "Compound", "Concentration", "Well", "Batch", "Condition")
@@ -25,7 +25,7 @@ feature_patterns <- c(
   MMP = "tmrm",
   ROS = "cellrox",
   Morph = "mitochondria",
-  Spots = "spots|mkeima")
+  Spots = "spots|mt-keima|ph4/ph7|spot")
 annot_colors <- list(
   Feature = c(
     ROS = "#DC267F",
@@ -62,6 +62,7 @@ load_data <- function(classic_file_name,
   # keep rownames as WELL_BATCH
   rownames(df) <- df$V1
   df$V1 <- NULL
+  df <- df[rownames(df) %in% rownames(pca_embeddings),]
   # separate metadata
   meta <- df[, colnames(df) %in% meta_cols]
   df <- df[, !colnames(df) %in% meta_cols]

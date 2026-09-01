@@ -1045,6 +1045,27 @@ annot_colors <- list(
 col_scale <- c("blue", "white", "red")
 dims_plot <- c("PC_1", "PC_2")>
 
+- for mPaintSpace2_N1_N2_N3 use the following variables    
+<classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name <- "mPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+meta_cols <- c("Row", "Column", "Compound", "Concentration", "Well", "Batch", "Condition")
+feature_patterns <- c(
+  MMP = "tmrm",
+  ROS = "cellrox",
+  Morph = "mitochondria",
+  Spots = "spots|mt-keima|ph4/ph7|spot")
+annot_colors <- list(
+  Feature = c(
+    ROS = "#DC267F",
+    MMP = "#FFB000",
+    Morph = "#23CC86",
+    Spots = "#FE6100",
+    Other = "grey"))
+col_scale <- c("blue", "white", "red")
+dims_plot <- c("PC_1", "PC_2")>
+
 `channel corrected spot count mitopaint data (mean per well) v1`
 - for mPaintDR2_N2 use the following variables
 file variables:
