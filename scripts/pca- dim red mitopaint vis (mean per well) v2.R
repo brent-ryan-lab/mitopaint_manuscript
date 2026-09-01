@@ -269,7 +269,7 @@ add_fixed_legend_space <- function(plot,
         filename = legend_file,
         plot = cowplot::plot_grid(legend),
         width = 3,
-        height = 4,
+        height = 5,
         units = "in",
         dpi = 300
       )
