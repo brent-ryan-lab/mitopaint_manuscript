@@ -21,9 +21,9 @@ library(rlang)
 library(viridis)
 library(cluster)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
-dataset_name <- "mPaintSpace2_N1_N2_N3"
+dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
@@ -548,6 +548,16 @@ plots$pca_cutoff_grid <- make_pca_cutoff_grid(
   nrow = NULL
 )
 plots$pca_cutoff_grid
+# save stats ####
+write.csv(
+  purrr::reduce(
+    stats,
+    dplyr::full_join,
+    by = "Cutoff"
+  ),
+  paste0("outputs/data/", file_name, "_", integrate_state, "_redu_stats.csv"),
+  row.names = FALSE
+)
 # save plots ####
 ggsave(paste(
   "outputs/figures/", file_name, "_", integrate_state, "_redu_curve.pdf", sep = ""),

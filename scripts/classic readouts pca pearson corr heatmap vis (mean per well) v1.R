@@ -139,5 +139,5 @@ cor_heatmap <- function (cor_mat,
 # run function to make and save heatmap ####
 plot <- cor_heatmap(cor_mat,
                     row_annot,
-                    paste("outputs/figures/", classic_file_name, "_", "_pca_cor_heatmap", ".pdf", sep = ""))
+                    paste("outputs/figures/", classic_file_name, "_pca_cor_heatmap", ".pdf", sep = ""))
 rm(list = ls())
