@@ -1,3 +1,22 @@
+## 2026-09-03
+- update similarity heatmap mitopaint vis (mean per well) v1 to save ASW in stats
+
+## 2026-09-02
+- update remove redundant mitopaint vis (mean per well) v1 to save ASW and BW stats
+
+## 2026-09-01
+- update pca feature loadings- dim red mitopaint vis (mean per well) v1 with dims to save plot
+- update classic readouts mitopaint data (mean per well) v1 to make wide bar plots of >3 conditions without clipping
+- update classic readouts pca vis (mean per well) v1 with plot_feats variable to account for differences in column names from different Harmony files
+
+## 2026-08-28
+- update plate drift raw mitopaint vis (mean per well) v1 file save name
+- update hits- mahalanobis distance mitopaint vis (mean per well) v1 to avoid plotting Inf -log values
+- update batch integration evaluation stats mitopaint data (mean per well) v1 to avoid conflict bug with integrate_states/integrate_state and so rewritten load_data function
+- update umap- dim red mitopaint vis (mean per well) v1 to save umap compound legend separately if large
+- update classic readouts mitopaint data (mean per well) v1 to have compatability with longer length of plot_cond and fix NA bug with low nulcei count in load_data() function
+- update classic readouts mitopaint data (mean per well) v1 to have compatability with longer length of plot_cond and fix NA bug with low nulcei count in load_data() function
+
 ## 2026-08-27
 - update mahalanobis distance mitopaint data (mean per well) v1 to remove brackets in md lmme contrast character string to avoid NAs in condition lookup metadata
 - add hits- mahalanobis distance mitopaint vis (mean per well) v1 to plot dot plot of all md lmme hits, and to plot md lmme p value dose response grid

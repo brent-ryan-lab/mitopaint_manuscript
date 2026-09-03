@@ -21,9 +21,9 @@ library(rlang)
 library(viridis)
 library(cluster)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
-dataset_name <- "mPaintDR2_N2_N3_N4"
+dataset_name <- "mPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
