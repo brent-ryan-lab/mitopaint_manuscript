@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 05-08-2026
+# Last edit: 03-09-2026
 
 # load packages ####
 library(data.table)
@@ -19,6 +19,8 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- scales::hue_pal()(33)
+sep_legend_width <- 3
+sep_legend_height <- 5
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -184,24 +186,23 @@ plots$umap_nn <- ggplot(
     panel.grid = element_blank()
   )
 plots$umap_nn
-# p4: umap1 x umap1 by compound and concentration ####
-# plots$umap_compound_concentration <- plot_umap(
-#   data,
-#   colour_var = "Concentration",
-#   shape_var = "Compound",
-#   title_text = "UMAP by Compound & Concentration",
-#   legend_title = "Concentration (uM)",
-#   colour_scale = scale_colour_gradientn(
-#     colours = rev(lighten(viridis(100),
-#                           amount = 0.3))
-#   )
-# )
-# plots$umap_compound_concentration
+# p4: umap1 x umap1 by batch ####
+plots$umap_batch <- plot_umap(
+  data,
+  colour_var = "Batch",
+  title_text = "UMAP by Batch",
+  legend_title = "Batch",
+  colour_scale = scale_colour_manual(
+    values = lighten(viridis(length(unique(data$meta$Batch))),
+                          amount = 0.3)
+  )
+)
+plots$umap_batch
 # create function to add fixed legend space ####
 add_fixed_legend_space <- function(plot,
                                    plot_name,
                                    plot_width = 1,
-                                   legend_width = 0.4,
+                                   legend_width = 0.5,
                                    legend_cutoff = 11,
                                    legend_file = NULL) {
   # get number of legend entries from the plot data
@@ -209,6 +210,10 @@ add_fixed_legend_space <- function(plot,
   # detect compound plot specifically
   if (plot_name == "umap_compound") {
     n_legend <- length(unique(data$meta$Compound))
+  }
+  # detect umap nn plot specifically
+  if (plot_name == "umap_nn") {
+    n_legend <- length(unique(data$meta$UMAP_NN))
   }
   # extract legend
   legend <- cowplot::get_legend(
@@ -223,8 +228,8 @@ add_fixed_legend_space <- function(plot,
       ggsave(
         filename = legend_file,
         plot = cowplot::plot_grid(legend),
-        width = 3,
-        height = 4,
+        width = sep_legend_width,
+        height = sep_legend_height,
         units = "in",
         dpi = 300
       )
@@ -255,7 +260,9 @@ plots_fixed <- map(
       plot_name = plot_name,
       legend_cutoff = 11,
       legend_file = if (plot_name == "umap_compound") {
-        paste0("outputs/figures/umap/", file_name, "_umap_compound_legend.pdf")
+        paste0("outputs/figures/umap/legends/", file_name, "_umap_compound_legend.pdf")
+      } else if (plot_name == "umap_nn") {
+        paste0("outputs/figures/umap/legends/", file_name, "_umap_nn_legend.pdf")
       } else {
         NULL
       }
