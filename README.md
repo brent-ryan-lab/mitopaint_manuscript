@@ -782,13 +782,17 @@ grid_width <- 6>
 <file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+sep_legend_width <- 3
+sep_legend_height <- 4>
 
 - for mPaintSpace2_N1_N2_N3 use the following variables
 <file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- scales::hue_pal()(33)>
+pastel_cols <- scales::hue_pal()(33)
+sep_legend_width <- 3
+sep_legend_height <- 5>
 
 `abs zscore feature ranking vis (mean per well) `v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
