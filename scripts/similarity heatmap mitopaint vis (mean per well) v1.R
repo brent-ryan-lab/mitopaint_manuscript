@@ -203,14 +203,15 @@ calc_heatmap_stats <- function(heatmap_matrix,
   silhouette_df <- map_dfr(
     c(annot_feats_disc, annot_feats_cont),
     function(feat) {
-      # factor group annot_feats
       group <- factor(annot_df[[feat]])
-      # placeholder table of feat, mean_silhoutte (NA), n_groups
+      # factor group annot_feats
+      if (nlevels(group) < 2) {
         return(tibble(
           feature = feat,
           mean_silhouette = NA_real_,
           n_groups = nlevels(group)
         ))
+      }
       # calculate silhouette score
       sil <- silhouette(
         as.integer(group),
@@ -279,5 +280,5 @@ draw(plot)
 dev.off()
 # save stats ####
 write.csv(stats, 
-          paste("outputs/data/", file_name, "_", "heatmap_stats.csv"))
+          paste("outputs/data/", file_name, "_", "heatmap_stats.csv", sep = ""))
 rm(list = ls())
