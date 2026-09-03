@@ -38,13 +38,13 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
   - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v1
 - `8.` similarity heatmap mitopaint vis (mean per well) v1
+  - `8.1` profile heatmap mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
   - `9.1` classic readouts pca vis (mean per well) v1
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
 
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
-#   8.1 profile heatmap mitopaint vis (mean per well) v1
 
 `tidy raw mitopaint data (mean per well) v1`
 
@@ -878,6 +878,29 @@ annot_feats_disc <- c("Compound", "Batch")
 annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
 agg_well <- TRUE>
+
+`profile heatmap mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+plot_ann_meta <- c("Compound", "Batch")
+plot_ann_cols <- list(
+  Compound = c(
+    "DMSO" = pastel_cols[1],
+    "CCCP" = pastel_cols[2],
+    "ROT"  = pastel_cols[3]
+  ),
+  Batch = c(
+    "N1" = pastel_cols[1],
+    "N2" = pastel_cols[2],
+    "N3" = pastel_cols[3]
+  )
+)
+plot_height <- 3
+plot_width <- 2.6>
 
 `classic readouts mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
