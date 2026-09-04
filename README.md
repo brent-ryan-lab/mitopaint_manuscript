@@ -44,6 +44,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `9.1` classic readouts pca vis (mean per well) v1
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
+  - `9.3` classic readouts umap vis (mean per well) v1
 
 #   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 
@@ -1229,3 +1230,16 @@ x_lab <- "Compound"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 point_size <- 3
 size_axis <- 10>
+
+`classic readouts umap vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+
+- for mPaintSpace2_N1_N2_N3 use the following variables   
+<file_name_paint <- "mPaintSpace2_N1_N2_N3"
+file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
+                "Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Number of Mitophagy Spots Selected- per Cell",
+                "mkeima ph7 mitochondria Ratio Width to Length")>
