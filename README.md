@@ -889,11 +889,27 @@ plot_height <- 10>
 <file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+compound_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+batch_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 annot_feats_disc <- c("Compound", "Batch")
 annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
-agg_well <- TRUE>
+agg_well <- TRUE
+plot_width <- 7.4
+plot_height <- 6>
+
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+annot_feats_disc <- c("Compound", "Batch")
+compound_cols <- c(lighten("#440154FF", amount = 0.3), scales::hue_pal()(32))
+batch_cols <- lighten(c(viridis(6)), amount = 0.3)
+annot_feats_cont <- c("Concentration")
+col_scale <- c("blue", "white", "red")
+agg_well <- TRUE
+plot_width <- 12
+plot_height <- 9>
 
 `profile heatmap mitopaint vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
