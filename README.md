@@ -932,7 +932,45 @@ plot_ann_cols <- list(
   )
 )
 plot_height <- 3
-plot_width <- 2.6>
+plot_width <- 2.6
+visible_legend <- FALSE>
+
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
+               "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
+               "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
+plot_ann_meta <- c("Compound", "Batch")
+plot_ann_cols <- list(
+  Compound = c(
+    "DMSO" = lighten("#440154FF", amount = 0.3),
+    "CCCP" = lighten("#238A8DFF", amount = 0.3),
+    "ROT"  = lighten("#FDE725FF", amount = 0.3),
+    "Nigericin" = scales::hue_pal()(10)[1],
+    "Oligomycin" = scales::hue_pal()(10)[2],
+    "Rapamycin" = scales::hue_pal()(10)[3],
+    "Valinomycin"  = scales::hue_pal()(10)[4],
+    "Cyclosporin A" = scales::hue_pal()(10)[5],
+    "CQ" = scales::hue_pal()(10)[6], 
+    "BAM15" = scales::hue_pal()(10)[7],  
+    "MitoQ" = scales::hue_pal()(10)[8],   
+    "Nocodazole" = scales::hue_pal()(10)[9],  
+    "Cytochalasin D" = scales::hue_pal()(10)[10]
+  ),
+  Batch = c(
+    "N1A" = lighten(viridis(6), amount = 0.3)[1],
+    "N1B" = lighten(viridis(6), amount = 0.3)[2],
+    "N2A" = lighten(viridis(6), amount = 0.3)[3],
+    "N2B" = lighten(viridis(6), amount = 0.3)[4],
+    "N3A" = lighten(viridis(6), amount = 0.3)[5],
+    "N3B" = lighten(viridis(6), amount = 0.3)[6]
+  )
+)
+plot_height <- 4.5
+plot_width <- 8
+visible_legend <- TRUE>
 
 `classic readouts mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
