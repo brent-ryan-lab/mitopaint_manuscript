@@ -14,12 +14,12 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
-plot_height <- 10
-grid_width <- 6
+plot_height <- 3
+grid_width <- 3
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,

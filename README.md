@@ -33,6 +33,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
     - `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
+    - `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
   - `6.3` abs zscore feature ranking vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v1
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
@@ -793,6 +794,23 @@ integrate_state <- "integrated"
 pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
 sep_legend_height <- 5>
+
+`umap grid- dim red mitopaint vis (mean per well) v1`
+- for mPaintDR2_N2_N3_N4 use the following variables
+<file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 3
+grid_width <- 3>
+
+- for mPaintSpace2_N1_N2_N3 use the following variables
+<file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 10
+grid_width <- 6>
 
 `abs zscore feature ranking vis (mean per well) `v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
