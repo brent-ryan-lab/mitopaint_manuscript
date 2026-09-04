@@ -18,11 +18,14 @@ library(vegan)
 file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+compound_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+batch_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 annot_feats_disc <- c("Compound", "Batch")
 annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
 agg_well <- TRUE
+plot_width <- 7.4
+plot_height <- 6
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -114,8 +117,30 @@ heatmap_matrix <- cor(
 annot_df <- data$meta[
   , colnames(data$meta) %in% c(annot_feats_disc, annot_feats_cont),
   drop = FALSE]
-annot_df <- as.data.frame(annot_df)
-rownames(annot_df) <- paste(annot_df$Compound, annot_df$Concentration, annot_df$Batch, sep = "_")
+annot_df_stats <- annot_df
+annot_df_plot  <- annot_df
+# only log-transform (large range) Concentration for the heatmap annotation
+log_conc <- FALSE
+if (diff(range(annot_df_plot$Concentration, na.rm = TRUE)) > 1000) {
+  log_conc <- TRUE
+  min_pos <- min(
+    annot_df_plot$Concentration[annot_df_plot$Concentration > 0],
+    na.rm = TRUE
+  )
+  annot_df_plot$Concentration <- ifelse(
+    annot_df_plot$Concentration == 0,
+    log10(0.9 * min_pos),
+    log10(annot_df_plot$Concentration)
+  )
+}
+conc_title <- if (log_conc) {
+  expression(log[10](Concentration))
+} else {
+  "Concentration"
+}
+# annotation df
+annot_df_plot <- as.data.frame(annot_df_plot)
+rownames(annot_df_plot) <- paste(annot_df_plot$Compound, annot_df_plot$Concentration, annot_df_plot$Batch, sep = "_")
 make_disc_cols <- function(meta, var, palette) {
   levs <- sort(unique(as.character(meta[[var]])))
   if ("DMSO" %in% levs) {
@@ -127,39 +152,50 @@ make_disc_cols <- function(meta, var, palette) {
   )
 }
   annot_cols <- list()
-  # discrete annotation features (vector)
-  for (feat in annot_feats_disc) {
-    levs <- sort(unique(as.character(data$meta[[feat]])))
-    if ("DMSO" %in% levs) {
-      levs <- c("DMSO", setdiff(levs, "DMSO"))
-    }
-    annot_cols[[feat]] <- setNames(
-      pastel_cols[seq_along(levs)],
-      levs
-    )
+  # Compound colours
+  compound_levs <- sort(unique(as.character(data$meta$Compound)))
+  if ("DMSO" %in% compound_levs) {
+    compound_levs <- c("DMSO", setdiff(compound_levs, "DMSO"))
   }
+  annot_cols$Compound <- setNames(
+    compound_cols[seq_along(compound_levs)],
+    compound_levs
+  )
+  # Batch colours
+  batch_levs <- sort(unique(as.character(data$meta$Batch)))
+  annot_cols$Batch <- setNames(
+    batch_cols[seq_along(batch_levs)],
+    batch_levs
+  )
   # continuous annotation features (function)
   for (feat in annot_feats_cont) {
     annot_cols[[feat]] <- circlize::colorRamp2(
-      range(data$meta[[feat]], na.rm = TRUE),
+      range(annot_df_plot[[feat]], na.rm = TRUE),
       c("white", "black")
     )
   }
-  
+  # conditional compound legend columns
+  compound_legend <- list(
+    title_gp = gpar(fontsize = 14, fontface = "bold"),
+    labels_gp = gpar(fontsize = 14)
+  )
+  if (length(compound_levs) > 10) {
+    compound_legend$ncol <- 2
+    compound_legend$by_row <- TRUE
+  }
+  # full heatmap annotation object
   heatmap_annot <- HeatmapAnnotation(
-    df = annot_df,
+    df = annot_df_plot,
     col = annot_cols,
     annotation_name_gp = gpar(fontsize = 14),
     annotation_legend_param = list(
-      Compound = list(
-        title_gp = gpar(fontsize = 14, fontface = "bold"),
-        labels_gp = gpar(fontsize = 14)
-      ),
+      Compound = compound_legend,
       Batch = list(
         title_gp = gpar(fontsize = 14, fontface = "bold"),
         labels_gp = gpar(fontsize = 14)
       ),
       Concentration = list(
+        title = conc_title,
         title_gp = gpar(fontsize = 14, fontface = "bold"),
         labels_gp = gpar(fontsize = 14)
       )
@@ -266,15 +302,17 @@ calc_heatmap_stats <- function(heatmap_matrix,
   )
 }
 # run function to calculate stats from correlation distance ####
-stats <- calc_heatmap_stats(heatmap_matrix,
-                            annot_df,
-                            annot_feats_disc,
-                            annot_feats_cont,
-                            n_permanova = 999)
+stats <- calc_heatmap_stats(
+  heatmap_matrix,
+  annot_df_stats,
+  annot_feats_disc,
+  annot_feats_cont,
+  n_permanova = 999
+)
 # save heatmap ####
 pdf(paste("outputs/figures/", file_name, "_", "similarity_heatmap.pdf", sep = ""),
-    width =7.4,
-    height =6,
+    width = plot_width,
+    height = plot_height,
     useDingbats = FALSE)
 draw(plot)
 dev.off()
