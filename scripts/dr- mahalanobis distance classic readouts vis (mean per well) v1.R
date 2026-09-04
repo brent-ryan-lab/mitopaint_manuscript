@@ -20,25 +20,32 @@ library(cowplot)
 library(grid)
 library(stringr)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
-md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
-classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name <- "mPaintDR2_N2_N3_N4"
+md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
+classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
 integrate_state <- "integrated"
-plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
-                "Intensity Cytoplasm TMRM test Mean",
-                "mkeima ph7 mitochondria Ratio Width to Length",
-                "Number of Mitophagy Spots Selected- per Cell")
+plot_feats <- c("Intensity Cytoplasm CellRox Mean",
+                "Intensity Cytoplasm TMRM Mean",
+                "Mitochondria Selected Ratio Width to Length",
+                "Number of Selected Spots/ Selected Cell")
 y_lab <- c("Cytoplasm ROS Intensity",
            "Cytoplasm MMP Intensity",
            "Mitochondria Width:Length",
            "Mitophagy Spots")
-plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomycin", "Cyclosporin A", "CQ", "BAM15", "MitoQ", "Nocodazole",  "Cytochalasin D")
-pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
-# create function to load data ####
+plot_cond <- c("CCCP", "ROT")
+pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)
+# create list holders ####
+# create compound_cols list to link plot_cond and pastel_cols
+compound_cols <- setNames(
+  pastel_cols,
+  plot_cond
+)
+# create y_lab list to link plot_feats and y_labs
 y_lab_lookup <- setNames(
   y_lab,
   plot_feats
 )
+# create function to load data ####
 load_data <- function(file_name,
                       md_file_name,
                       classic_file_name,
@@ -174,8 +181,6 @@ data$classic_lmme_results <- classic_lmme_long |>
     values_from = p.value
   )
 rm(classic_lmme_long, condition_lookup, classic_norm_df)
-
-
 # create function to dot plot pval ####
 plot_dot <- function(results_df,
                              feature_col,
@@ -221,7 +226,7 @@ plot_dot <- function(results_df,
       axis.text.x = element_text(size = 8),
       axis.title.x = element_text(size = 8),
       axis.title.y = element_text(size = 8, margin = margin(r = 6)),
-      plot.margin = margin(5, 5, 5, 5),
+      plot.margin = margin(2, 1, 2, 1),
       plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
       panel.grid = element_blank(),
       legend.position = "none",
@@ -231,32 +236,31 @@ plot_dot <- function(results_df,
 plots <- list()
 # plot classic lmme results
 for (feat in plot_feats) {
-  feat_label <- y_lab_lookup[feat]
+  feat_label <- y_lab_lookup[[feat]]
   for (comp in plot_cond) {
     plots[[paste0(comp, "_", feat)]] <- plot_dot(
       results_df = data$classic_lmme_results,
       feature_col = feat,
       compound_name = comp,
-      plot_title = paste0(comp, "\n", feat_label),
-      pastel_col = ifelse(comp == "CCCP", pastel_cols[1], pastel_cols[2])
+      plot_title = paste(
+        stringr::str_wrap(comp, width = 14),
+        feat_label,
+        sep = "\n"
+      ),
+      pastel_col = compound_cols[[comp]]
     )
   }
 }
 # plot mpaint lmme mahalanobis distance results
-plots$md_cccp <- plot_dot(
-  results_df = data$md,
-  feature_col = "p.value",
-  compound_name = "CCCP",
-  plot_title = "CCCP\nMahalanobis distance",
-  pastel_col = pastel_cols[1]
-)
-plots$md_rot <- plot_dot(
-  results_df = data$md,
-  feature_col = "p.value",
-  compound_name = "ROT",
-  plot_title = "ROT\nMahalanobis distance",
-  pastel_col = pastel_cols[2]
-)
+for (comp in plot_cond) {
+  plots[[paste0(comp, "_md")]] <- plot_dot(
+    results_df = data$md,
+    feature_col = "p.value",
+    compound_name = comp,
+    plot_title = paste0(comp, "\nMahalanobis distance"),
+    pastel_col = compound_cols[[comp]]
+  )
+}
 # align plots vertically and horizontally using cowplot
 aligned_plots <- align_plots(
   plotlist = plots,
@@ -267,6 +271,24 @@ for (p in aligned_plots) {
   grid.newpage()
   grid.draw(p)
 }
+# make one grid per compound ####
+compound_grids <- purrr::set_names(
+  plot_cond,
+  plot_cond
+) |>
+  purrr::map(function(comp) {
+    p <- cowplot::plot_grid(
+      plotlist = aligned_plots[
+        stringr::str_starts(names(aligned_plots), paste0(comp, "_"))
+      ],
+      ncol = 3,
+      align = "hv"
+    )
+    cowplot::ggdraw(p) +
+      theme(
+        plot.margin = margin(0, 30, 0, 0)
+      )
+  })
 # save data ####
 write.csv(
   data$classic_lmme_results,
@@ -285,4 +307,30 @@ iwalk(
     )
   }
 )
+# save grids 
+purrr::iwalk(
+  compound_grids,
+  function(grid, comp) {
+    safe_name <- stringr::str_replace_all(
+      comp,
+      "[^[:alnum:]]+",
+      "_"
+    )
+    ggsave(
+      filename = paste0(
+        "outputs/figures/",
+        file_name,
+        "_",
+        safe_name,
+        "_grid.pdf"
+      ),
+      plot = grid,
+      width = 7.5,
+      height = 2 * ceiling(length(aligned_plots[
+        stringr::str_starts(names(aligned_plots), paste0(comp, "_"))
+      ]) / 3)
+    )
+  }
+)
 rm(list = ls())
+

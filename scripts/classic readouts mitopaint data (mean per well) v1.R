@@ -18,59 +18,32 @@ library(lmerTest)
 library(emmeans)
 # set file variables ####
 batches_info <- list(
-  N1A = list(
-    file_name = "SF260604_mPaintSpace2_N1A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N1A"
+  N1 = list(
+    file_name = "SF240627_mPaintDR2_N2_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N1"
   ),
-  N1B = list(
-    file_name = "SF260604_mPaintSpace2_N1B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N1B"
+  N2 = list(
+    file_name = "SF240704_mPaintDR2_N3_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N2"
   ),
-  N2A = list(
-    file_name = "SF260604_mPaintSpace2_N2A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N2A"
-  ),
-  N2B = list(
-    file_name = "SF260604_mPaintSpace2_N2B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N2B"
-  ),
-  N3A = list(
-    file_name = "SF260701_mPaintSpace2_N3A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N3A"
-  ),
-  N3B = list(
-    file_name = "SF260701_mPaintSpace2_N3B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N3B"
+  N3 = list(
+    file_name = "SF240711_mPaintDR2_N4_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    batch_name = "N3"
   )
 )
 nuc_count = "Non-border cells Selected - Number of Objects"
@@ -78,30 +51,27 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name <- "mPaintDR2_Classic_N2_N3_N4"
 # set plot variables ####
 # make sure order of plot_cond and plot_lab are the same
 # make sure order of plot_feats and y_lab are the same
-plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
-               "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
-               "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
-plot_lab <- c("DMSO", "CCCP", "ROT", "NIG", "OLI", "RAP", "VAL", "CYC", "CQ",
-              "BAM15", "MITOQ", "NOC", "CYT")
-plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
-                "Intensity Cytoplasm TMRM test Mean",
-                "mkeima ph7 mitochondria Ratio Width to Length",
-                "Number of Mitophagy Spots Selected- per Cell")
+plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+plot_lab <- c("DMSO", "CCCP", "ROT")
+plot_feats <- c("Intensity Cytoplasm CellRox Mean",
+                "Intensity Cytoplasm TMRM Mean",
+                "Mitochondria Selected Ratio Width to Length",
+                "Number of Selected Spots/ Selected Cell")
 y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
            "Cytoplasm MMP Intensity (a.u.)",
            "Mitochondria Width:Length (a.u.)",
            "Mitophagy Spots (a.u.)")
 x_lab <- "Compound"
-pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 point_size <- 3
 size_annot <- 6
 size_axis <- 12
-plot_width <- 9
-plot_height <- 3
+plot_width <- 3
+plot_height <- 4
 # pair up plot_feats and y_lab ####
 # pairs link the shorthand (y_lab) for each feature to the full feature name
 y_lab_lookup <- setNames(
