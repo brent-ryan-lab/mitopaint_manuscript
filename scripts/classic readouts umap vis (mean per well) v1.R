@@ -14,14 +14,14 @@ library(viridis)
 library(tidyverse)
 library(cowplot)
 # set variables ####
-file_name_paint <- "mPaintSpace2_N1_N2_N3"
-file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name_paint <- "mPaintDR2_N2_N3_N4"
+file_name_classic <- "mPaintDR2_Classic_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
-                "Intensity Cytoplasm CellRox Deep Red test Mean",
-                "Number of Mitophagy Spots Selected- per Cell",
-                "mkeima ph7 mitochondria Ratio Width to Length")
+plot_feats <- c("Intensity Cytoplasm TMRM Mean",
+                "Intensity Cytoplasm CellRox Mean",
+                "Number of Selected Spots/ Selected Cell",
+                "Mitochondria Selected Ratio Width to Length")
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
   # load df
