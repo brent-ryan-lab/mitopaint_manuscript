@@ -12,29 +12,37 @@ library(stringr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1A = list(
-    file_name = "SF260604_mPaintSpace2_N1A",
-    batch_name = "N1A"
+  N1 = list(
+    file_name = "SF250813_mPaintFDA_1",
+    batch_name = "N1"
   ),
-  N1B = list(
-    file_name = "SF260604_mPaintSpace2_N1B",
-    batch_name = "N1B"
+  N2 = list(
+    file_name = "SF250813_mPaintFDA_2",
+    batch_name = "N2"
   ),
-  N2A = list(
-    file_name = "SF260604_mPaintSpace2_N2A",
-    batch_name = "N2A"
+  N3 = list(
+    file_name = "SF250813_mPaintFDA_3",
+    batch_name = "N3"
   ),
-  N2B = list(
-    file_name = "SF260604_mPaintSpace2_N2B",
-    batch_name = "N2B"
+  N4 = list(
+    file_name = "SF250813_mPaintFDA_4",
+    batch_name = "N4"
   ),
-  N3A = list(
-    file_name = "SF260701_mPaintSpace2_N3A",
-    batch_name = "N3A"
+  N5 = list(
+    file_name = "SF250813_mPaintFDA_5",
+    batch_name = "N5"
   ),
-  N3B = list(
-    file_name = "SF260701_mPaintSpace2_N3B",
-    batch_name = "N3B"
+  N6 = list(
+    file_name = "SF250813_mPaintFDA_6",
+    batch_name = "N6"
+  ),
+  N7 = list(
+    file_name = "SF250813_mPaintFDA_7",
+    batch_name = "N7"
+  ),
+  N8 = list(
+    file_name = "SF250813_mPaintFDA_8",
+    batch_name = "N8"
   )
 )
 rm_cols = c("Timepoint",
@@ -67,7 +75,7 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = "UT_0"
+rm_cond = NULL
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 

@@ -12,14 +12,14 @@ library(ggplot2)
 library(ggpubr)
 library(cowplot)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
-md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
+file_name <- "mPaintDR2_N2_N3_N4"
+md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
-grid_width <- 6
-plot_width <- 12
-plot_height <- 10
+grid_width <- 2
+plot_width <- 5
+plot_height <- 2.5
 # create function to load data ####
 load_data <- function(file_name,
                       md_file_name,
