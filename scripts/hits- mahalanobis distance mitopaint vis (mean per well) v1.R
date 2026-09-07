@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 25-08-26
+# Last edit: 07-09-26
 
 # load packages ####
 library(tidyverse)
@@ -194,6 +194,77 @@ plots$p_grid <- plot_grid(
   ncol = grid_width
 )
 plots$p_grid
+# create function to plot grid of md by compound ####
+# create function to plot one compound
+plot_md_compound_hits <- function(df, compound_name) {
+  plot_df <- df |>
+    dplyr::filter(Compound == compound_name) |>
+    dplyr::arrange(Concentration)
+  # determine y-axis limits for this compound
+  max_md <- max(plot_df$estimate, na.rm = TRUE)
+  y_max <- dplyr::case_when(
+    max_md <= 250  ~ 250,
+    max_md <= 500  ~ 500,
+    max_md <= 1000 ~ 1000,
+    TRUE           ~ 2000
+  )
+  y_min <- min(plot_df$estimate - plot_df$SE, na.rm = TRUE)
+  ggplot2::ggplot(plot_df, ggplot2::aes(x = Concentration, y = estimate)) +
+    ggplot2::geom_point(size = 1.5, colour = "black") +
+    ggplot2::geom_errorbar(
+      aes(
+        ymin = estimate - SE,
+        ymax = estimate + SE
+      ),
+      width = 0.1,
+      linewidth = 0.4
+    ) +
+    ggplot2::scale_x_log10() +
+    scale_y_continuous(
+      limits = c(y_min, y_max)
+    ) +
+    ggplot2::labs(
+      x = "log10([uM])",
+      y = "md",
+      title = compound_name
+    ) +
+    ggpubr::theme_pubr() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(size = 8, angle = 45, hjust = 1),
+      axis.text.y = ggplot2::element_text(size = 8),
+      axis.title.x = ggplot2::element_text(size = 8),
+      axis.title.y = ggplot2::element_text(size = 8),
+      plot.title = ggplot2::element_text(hjust = 0.5, size = 10, face = "bold"),
+      panel.grid = ggplot2::element_blank()
+    )
+}
+# run function to plot grid of md by compound ####
+# make one plot per compound #
+# order plots on grid by smallest to largest md
+# loop plot all compounds
+compound_md_plots <- purrr::map(
+  compound_order,
+  ~ plot_md_compound_hits(
+    data$md,
+    .x
+  )
+)
+# name plots by compound name
+names(compound_md_plots) <- compound_order
+plots <- c(plots, compound_md_plots)
+# add them to the existing plots list #
+# match size/ scaling of all plots 
+aligned_md_plots <- align_plots(
+  plotlist = compound_md_plots,
+  align = "hv",
+  axis = "tblr"
+)
+# make grid
+plots$md_grid <- plot_grid(
+  plotlist = aligned_md_plots,
+  ncol = grid_width
+)
+plots$md_grid
 # save data ####
 write.csv(plot_df,
           paste(
@@ -201,8 +272,14 @@ write.csv(plot_df,
 )
 # save plots ####
 ggsave(
-  filename = paste0("outputs/figures/", file_name, "_md_dr_grid.pdf"),
+  filename = paste0("outputs/figures/", file_name, "_md_p_dr_grid.pdf"),
   plot = plots$p_grid,
+  width = plot_width,
+  height = plot_height
+)
+ggsave(
+  filename = paste0("outputs/figures/", file_name, "_md_dr_grid.pdf"),
+  plot = plots$md_grid,
   width = plot_width,
   height = plot_height
 )
