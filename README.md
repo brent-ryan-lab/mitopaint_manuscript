@@ -1056,6 +1056,17 @@ var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
 
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables:
+<file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+integrate_state <- "integrated"
+dataset_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+cor_thresh <- 0.95
+cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
+cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
+
 `dimensionality reduction mitopaint data (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
 <file_name <- "mPaintDR2_N2_N3_N4"

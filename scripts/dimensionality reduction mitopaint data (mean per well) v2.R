@@ -12,7 +12,7 @@ library(tidyverse)
 # set variables ####
 file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- "unintegrated"
+integrate_state <- "integrated"
 dims_use <- 1:50
 k_param <- 15
 res <- 1
@@ -214,10 +214,11 @@ DimPlot(
   df.seurat,
   reduction = "pca",
   # coloured by compound, concentration, batch and PCA clusters
-  group.by = c("Compound",
-               "Concentration",
-               "Batch",
-               "PCA_NN")
+  group.by = c(
+                "Compound",
+                "Concentration",
+                "Batch",
+                "PCA_NN")
 )
 # run tsne ####
 # make tsne container to hold tsne results
@@ -234,7 +235,7 @@ df.seurat <- RunTSNE(
   # lower perplexity = preserve local, higher perplexity = preserve global
   perplexity = perplexity,
   # max_iter = how many iterations tsne spends to optimise points
-  # higher interations = more optimisation, but takes longer computing
+  # higher iterations = more optimisation, but takes longer computing
   max_iter = max_iter,
   reduction.name = "tsne",
   # set seed so results are reproducible
@@ -285,10 +286,11 @@ DimPlot(
   df.seurat,
   reduction = "tsne",
   # coloured by compound, concentration, batch and tsne clusters
-  group.by = c("Compound",
-               "Concentration",
-               "Batch",
-               "tSNE_NN")
+  group.by = c(
+                "Compound",
+                "Concentration",
+                "Batch",
+                "tSNE_NN")
 )
 # run umap ####
 # make umap container to hold umap results
@@ -299,6 +301,7 @@ df.seurat <- RunUMAP(
   # umap is NOT run on existing dimensionality reduction (eg pca)
   dims = NULL,
   reduction = NULL,
+  spread = res,
   # umap is calculated from entire original feature space (all feature rows)
   features = rownames(df.seurat),
   reduction.name = "umap",
@@ -350,10 +353,11 @@ DimPlot(
   df.seurat,
   reduction = "umap",
   # coloured by compound, concentration, batch and umap clusters
-  group.by = c("Compound",
-               "Concentration",
-               "Batch",
-               "UMAP_NN")
+  group.by = c(
+                "Compound",
+                "Concentration",
+                "Batch",
+                "UMAP_NN")
 )
 # save meta ####
 write.csv(df.seurat@meta.data,
@@ -411,4 +415,4 @@ write.csv(neighbors$knn_umap,
           paste(
             "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv", sep = "")
 )
-rm(list = ls())
+#rm(list = ls())
