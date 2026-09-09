@@ -301,7 +301,6 @@ df.seurat <- RunUMAP(
   # umap is NOT run on existing dimensionality reduction (eg pca)
   dims = NULL,
   reduction = NULL,
-  spread = res,
   # umap is calculated from entire original feature space (all feature rows)
   features = rownames(df.seurat),
   reduction.name = "umap",
