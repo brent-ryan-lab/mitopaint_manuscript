@@ -10,7 +10,7 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
@@ -443,7 +443,7 @@ if (avg_profile) {
   } else {
     write.csv(df.seurat@meta.data,
               paste(
-                "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_dimred.csv", sep = "")
+                "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv", sep = "")
 ) }
 # save data ####
 write.csv(pca$embeddings,

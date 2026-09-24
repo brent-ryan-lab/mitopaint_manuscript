@@ -1,4 +1,19 @@
+## 2026-09-08
+- add dim red avg profile mitopaint data (mean per well) v1 to average profiles before dim red, used for FDA screen
+
+## 2026-09-07
+- update hits- mahalanobis distance mitopaint vis to include plot grid of md estimate +/- SE
+
+## 2026-09-04
+- add classic readouts umap vis (mean per well) v1
+- add umap grid- dim red mitopaint vis (mean per well) v1 to plot grip of umaps separated by compound and coloured by concentration
+- update similarity heatmap mitopaint vis (mean per well) v1 to have separate colors for compound and batch, and conditionally log concentration if range is large, and conditionally put compound legend in two cols if long list
+- update dr- mahalanobis distance classic readouts vis (mean per well) v1 for compatability of plotting any number of plot_cond, and with additional compound_grids plots for plotting grids by compound
+
+
 ## 2026-09-03
+- add profile heatmap mitopaint vis (mean per well) v1 to visualise average profile fingerprint of given conditions, separated by batch
+- update umap- dim red mitopaint vis (mean per well) v1 to also now save umap coloured by batch, and save umap nn legend as separate pdf if number of nn is long
 - update similarity heatmap mitopaint vis (mean per well) v1 to save ASW in stats
 
 ## 2026-09-02

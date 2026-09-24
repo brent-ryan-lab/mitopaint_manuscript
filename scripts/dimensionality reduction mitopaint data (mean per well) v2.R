@@ -10,14 +10,14 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 15
+k_param <- 30
 res <- 1
 perplexity <- 20
-max_iter <- 4000
+max_iter <- 500
 # load data ####
 # load data as df
 if (redu_state == "redu") {
