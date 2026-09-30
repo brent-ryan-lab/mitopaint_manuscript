@@ -1,4 +1,4 @@
-# Title: dim red avg profile mitopaint data (mean per well) v1
+# Title: dim red mitopaint data - avg profile (mean per well) v1
 # Step: 6 (ALT)
 # R: 4.4.1
 # Author: Sarah Franks
@@ -14,7 +14,7 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 30
+k_param <- 20
 res <- 1
 perplexity <- 20
 max_iter <- 500
