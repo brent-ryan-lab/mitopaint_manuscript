@@ -97,7 +97,7 @@ meta_cols = c("Row",
 rm_cond = NULL
 ```
 - for mPaintSpace2 (N1,N2,N3) use the following variables:
-````
+```
 batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
