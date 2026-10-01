@@ -45,12 +45,12 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
   - `9.3` classic readouts umap vis (mean per well) v1
+WIP   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 
-#   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
-
-`tidy raw mitopaint data (mean per well) v1`
-
-- for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
+---
+# 1.
+### tidy raw mitopaint data (mean per well) v1
+- for mPaintDR2 (N2,N3,N4) use the following variables:
 ```
 batches_info <- list(
   N1 = list(
@@ -96,8 +96,7 @@ meta_cols = c("Row",
               "Concentration")
 rm_cond = NULL
 ```
-              
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
 ````
 batches_info <- list(
   N1A = list(
@@ -157,9 +156,7 @@ meta_cols = c("Row",
               "Condition")
 rm_cond = "UT_0"
 ```
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
 ```
 batches_info <- list(
   N1 = list(
@@ -227,10 +224,10 @@ meta_cols = c("Row",
               "Condition")
 rm_cond = NULL
 ```
-
-`plate drift correct mitopaint data (mean per well) v1`
-
-- for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
+---
+# 2.
+### plate drift correct mitopaint data (mean per well) v1
+- for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
   N1 = list(
@@ -260,8 +257,7 @@ batches_info <- list(
 )
 p_sig <- 0.05
 ```
-
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
 ```
 batches_info <- list(
   N1A = list(
@@ -315,10 +311,9 @@ batches_info <- list(
 )
 p_sig <- 0.05
 ```
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
@@ -376,11 +371,14 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
                    "15_9","17_9","19_9","21_9","23_9")
   )
 )
-p_sig <- 0.05>
-
-`plate drift correct mitopaint vis (mean per well) v1`            
-- for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
-<batches_info <- list(
+p_sig <- 0.05
+```
+---
+# 2.1
+### plate drift correct mitopaint vis (mean per well) v1
+- for mPaintDR2 (N2,N3,N4) use the following variables
+```
+batches_info <- list(
   N1 = list(file_name = "SF240627_mPaintDR2_N2",
             dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
                            "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
@@ -404,10 +402,11 @@ perc_width <- 4.2
 perc_height <- 6.4
 file_name <- "mPaintDR2_N2_N3_N4"
 pos_control <- "CCCP_30"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -461,11 +460,11 @@ perc_width <- 6.2
 perc_height <- 6.4
 file_name <- "mPaintSpace2_N1_N2_N3"
 pos_control <- "CCCP_20"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
@@ -527,11 +526,14 @@ perc_width <- 8.6
 perc_height <- 6.4
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 pos_control <- "CCCP_30"
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
-`plate drift raw mitopaint vis (mean per well) v1`
-- for SF240215_mPaintDrift_DMSO_N1 use the following variables
-<batches_info <- list(
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
+---
+# 2.2
+### plate drift raw mitopaint vis (mean per well) v1
+- for mPaintDrift_DMSO (N1) use the following variables
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240215_mPaintDrift_DMSO_N1",
     batch_name = "N1"
@@ -569,11 +571,14 @@ plot_var <- c("Intensity Cytoplasm Region TMRM test Mean",
 legend_titles <- c(
   "TMRM Intensity",
   "CellROX Intensity"
-)>
-
-`robust zscore norm mitopaint data v1`
-- for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
-<batches_info <- list(
+)
+```
+---
+# 3.
+### robust zscore norm mitopaint data v1
+- for mPaintDR2 (N2,N3,N4) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -598,10 +603,11 @@ legend_titles <- c(
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
   )
-)>
-
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+)
+```
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -650,11 +656,11 @@ legend_titles <- c(
                    "16_2","17_9","18_2","19_9",
                    "20_2","21_9","22_2","23_9")
   )
-)>
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+)
+```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
@@ -711,11 +717,14 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
                    "3_9","5_9","7_9","9_9","11_9","13_9",
                    "15_9","17_9","19_9","21_9","23_9")
   )
-)>
-
-`robust zscore norm mitopaint vis (mean per well) v1`
-- for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables 
-<batches_info <- list(
+)
+```
+---
+# 3.1
+### robust zscore norm mitopaint vis (mean per well) v1
+- for mPaintDR2 (N2,N3,N4) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -740,10 +749,11 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
                    "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
   )
-)>
-
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+)
+```
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -792,11 +802,11 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
                    "16_2","17_9","18_2","19_9",
                    "20_2","21_9","22_2","23_9")
   )
-)>
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+)
+```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
@@ -853,11 +863,14 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
                    "3_9","5_9","7_9","9_9","11_9","13_9",
                    "15_9","17_9","19_9","21_9","23_9")
   )
-)>
-
-`batch integration mitopaint data (mean per well) v1`
-- for mPaintDR2_N2, mPaintDR2_N3, and mPaintDR2_N4 use the following variables
-<batches_info <- list(
+)
+```
+---
+# 4.
+### batch integration mitopaint data (mean per well) v1
+- for mPaintDR2 (N2,N3,N4) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2"
   ),
@@ -869,10 +882,11 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
   )
 )
 file_name <- "mPaintDR2_N2_N3_N4"
-k_weight <- 50>
-
-- for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+k_weight <- 50
+```
+- for mPaintSpace2 (N1,N2,N3) use the following variables:
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -923,11 +937,11 @@ k_weight <- 50>
   )
 )
 file_name <- "mPaintSpace2_N1_N2_N3"
-k_weight <- 50>
-
-- for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
-SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+k_weight <- 50
+```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables:
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
@@ -986,66 +1000,82 @@ SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPain
   )
 )
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
-k_weight <- 50>
-
-`batch integration mitopaint vis (mean per well) v1`
+k_weight <- 50
+```
+---
+# 4.1
+### batch integration mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- c("integrated", "unintegrated")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
-n_epochs <- 500>
-
+n_epochs <- 500
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- c("integrated", "unintegrated")
 pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
-n_epochs <- 500>
-
-`batch integration evaluation stats mitopaint data (mean per well) v1`
+n_epochs <- 500
+```
+---
+# 4.2
+### batch integration evaluation stats mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
-ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")>
-
+ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
-ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")>
-
-`remove redundant mitopaint data (mean per well) v1`
+ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
+```
+---
+# 5.
+### remove redundant mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
-
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 dataset_name <- "mPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
-
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables:
-<file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 integrate_state <- "integrated"
 dataset_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")>
-
-`remove redundant mitopaint vis (mean per well) v1`
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+```
+---
+# 5.1
+### remove redundant mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
@@ -1053,10 +1083,11 @@ cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 dataset_name <- "mPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
@@ -1064,10 +1095,11 @@ cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables:
-<file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 integrate_state <- "integrated"
 dataset_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 cor_thresh <- 0.95
@@ -1075,67 +1107,86 @@ cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
-`dimensionality reduction mitopaint data (mean per well) v1`
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
+---
+# 6.
+### dimensionality reduction mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
 k_param <- 15
 res <- 1
 perplexity <- 20
-max_iter <- 4000>
-
+max_iter <- 4000
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
 k_param <- 15
 res <- 1
 perplexity <- 20
-max_iter <- 4000>
-
-`pca- dim red mitopaint vis (mean per well) v2`
+max_iter <- 4000
+```
+---
+# 6.1
+### pca- dim red mitopaint vis (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- "viridis">
-
+pastel_cols <- "viridis"
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- "hues">
-
-`pca scree- dim red mitopaint vis (mean per well) v1`
+pastel_cols <- "hues"
+```
+---
+# 6.1.2
+### pca scree- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following file variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- "integrated">
-
+integrate_state <- "integrated"
+```
 - for mPaintSpace2_N1_N2_N3 use the following file variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
-integrate_state <- "integrated">
-
-`pca biplot- dim red mitopaint vis (mean per well) v1`
+integrate_state <- "integrated"
+```
+---
+# 6.1.3
+### pca biplot- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following file variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
-integrate_state <- "integrated">
-
+integrate_state <- "integrated"
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
-integrate_state <- "integrated">
-
-`pca feature loadings- dim red mitopaint vis (mean per well) v1`
+integrate_state <- "integrated"
+```
+---
+# 6.1.4
+### pca feature loadings- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_colors <- c(
@@ -1151,10 +1202,11 @@ feature_patterns <- c(
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")
 plot_width <- 7
-plot_height <- 5>
-
+plot_height <- 5
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_colors <- c(
@@ -1170,71 +1222,87 @@ feature_patterns <- c(
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")
 plot_width <- 5
-plot_height <- 5>
-
-`pca grid- dim red mitopaint vis (mean per well) v1`
+plot_height <- 5
+```
+---
+# 6.1.5
+### pca grid- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 3
-grid_width <- 3>
-
+grid_width <- 3
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
-grid_width <- 6>
-
-`umap- dim red mitopaint vis (mean per well) v1`
+grid_width <- 6
+```
+--- 
+# 6.2
+### umap- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 sep_legend_width <- 3
-sep_legend_height <- 4>
-
+sep_legend_height <- 4
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
-sep_legend_height <- 5>
-
-`umap grid- dim red mitopaint vis (mean per well) v1`
+sep_legend_height <- 5
+```
+---
+# 6.2.2
+### umap grid- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 3
-grid_width <- 3>
-
+grid_width <- 3
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
-grid_width <- 6>
-
-`abs zscore feature ranking vis (mean per well) `v1`
+grid_width <- 6
+```
+---
+# 6.3
+### abs zscore feature ranking vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ctrl_cond <- "DMSO_0"
 plot_cond <- c("CCCP_30", "ROT_10")
 contrast_all <- TRUE
-rank <- 10>
-
+rank <- 10
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ctrl_cond <- "DMSO_0"
@@ -1242,26 +1310,33 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
                "Cyclosporin A_10", "ROT_3", "CQ_20", "BAM15_10", "MitoQ_3", "Nocodazole_10",
                "Cytochalasin D_5")
 contrast_all <- FALSE
-rank <- 10>
-
-`mahalanobis distance mitopaint data (mean per well) v1`
+rank <- 10
+```
+---
+# 7.
+### mahalanobis distance mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
-
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)>
-
-`dr- mahalanobis distance classic readouts vis (mean per well) v1`
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+```
+---
+# 7.1
+### dr- mahalanobis distance classic readouts vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
 classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
 integrate_state <- "integrated"
@@ -1274,10 +1349,11 @@ y_lab <- c("Cytoplasm ROS Intensity",
            "Mitochondria Width:Length",
            "Mitophagy Spots")
 plot_cond <- c("CCCP", "ROT")
-pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)>
-
+pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
 classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
 integrate_state <- "integrated"
@@ -1290,32 +1366,39 @@ y_lab <- c("Cytoplasm ROS Intensity",
            "Mitochondria Width:Length",
            "Mitophagy Spots")
 plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomycin", "Cyclosporin A", "CQ", "BAM15", "MitoQ", "Nocodazole",  "Cytochalasin D")
-pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))>
-
-`hits- mahalanobis distance mitopaint vis (mean per well) v1`
+pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
+```
+---
+# 7.2
+### hits- mahalanobis distance mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 grid_width <- 2
 plot_width <- 5
-plot_height <- 2.5>
-
+plot_height <- 2.5
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 grid_width <- 6
 plot_width <- 12
-plot_height <- 10>
-
-`similarity heatmap mitopaint vis (mean per well) v1`
+plot_height <- 10
+```
+---
+# 8
+### similarity heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 compound_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
@@ -1325,10 +1408,11 @@ annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
 agg_well <- TRUE
 plot_width <- 7.4
-plot_height <- 6>
-
+plot_height <- 6
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_feats_disc <- c("Compound", "Batch")
@@ -1338,11 +1422,14 @@ annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
 agg_well <- TRUE
 plot_width <- 12
-plot_height <- 9>
-
-`profile heatmap mitopaint vis (mean per well) v1`
+plot_height <- 9
+```
+---
+# 8.1
+### profile heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name <- "mPaintDR2_N2_N3_N4"
+```
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
@@ -1362,10 +1449,11 @@ plot_ann_cols <- list(
 )
 plot_height <- 3
 plot_width <- 2.6
-visible_legend <- FALSE>
-
+visible_legend <- FALSE
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables
-<file_name <- "mPaintSpace2_N1_N2_N3"
+```
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
@@ -1399,12 +1487,14 @@ plot_ann_cols <- list(
 )
 plot_height <- 4.5
 plot_width <- 8
-visible_legend <- TRUE>
-
-`classic readouts mitopaint data (mean per well) v1`
-- for mPaintDR2_N2_N3_N4 use the following variables
-- file variables
-<batches_info <- list(
+visible_legend <- TRUE
+```
+---
+# 9.
+### classic readouts mitopaint data (mean per well) v1
+- for mPaintDR2_N2_N3_N4 use the following file variables
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2_Classic",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -1438,9 +1528,11 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaintDR2_Classic_N2_N3_N4">
-- plot variables
-<plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+file_name <- "mPaintDR2_Classic_N2_N3_N4"
+```
+- for mPaintDR2_N2_N3_N4 use the following plot variables
+```
+plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
 plot_lab <- c("DMSO", "CCCP", "ROT")
 plot_feats <- c("Intensity Cytoplasm CellRox Mean",
                 "Intensity Cytoplasm TMRM Mean",
@@ -1456,11 +1548,11 @@ point_size <- 3
 size_annot <- 6
 size_axis <- 12
 plot_width <- 3
-plot_height <- 4>
-
-- for mPaintSpace2_N1_N2_N3 use the following variables
-- file variables
-<batches_info <- list(
+plot_height <- 4
+```
+- for mPaintSpace2_N1_N2_N3 use the following file variables
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A_Classic",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -1521,9 +1613,11 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaintSpace2_N1_N2_N3_Classic">
-- plot variables
-<plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
+file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+```
+- for mPaintSpace2_N1_N2_N3 use the following plot variables
+```
+plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
                "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
                "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
 plot_lab <- c("DMSO", "CCCP", "ROT", "NIG", "OLI", "RAP", "VAL", "CYC", "CQ",
@@ -1542,32 +1636,39 @@ point_size <- 3
 size_annot <- 6
 size_axis <- 12
 plot_width <- 9
-plot_height <- 3>
-
-`classic readouts pca vis (mean per well) v1`
+plot_height <- 3
+```
+---
+# 9.1
+### classic readouts pca vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name_paint <- "mPaintDR2_N2_N3_N4"
+```
+file_name_paint <- "mPaintDR2_N2_N3_N4"
 file_name_classic <- "mPaintDR2_Classic_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm TMRM Mean",
                 "Intensity Cytoplasm CellRox Mean",
                 "Number of Selected Spots/ Selected Cell",
-                "Mitochondria Selected Ratio Width to Length")>
-                
+                "Mitochondria Selected Ratio Width to Length")
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables                
-<file_name_paint <- "mPaintSpace2_N1_N2_N3"
+```
+file_name_paint <- "mPaintSpace2_N1_N2_N3"
 file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
-                "mkeima ph7 mitochondria Ratio Width to Length")>
-
-`classic readouts pca pearson corr heatmap vis (mean per well) v1`
+                "mkeima ph7 mitochondria Ratio Width to Length")
+```
+---
+# 9.1.2
+### classic readouts pca pearson corr heatmap vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
-<classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
+```
+classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
 file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
@@ -1585,10 +1686,11 @@ annot_colors <- list(
     Spots = "#FE6100",
     Other = "grey"))
 col_scale <- c("blue", "white", "red")
-dims_plot <- c("PC_1", "PC_2")>
-
+dims_plot <- c("PC_1", "PC_2")
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables    
-<classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
+```
+classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
 file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
@@ -1606,12 +1708,14 @@ annot_colors <- list(
     Spots = "#FE6100",
     Other = "grey"))
 col_scale <- c("blue", "white", "red")
-dims_plot <- c("PC_1", "PC_2")>
-
-`channel corrected spot count mitopaint data (mean per well) v1`
+dims_plot <- c("PC_1", "PC_2")
+```
+---
+# 9.2
+### channel corrected spot count mitopaint data (mean per well) v1
 - for mPaintDR2_N2 use the following variables
-file variables:
-<batches_info <- list(
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2_SpotComparison",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -1639,25 +1743,30 @@ y_lab <- c("Selected Spots/ Cell",
 x_lab <- "Compound"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 point_size <- 3
-size_axis <- 10>
-
-`classic readouts umap vis (mean per well) v1`
+size_axis <- 10
+```
+---
+# 9.3
+### classic readouts umap vis (mean per well) v1`
 - for mPaintDR2_N2_N3_N4 use the following variables
-<file_name_paint <- "mPaintDR2_N2_N3_N4"
+```
+file_name_paint <- "mPaintDR2_N2_N3_N4"
 file_name_classic <- "mPaintDR2_Classic_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm TMRM Mean",
                 "Intensity Cytoplasm CellRox Mean",
                 "Number of Selected Spots/ Selected Cell",
-                "Mitochondria Selected Ratio Width to Length")>
-
+                "Mitochondria Selected Ratio Width to Length")
+```
 - for mPaintSpace2_N1_N2_N3 use the following variables   
-<file_name_paint <- "mPaintSpace2_N1_N2_N3"
+```
+file_name_paint <- "mPaintSpace2_N1_N2_N3"
 file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
-                "mkeima ph7 mitochondria Ratio Width to Length")>
+                "mkeima ph7 mitochondria Ratio Width to Length")
+```
