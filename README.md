@@ -1006,6 +1006,7 @@ integrate_state <- c("integrated", "unintegrated")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
 ```
