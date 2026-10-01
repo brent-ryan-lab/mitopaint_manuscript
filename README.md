@@ -45,7 +45,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
   - `9.2` channel corrected spot count mitopaint data (mean per well) v1
   - `9.3` classic readouts umap vis (mean per well) v1
-WIP   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
+  
+- `WIP` 7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 
 ---
 ### `1.` tidy raw mitopaint data (mean per well) v1
