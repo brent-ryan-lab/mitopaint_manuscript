@@ -1,9 +1,9 @@
-# Title: dim red mitopaint data - avg profile (mean per well) v1
-# Step: 6 (ALT)
+# Title: dim red mitopaint data - avg profile (mean per well) v2
+# Step: 6 
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 08-09-2026
+# Last edit: 01-10-2026
 
 # load packages ####
 library(data.table)
