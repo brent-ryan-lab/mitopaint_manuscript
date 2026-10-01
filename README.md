@@ -1,7 +1,7 @@
 # mitopaint manuscript
 
 this repo is in process, and contains the Rproj. and script files necessary to perform the data analysis and generate the visualisations for the mitopaint manuscript that is in preparation.
-all contents of this repo in its current state are unpublised, and for all intents and purposes not open to use by any users outside of the Brent Ryan lab group.
+all contents of this repo in its current state are unpublished, and for all intents and purposes not open to use by any users outside of the Brent Ryan lab group.
 note that the data (raw and processed) and outputs (data and figures) are not set to update in git commits until final publication, but scripts are reliant on these files and the structure in the directory for complete functionality.
 
 ## structure
@@ -26,7 +26,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   -  `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
 - `5.` remove redundant mitopaint data (mean per well) v1
   - `5.1` remove redundant mitopaint vis (mean per well) v1
-- `6.` dimensionality reduction mitopaint data (mean per well) v1
+- `6.` dim red mitopaint data - avg profile (mean per well) v2
   - `6.1` pca- dim red mitopaint vis (mean per well) v2
     - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
     - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
@@ -1100,7 +1100,7 @@ excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 ```
 ---
-### `6.` dimensionality reduction mitopaint data (mean per well) v1
+### `6.` dim red mitopaint data - avg profile (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1111,6 +1111,7 @@ k_param <- 15
 res <- 1
 perplexity <- 20
 max_iter <- 4000
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1118,10 +1119,11 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 15
+k_param <- 20
 res <- 1
 perplexity <- 20
-max_iter <- 4000
+max_iter <- 500
+avg_profile <- TRUE
 ```
 ---
 ### `6.1` pca- dim red mitopaint vis (mean per well) v2
