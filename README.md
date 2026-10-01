@@ -48,8 +48,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 WIP   7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
 
 ---
-# 1.
-### tidy raw mitopaint data (mean per well) v1
+### `1.` tidy raw mitopaint data (mean per well) v1
 - for mPaintDR2 (N2,N3,N4) use the following variables:
 ```
 batches_info <- list(
