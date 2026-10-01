@@ -51,7 +51,8 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 `tidy raw mitopaint data (mean per well) v1`
 
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables:
-<batches_info <- list(
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
     batch_name = "N1"
@@ -93,10 +94,12 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-rm_cond = NULL>
+rm_cond = NULL
+```
               
 - for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+````
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     batch_name = "N1A"
@@ -152,11 +155,13 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = "UT_0">
+rm_cond = "UT_0"
+```
 
 - for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
 SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
-<batches_info <- list(
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF250813_mPaintFDA_1",
     batch_name = "N1"
@@ -220,12 +225,14 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = NULL>
+rm_cond = NULL
+```
 
 `plate drift correct mitopaint data (mean per well) v1`
 
 - for mPaintDR2_N2, mPaintDR2_N3, mPaintDR2_N4 use the following variables
-<batches_info <- list(
+```
+batches_info <- list(
   N1 = list(
     file_name = "SF240627_mPaintDR2_N2",
     dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
@@ -251,10 +258,12 @@ rm_cond = NULL>
                    "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9")
   )
 )
-p_sig <- 0.05>
+p_sig <- 0.05
+```
 
 - for SF260604_mPaintSpace2_N1, SF260604_mPaintSpace2_N2, SF260701_mPaintSpace2_N3 use the following variables:
-<batches_info <- list(
+```
+batches_info <- list(
   N1A = list(
     file_name = "SF260604_mPaintSpace2_N1A",
     dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
@@ -304,7 +313,8 @@ p_sig <- 0.05>
                    "20_2","21_9","22_2","23_9")
 )
 )
-p_sig <- 0.05>
+p_sig <- 0.05
+```
 
 - for SF250813_mPaintFDA_1, SF250813_mPaintFDA_2, SF250813_mPaintFDA_3, SF250813_mPaintFDA_4,
 SF250813_mPaintFDA_5, SF250813_mPaintFDA_6, SF250813_mPaintFDA_7, SF250813_mPaintFDA_8 use the following variables:
