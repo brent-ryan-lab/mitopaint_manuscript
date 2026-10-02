@@ -1249,6 +1249,7 @@ integrate_state <- "integrated"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 sep_legend_width <- 3
 sep_legend_height <- 4
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1258,6 +1259,7 @@ integrate_state <- "integrated"
 pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
 sep_legend_height <- 5
+avg_profile <- TRUE
 ```
 ---
 ### `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1

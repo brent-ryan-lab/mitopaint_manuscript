@@ -15,32 +15,52 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- scales::hue_pal()(33)
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 sep_legend_width <- 3
-sep_legend_height <- 5
+sep_legend_height <- 4
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
                       redu_state) {
-  # load umap embeddings
-  umap_embeddings <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_umap_embeddings.csv"),
-          header = TRUE))
-  rownames(umap_embeddings) <- umap_embeddings$V1
-  umap_embeddings$V1 <- NULL
-  # load metadata
-  meta <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_dimred_meta.csv"),
-          header = TRUE))
-  rownames(meta) <- meta$V1
-  meta$V1 <- NULL
-  # keep rows aligned between meta and umap embeddings
-  meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  if (avg_profile == TRUE) {
+    # load umap embeddings
+    umap_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_avg_umap_embeddings.csv"),
+            header = TRUE))
+    rownames(umap_embeddings) <- umap_embeddings$V1
+    umap_embeddings$V1 <- NULL 
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_avg_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # keep rows aligned between meta and umap embeddings
+    meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  } else {
+    # load umap embeddings
+    umap_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_umap_embeddings.csv"),
+            header = TRUE))
+    rownames(umap_embeddings) <- umap_embeddings$V1
+    umap_embeddings$V1 <- NULL
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # keep rows aligned between meta and umap embeddings
+    meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  }
   return(list(
     umap_embeddings = umap_embeddings,
     meta = meta))
@@ -85,6 +105,8 @@ plot_umap <- function(data,
     colour_scale +
     labs(
       title = title_text,
+      x = "UMAP_1",
+      y = "UMAP_2",
       colour = legend_title,
       shape = shape_var
     ) +
@@ -161,7 +183,9 @@ plots$umap_nn <- ggplot(
     show.legend = FALSE
   ) +
   labs(title = "UMAP by UMAP NN",
-       colour = "UMAP_NN") +
+       colour = "UMAP_NN",
+       x = "UMAP_1",
+       y = "UMAP_2") +
   # color legend across two cols
   guides(
     colour = guide_legend(
@@ -252,7 +276,7 @@ add_fixed_legend_space <- function(plot,
   )
 }
 # apply consistent legend space to plots ####
-plots_fixed <- map(
+plots_fixed <- purrr::map(
   names(plots),
   function(plot_name) {
     add_fixed_legend_space(
