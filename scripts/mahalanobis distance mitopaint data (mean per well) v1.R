@@ -24,6 +24,7 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -40,13 +41,23 @@ load_data <- function(file_name,
   rownames(pca_embeddings) <- pca_embeddings$V1
   pca_embeddings$V1 <- NULL
   # load metadata
-  meta <- as.data.frame(
-    fread(
-      paste("data/processed/", file_name, "_", "meta_", 
-            integrate_state, ".csv", sep = ""),
-      header = TRUE
+  if (avg_profile == FALSE) {
+    meta <- as.data.frame(
+      fread(
+        paste("data/processed/", file_name, "_", integrate_state, 
+              "_" ,redu_state, "_dimred_meta", ".csv", sep = ""),
+        header = TRUE
+      )
     )
-  )
+  } else {
+    meta <- as.data.frame(
+      fread(
+        paste("data/processed/", file_name, "_", integrate_state, 
+              "_" ,redu_state, "_avg_dimred_meta", ".csv", sep = ""),
+        header = TRUE
+      )
+    ) 
+  }
   # keep rownames as WELL_BATCH
   rownames(meta) <- meta$V1
   meta$V1 <- NULL
@@ -303,7 +314,7 @@ add_fixed_legend_space <- function(plot,
     rel_widths = c(plot_width, legend_width)
   )
 }
-plots_fixed <- map(
+plots_fixed <- purrr::map(
   plots,
   # apply fixed legend space to all plots so that PCA is square (not squished), and legend is consistent width
   add_fixed_legend_space

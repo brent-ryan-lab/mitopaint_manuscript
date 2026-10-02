@@ -1016,7 +1016,7 @@ integrate_state <- c("integrated", "unintegrated")
 pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 ---
 ### `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
@@ -1034,7 +1034,7 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 ---
 ### `5.` remove redundant mitopaint data (mean per well) v1
@@ -1127,7 +1127,7 @@ k_param <- 20
 res <- 1
 perplexity <- 20
 max_iter <- 500
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 ---
 ### `6.1` pca- dim red mitopaint vis (mean per well) v2
@@ -1145,7 +1145,7 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "hues"
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 ---
 ### `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
@@ -1237,7 +1237,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
 grid_width <- 6
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 --- 
 ### `6.2` umap- dim red mitopaint vis (mean per well) v1
@@ -1259,7 +1259,7 @@ integrate_state <- "integrated"
 pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
 sep_legend_height <- 5
-avg_profile <- TRUE
+avg_profile <- FALSE
 ```
 ---
 ### `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
@@ -1271,6 +1271,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 3
 grid_width <- 3
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1280,6 +1281,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
 grid_width <- 6
+avg_profile <- FALSE
 ```
 ---
 ### `6.3` abs zscore feature ranking vis (mean per well) v1
@@ -1292,6 +1294,7 @@ ctrl_cond <- "DMSO_0"
 plot_cond <- c("CCCP_30", "ROT_10")
 contrast_all <- TRUE
 rank <- 10
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1304,6 +1307,7 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
                "Cytochalasin D_5")
 contrast_all <- FALSE
 rank <- 10
+avg_profile <- FALSE
 ```
 ---
 ### `7.` mahalanobis distance mitopaint data (mean per well) v1
@@ -1314,6 +1318,7 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1322,6 +1327,7 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+avg_profile <- FALSE
 ```
 ---
 ### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1

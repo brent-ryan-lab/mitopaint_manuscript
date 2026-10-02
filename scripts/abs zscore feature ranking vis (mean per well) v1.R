@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 18-08-2026
+# Last edit: 02-10-2026
 
 # load packages ####
 library(data.table)
@@ -28,33 +28,43 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
                "Cytochalasin D_5")
 contrast_all <- FALSE
 rank <- 10
+avg_profile <- TRUE
 # load data ####
 # load data as df
-if (redu_state == "redu") {
-  df <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_data_", integrate_state ,"_redu.csv", sep = ""), 
-      header = TRUE)
-  )
-} else {
-  df <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_data_", integrate_state ,".csv", sep = ""), 
-      header = TRUE)
-  )
-}
+  if (avg_profile == TRUE) {
+    df <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_", integrate_state ,"_redu_avg_data.csv", sep = ""), 
+        header = TRUE)
+    )
+  } else {
+    df <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_data_", integrate_state ,"_redu.csv", sep = ""), 
+        header = TRUE)
+    )
+  }
 # keep rownames as WELL_BATCH
 rownames(df) <- df$V1
 df$V1 <- NULL
 # load metadata as meta
-meta <- as.data.frame(
-  fread(
-    paste(
-      "data/processed/", file_name, "_meta_", integrate_state, ".csv", sep = ""), 
-    header = TRUE)
-)
+if (avg_profile == TRUE) {
+  meta <- as.data.frame(
+    fread(
+      paste(
+        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_dimred_meta.csv", sep = ""), 
+      header = TRUE)
+  )
+} else {
+  meta <- as.data.frame(
+    fread(
+      paste(
+        "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv", sep = ""), 
+      header = TRUE)
+  ) 
+}
 # keep rownames as WELL_BATCH
 rownames(meta) <- meta$V1
 meta$V1 <- NULL

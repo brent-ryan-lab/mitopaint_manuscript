@@ -14,32 +14,52 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
-plot_height <- 3
-grid_width <- 3
+plot_height <- 10
+grid_width <- 6
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
                       redu_state) {
-  # load umap embeddings
-  umap_embeddings <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_umap_embeddings.csv"),
-          header = TRUE))
-  rownames(umap_embeddings) <- umap_embeddings$V1
-  umap_embeddings$V1 <- NULL
-  # load metadata
-  meta <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_dimred_meta.csv"),
-          header = TRUE))
-  rownames(meta) <- meta$V1
-  meta$V1 <- NULL
-  # keep rows aligned between meta and umap embeddings
-  meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  if (avg_profile == TRUE) {
+    # load umap embeddings
+    umap_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_avg_umap_embeddings.csv"),
+            header = TRUE))
+    rownames(umap_embeddings) <- umap_embeddings$V1
+    umap_embeddings$V1 <- NULL
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_avg_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # keep rows aligned between meta and umap embeddings
+    meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  } else {
+    # load umap embeddings
+    umap_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_umap_embeddings.csv"),
+            header = TRUE))
+    rownames(umap_embeddings) <- umap_embeddings$V1
+    umap_embeddings$V1 <- NULL
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # keep rows aligned between meta and umap embeddings
+    meta <- meta[rownames(umap_embeddings), , drop = FALSE]
+  }
   return(list(
     umap_embeddings = umap_embeddings,
     meta = meta))
