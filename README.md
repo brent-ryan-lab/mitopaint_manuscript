@@ -1227,6 +1227,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 3
 grid_width <- 3
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1236,6 +1237,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
 grid_width <- 6
+avg_profile <- TRUE
 ```
 --- 
 ### `6.2` umap- dim red mitopaint vis (mean per well) v1

@@ -12,23 +12,23 @@ library(tidytext)
 library(ggplot2)
 library(ggpubr)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_colors <- c(
-    CellROX = "#DC267F",
-    TMRM = "#FFB000",
-    `mt-Keima pH7` = "#23CC86",
-    `mt-Keima pH4` = "#FE6100",
-    Other = "grey")
+  CellROX = "#DC267F",
+  TMRM = "#FFB000",
+  `mt-Keima pH7` = "#23CC86",
+  `mt-Keima pH4` = "#FE6100",
+  Other = "grey")
 feature_patterns <- c(
   CellROX = "cellrox",
   TMRM = "tmrm",
   `mt-Keima pH7` = "mt-keima ph7",
   `mt-Keima pH4` = "mt-keima ph4")
 dims_plot <- c("PC_1", "PC_2")
-plot_width <- 6
-plot_height <- 6
+plot_width <- 7
+plot_height <- 5
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,
