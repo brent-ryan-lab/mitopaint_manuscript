@@ -1485,7 +1485,7 @@ visible_legend <- TRUE
 ```
 ---
 ### `9.` classic readouts mitopaint data (mean per well) v1
-- for mPaintDR2_N2_N3_N4 use the following file variables
+- for mPaintDR2_N2_N3_N4 use the following variables
 ```
 batches_info <- list(
   N1 = list(
@@ -1522,9 +1522,6 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration")
 file_name <- "mPaintDR2_Classic_N2_N3_N4"
-```
-- for mPaintDR2_N2_N3_N4 use the following plot variables
-```
 plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
 plot_lab <- c("DMSO", "CCCP", "ROT")
 plot_feats <- c("Intensity Cytoplasm CellRox Mean",
@@ -1543,7 +1540,7 @@ size_axis <- 12
 plot_width <- 3
 plot_height <- 4
 ```
-- for mPaintSpace2_N1_N2_N3 use the following file variables
+- for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 batches_info <- list(
   N1A = list(
@@ -1607,9 +1604,6 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration")
 file_name <- "mPaintSpace2_N1_N2_N3_Classic"
-```
-- for mPaintSpace2_N1_N2_N3 use the following plot variables
-```
 plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
                "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
                "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")

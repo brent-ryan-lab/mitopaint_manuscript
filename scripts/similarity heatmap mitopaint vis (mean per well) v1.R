@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 12-08-2026
+# Last edit: 02-10-2026
 
 # load packages ####
 library(data.table)
@@ -30,28 +30,28 @@ plot_height <- 6
 load_data <- function(file_name,
                       integrate_state,
                       redu_state) {
-  # load data
-  data <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv", sep = ""),
-      header = TRUE
+    # load data
+    data <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv", sep = ""),
+        header = TRUE
+      )
     )
-  )
-  # keep rownames
-  rownames(data) <- data$V1
-  data$V1 <- NULL
-  # load meta
-  meta <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name, "_meta_", integrate_state, ".csv", sep = ""),
-      header = TRUE
+    # keep rownames
+    rownames(data) <- data$V1
+    data$V1 <- NULL
+    # load meta
+    meta <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_meta_", integrate_state, ".csv", sep = ""),
+        header = TRUE
+      )
     )
-  )
-  # keep rownames
-  rownames(meta) <- meta$V1
-  meta$V1 <- NULL
+    # keep rownames
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL 
   return(list(
     data = data,
     meta = meta
