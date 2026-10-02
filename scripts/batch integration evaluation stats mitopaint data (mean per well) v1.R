@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 28-08-2026
+# Last edit: 02-10-2026
 
 # load packages ####
 library(data.table)
@@ -24,6 +24,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
   # avoid bug with numeric coercion with as.numeric helper function
@@ -33,11 +34,19 @@ load_data <- function(file_name, integrate_state) {
     x
   }
   # set paths
-  df_path   <- paste0("data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv")
-  umap_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv")
-  meta_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv")
-  nn_path   <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_nn_edges.csv")
-  knn_path  <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv")
+  if (avg_profile == TRUE) {
+    df_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_data.csv")
+    umap_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_umap_embeddings.csv")
+    meta_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_dimred_meta.csv")
+    nn_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_nn_edges.csv")
+    knn_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv")
+  } else {
+    df_path   <- paste0("data/processed/", file_name, "_data_", integrate_state, "_", redu_state, ".csv")
+    umap_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv")
+    meta_path <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_dimred_meta.csv")
+    nn_path   <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_umap_nn_edges.csv")
+    knn_path  <- paste0("data/processed/", file_name, "_", integrate_state, "_", redu_state, "_knn_umap.csv")  
+  }
   # load profiles as df
   # df is needed for mAP
   df <- as.data.frame(fread(df_path, header = TRUE))

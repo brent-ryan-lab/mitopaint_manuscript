@@ -1026,6 +1026,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables:
 ```
@@ -1033,6 +1034,7 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
+avg_profile <- TRUE
 ```
 ---
 ### `5.` remove redundant mitopaint data (mean per well) v1
