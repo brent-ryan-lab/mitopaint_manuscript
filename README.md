@@ -1137,6 +1137,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "viridis"
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1144,6 +1145,7 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "hues"
+avg_profile <- TRUE
 ```
 ---
 ### `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1

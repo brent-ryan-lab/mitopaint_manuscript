@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 04-08-2026
+# Last edit: 02-10-2026
 
 # load packages ####
 library(data.table)
@@ -15,36 +15,62 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- "hues"
+pastel_cols <- "viridis"
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
                       redu_state) {
-  # load PCA embeddings
-  pca_embeddings <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_pca_embeddings.csv"),
-      header = TRUE))
-  rownames(pca_embeddings) <- pca_embeddings$V1
-  pca_embeddings$V1 <- NULL
-  # load metadata
-  meta <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-                 "_",redu_state,"_dimred_meta.csv"),
-      header = TRUE))
-  rownames(meta) <- meta$V1
-  meta$V1 <- NULL
-  # load PCA var
-  pca_var <- as.data.frame(
-    fread(paste0("data/processed/",file_name,"_",integrate_state,
-        "_",redu_state,"_pca_var.csv"),
-      header = TRUE))
-  pca_var$V1 <- NULL
-  # keep rows aligned between meta and PCA embeddings
-  meta <- meta[rownames(pca_embeddings), , drop = FALSE]
+  if (avg_profile == TRUE) {
+    # load PCA embeddings
+    pca_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_pca_embeddings.csv"),
+            header = TRUE))
+    rownames(pca_embeddings) <- pca_embeddings$V1
+    pca_embeddings$V1 <- NULL
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_avg_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # load PCA var
+    pca_var <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_pca_var.csv"),
+            header = TRUE))
+    pca_var$V1 <- NULL
+    # keep rows aligned between meta and PCA embeddings
+    meta <- meta[rownames(pca_embeddings), , drop = FALSE]
+  } else {
+    # load PCA embeddings
+    pca_embeddings <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_pca_embeddings.csv"),
+            header = TRUE))
+    rownames(pca_embeddings) <- pca_embeddings$V1
+    pca_embeddings$V1 <- NULL
+    # load metadata
+    meta <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_dimred_meta.csv"),
+            header = TRUE))
+    rownames(meta) <- meta$V1
+    meta$V1 <- NULL
+    # load PCA var
+    pca_var <- as.data.frame(
+      fread(paste0("data/processed/",file_name,"_",integrate_state,
+                   "_",redu_state,"_pca_var.csv"),
+            header = TRUE))
+    pca_var$V1 <- NULL
+    # keep rows aligned between meta and PCA embeddings
+    meta <- meta[rownames(pca_embeddings), , drop = FALSE]
+  }
   return(list(
       pca_embeddings = pca_embeddings,
       meta = meta,
@@ -294,7 +320,7 @@ add_fixed_legend_space <- function(plot,
   )
 }
 # apply consistent legend space to plots ####
-plots_fixed <- map(
+plots_fixed <- purrr::map(
   names(plots),
   function(plot_name) {
     add_fixed_legend_space(
