@@ -1018,6 +1018,16 @@ n_neighbors <- 30
 n_epochs <- 500
 avg_profile <- FALSE
 ```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- c("integrated", "unintegrated")
+pastel_cols <- lighten(c("#440154FF","#46337EFF","#365C8DFF","#277F8EFF","#1FA187FF","#4AC16DFF","#9FDA3AFF","#FDE725FF"), amount = 0.3)
+n_neighbors <- 30
+n_epochs <- 500
+avg_profile <- TRUE
+```
 ---
 ### `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1035,6 +1045,14 @@ redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
 avg_profile <- FALSE
+```
+- for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_states <- c("integrated", "unintegrated")
+ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_4")
+avg_profile <- TRUE
 ```
 ---
 ### `5.` remove redundant mitopaint data (mean per well) v1
