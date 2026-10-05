@@ -22,18 +22,9 @@ plot_feats <- c("Intensity Cytoplasm TMRM Mean",
                 "Intensity Cytoplasm CellRox Mean",
                 "Number of Selected Spots/ Selected Cell",
                 "Mitochondria Selected Ratio Width to Length")
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
-  # load df
-  df <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name_paint, "_data_", integrate_state, "_", redu_state, ".csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames as WELL_BATCH
-  rownames(df) <- df$V1
-  df$V1 <- NULL
   # load classic
   classic <- as.data.frame(
     fread(
@@ -43,31 +34,47 @@ load_data <- function(file_name_paint, file_name_classic) {
   )
   # keep rownames as WELL_BATCH
   rownames(classic) <- classic$V1
-  classic <- classic[rownames(classic) %in% rownames(df),]
   classic$V1 <- NULL
   # load umap embeddings
-  umap_embeddings <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name_paint, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv", sep = ""), 
-      header = TRUE)
-  )
+  if (avg_profile == TRUE) {
+    umap_embeddings <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_", integrate_state, "_", redu_state, "_avg_umap_embeddings.csv", sep = ""), 
+        header = TRUE)
+    )
+  } else {
+    umap_embeddings <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_", integrate_state, "_", redu_state, "_umap_embeddings.csv", sep = ""), 
+        header = TRUE)
+    )
+  }
   # keep rownames as WELL_BATCH
   rownames(umap_embeddings) <- umap_embeddings$V1
   umap_embeddings$V1 <- NULL
   # load metadata as meta
-  meta <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name_paint, "_meta_", integrate_state, ".csv", sep = ""), 
-      header = TRUE)
-  )
+  if (avg_profile == TRUE) {
+    meta <- (
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_", integrate_state, "_", redu_state, "_avg_dimred_meta.csv", sep = ""), 
+        header = TRUE)
+    )
+  } else {
+    meta <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_meta_", integrate_state, ".csv", sep = ""), 
+        header = TRUE)
+    )
+  }
   # keep rownames as WELL_BATCH
   rownames(meta) <- meta$V1
   meta$V1 <- NULL
   # return list of drift corrected data, raw data, metadata, and drift fits
   return(list(
-    df = df,
     classic = classic,
     umap_embeddings =  umap_embeddings,
     meta = meta
@@ -81,6 +88,65 @@ data <- load_data(
   file_name_paint,
   file_name_classic
 )
+# avg classic if avg_profile == TRUE ####
+if (avg_profile == TRUE) {
+  # identify which columns to avg (columns that are not metadata)
+  feature_cols <- setdiff(
+    colnames(data$classic),
+    c(
+      "Row",
+      "Column",
+      "Compound",
+      "Concentration",
+      "Well",
+      "Batch",
+      "Condition",
+      "ID",
+      "Order"
+    )
+  )
+  # average all non-DMSO profiles within Batch × Condition
+  non_dmso <- data$classic |>
+    dplyr::filter(Compound != "DMSO") |>
+    dplyr::group_by(Batch, Condition) |>
+    dplyr::summarise(
+      Compound = dplyr::first(Compound),
+      Concentration = dplyr::first(Concentration),
+      Row = NA_integer_,
+      Column = NA_integer_,
+      Well = NA_character_,
+      ID = NA_character_,
+      Order = NA_real_,
+      dplyr::across(
+        all_of(feature_cols),
+        ~ mean(.x, na.rm = TRUE)
+      ),
+      .groups = "drop"
+    ) |>
+    dplyr::mutate(
+      row_id = paste(Condition, Batch, sep = "_")
+    )
+  # keep all DMSO wells individually
+  dmso <- data$classic |>
+    dplyr::filter(Compound == "DMSO") |>
+    dplyr::mutate(
+      row_id = paste(Condition, Well, Batch, sep = "_")
+    )
+  # combine averaged non-DMSO with raw DMSO
+  combined_avg <- dplyr::bind_rows(
+    dmso,
+    non_dmso
+  )
+  # assign unique row names
+  rownames(combined_avg) <- combined_avg$row_id
+  # overwrite classic
+  data$classic <- combined_avg
+  data$classic <- data$classic[rownames(data$classic) %in% rownames(data$umap_embeddings),]
+  rm(dmso, non_dmso, combined_avg)
+} else {
+  data$classic <- data$classic
+  data$classic <- data$classic[rownames(data$classic) %in% rownames(data$umap_embeddings),]
+}
 # create function to plot umap ####
 plot_umap <- function(data,
                      grouping_var,
@@ -162,7 +228,7 @@ plots$umap_morph <- plot_umap(data,
                             "Mitochondria Ratio\nWidth to Length",
                             "umap by Mitochondria Morphology")
 plots$umap_morph
-plots_fixed <- map(
+plots_fixed <- purrr::map(
   plots,
   # apply fixed legend space to all plots so that umap is square (not squished), and legend is consistent width
   add_fixed_legend_space

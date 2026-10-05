@@ -1745,6 +1745,7 @@ plot_feats <- c("Intensity Cytoplasm TMRM Mean",
                 "Intensity Cytoplasm CellRox Mean",
                 "Number of Selected Spots/ Selected Cell",
                 "Mitochondria Selected Ratio Width to Length")
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables   
 ```
@@ -1756,4 +1757,5 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
                 "mkeima ph7 mitochondria Ratio Width to Length")
+avg_profile <- FALSE
 ```
