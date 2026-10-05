@@ -1674,6 +1674,7 @@ annot_colors <- list(
     Other = "grey"))
 col_scale <- c("blue", "white", "red")
 dims_plot <- c("PC_1", "PC_2")
+avg_profile <- FALSE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables    
 ```
@@ -1696,6 +1697,7 @@ annot_colors <- list(
     Other = "grey"))
 col_scale <- c("blue", "white", "red")
 dims_plot <- c("PC_1", "PC_2")
+avg_profile <- FALSE
 ```
 ---
 ### `9.2` channel corrected spot count mitopaint data (mean per well) v1

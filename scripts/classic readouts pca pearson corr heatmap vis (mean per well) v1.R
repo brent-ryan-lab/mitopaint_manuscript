@@ -16,8 +16,8 @@ library(colorspace)
 library(ComplexHeatmap)
 library(circlize)
 # set file variables ####
-classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
-file_name <- "mPaintSpace2_N1_N2_N3"
+classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
+file_name <- "mPaintDR2_N2_N3_N4"
 integrate_state <- "integrated"
 redu_state <- "redu"
 meta_cols <- c("Row", "Column", "Compound", "Concentration", "Well", "Batch", "Condition")
@@ -25,7 +25,7 @@ feature_patterns <- c(
   MMP = "tmrm",
   ROS = "cellrox",
   Morph = "mitochondria",
-  Spots = "spots|mt-keima|ph4/ph7|spot")
+  Spots = "spots|mkeima")
 annot_colors <- list(
   Feature = c(
     ROS = "#DC267F",
@@ -35,6 +35,7 @@ annot_colors <- list(
     Other = "grey"))
 col_scale <- c("blue", "white", "red")
 dims_plot <- c("PC_1", "PC_2")
+avg_profile <- FALSE
 # set function to load data ####
 load_data <- function(classic_file_name,
                       file_name,
@@ -62,12 +63,7 @@ load_data <- function(classic_file_name,
   # keep rownames as WELL_BATCH
   rownames(df) <- df$V1
   df$V1 <- NULL
-  df <- df[rownames(df) %in% rownames(pca_embeddings),]
-  # separate metadata
-  meta <- df[, colnames(df) %in% meta_cols]
-  df <- df[, !colnames(df) %in% meta_cols]
   return(list(pca_embeddings = pca_embeddings,
-              meta = meta,
               df = df
               ))
 }
@@ -75,8 +71,74 @@ load_data <- function(classic_file_name,
 data <- load_data(classic_file_name,
                   file_name,
                   integrate_state,
-                  redu_state,
-                  meta_cols)
+                  redu_state)
+# avg classic if avg_profile == TRUE ####
+if (avg_profile == TRUE) {
+  # identify which columns to avg (columns that are not metadata)
+  feature_cols <- setdiff(
+    colnames(data$df),
+    c(
+      "Row",
+      "Column",
+      "Compound",
+      "Concentration",
+      "Well",
+      "Batch",
+      "Condition",
+      "ID",
+      "Order"
+    )
+  )
+  # average all non-DMSO profiles within Batch × Condition
+  non_dmso <- data$df |>
+    dplyr::filter(Compound != "DMSO") |>
+    dplyr::group_by(Batch, Condition) |>
+    dplyr::summarise(
+      Compound = dplyr::first(Compound),
+      Concentration = dplyr::first(Concentration),
+      Row = NA_integer_,
+      Column = NA_integer_,
+      Well = NA_character_,
+      ID = NA_character_,
+      Order = NA_real_,
+      dplyr::across(
+        all_of(feature_cols),
+        ~ mean(.x, na.rm = TRUE)
+      ),
+      .groups = "drop"
+    ) |>
+    dplyr::mutate(
+      row_id = paste(Condition, Batch, sep = "_")
+    )
+  # keep all DMSO wells individually
+  dmso <- data$df |>
+    dplyr::filter(Compound == "DMSO") |>
+    dplyr::mutate(
+      row_id = paste(Condition, Well, Batch, sep = "_")
+    )
+  # combine averaged non-DMSO with raw DMSO
+  combined_avg <- dplyr::bind_rows(
+    dmso,
+    non_dmso
+  )
+  # assign unique row names
+  rownames(combined_avg) <- combined_avg$row_id
+  # overwrite classic
+  data$df <- combined_avg
+  data$df <- data$df[rownames(data$df) %in% rownames(data$pca_embeddings),]
+  rm(dmso, non_dmso, combined_avg)
+} else {
+  data$df <- data$df
+  data$df <- data$df[rownames(data$df) %in% rownames(data$pca_embeddings),]
+}
+# separate metadata ####
+data$meta <- data$df[, colnames(data$df) %in% meta_cols]
+data$df <- data$df[, !colnames(data$df) %in% meta_cols]
+if (avg_profile == TRUE) {
+  data$df <- data$df[, !colnames(data$df) %in% c("row_id", "ID", "Order")]
+} else {
+  data$df <- data$df
+  }
 # calculate pearson corr ####
 cor_mat <- cor(data$df,
                data$pca_embeddings, 
