@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 04-08-2026
+# Last edit: 05-10-2026
 
 # load packages ####
 library(data.table)
@@ -22,18 +22,9 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
                 "mkeima ph7 mitochondria Ratio Width to Length")
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
-  # load df
-  df <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name_paint, "_data_", integrate_state, "_", redu_state, ".csv", sep = ""), 
-      header = TRUE)
-  )
-  # keep rownames as WELL_BATCH
-  rownames(df) <- df$V1
-  df$V1 <- NULL
   # load classic
   classic <- as.data.frame(
     fread(
@@ -43,7 +34,6 @@ load_data <- function(file_name_paint, file_name_classic) {
   )
   # keep rownames as WELL_BATCH
   rownames(classic) <- classic$V1
-  classic <- classic[rownames(classic) %in% rownames(df),]
   classic$V1 <- NULL
   # load pca embeddings
   pca_embeddings <- as.data.frame(
@@ -65,18 +55,26 @@ load_data <- function(file_name_paint, file_name_classic) {
   # keep rownames
   pca_var$V1 <- NULL
   # load metadata as meta
-  meta <- as.data.frame(
-    fread(
-      paste(
-        "data/processed/", file_name_paint, "_meta_", integrate_state, ".csv", sep = ""), 
-      header = TRUE)
-  )
+  if (avg_profile == TRUE) {
+    meta <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_", integrate_state, "_", redu_state, "_avg_dimred_meta.csv", sep = ""), 
+        header = TRUE)
+    ) 
+  } else {
+    meta <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name_paint, "_meta_", integrate_state, ".csv", sep = ""), 
+        header = TRUE)
+    ) 
+  }
   # keep rownames as WELL_BATCH
   rownames(meta) <- meta$V1
   meta$V1 <- NULL
   # return list of drift corrected data, raw data, metadata, and drift fits
   return(list(
-    df = df,
     classic = classic,
     pca_embeddings =  pca_embeddings,
     pca_var = pca_var,
@@ -91,7 +89,65 @@ data <- load_data(
   file_name_paint,
   file_name_classic
 )
-
+# avg classic if avg_profile == TRUE ####
+if (avg_profile == TRUE) {
+  # identify which columns to avg (columns that are not metadata)
+  feature_cols <- setdiff(
+    colnames(data$classic),
+    c(
+      "Row",
+      "Column",
+      "Compound",
+      "Concentration",
+      "Well",
+      "Batch",
+      "Condition",
+      "ID",
+      "Order"
+    )
+  )
+  # average all non-DMSO profiles within Batch × Condition
+  non_dmso <- data$classic |>
+    dplyr::filter(Compound != "DMSO") |>
+    dplyr::group_by(Batch, Condition) |>
+    dplyr::summarise(
+      Compound = dplyr::first(Compound),
+      Concentration = dplyr::first(Concentration),
+      Row = NA_integer_,
+      Column = NA_integer_,
+      Well = NA_character_,
+      ID = NA_character_,
+      Order = NA_real_,
+      dplyr::across(
+        all_of(feature_cols),
+        ~ mean(.x, na.rm = TRUE)
+      ),
+      .groups = "drop"
+    ) |>
+    dplyr::mutate(
+      row_id = paste(Condition, Batch, sep = "_")
+    )
+  # keep all DMSO wells individually
+  dmso <- data$classic |>
+    dplyr::filter(Compound == "DMSO") |>
+    dplyr::mutate(
+      row_id = paste(Condition, Well, Batch, sep = "_")
+    )
+  # combine averaged non-DMSO with raw DMSO
+  combined_avg <- dplyr::bind_rows(
+    dmso,
+    non_dmso
+  )
+  # assign unique row names
+  rownames(combined_avg) <- combined_avg$row_id
+  # overwrite classic
+  data$classic <- combined_avg
+  data$classic <- data$classic[rownames(data$classic) %in% rownames(data$pca_embeddings),]
+  rm(dmso, non_dmso, combined_avg)
+} else {
+  data$classic <- data$classic
+  data$classic <- data$classic[rownames(data$classic) %in% rownames(data$pca_embeddings),]
+}
 # create function to plot pca ####
 plot_pca <- function(data,
                      grouping_var,
@@ -180,7 +236,7 @@ plots$pca_morph <- plot_pca(data,
                            "Mitochondria Ratio\nWidth to Length",
                            "PCA by Mitochondria Morphology")
 plots$pca_morph
-plots_fixed <- map(
+plots_fixed <- purrr::map(
   plots,
   # apply fixed legend space to all plots so that PCA is square (not squished), and legend is consistent width
   add_fixed_legend_space
