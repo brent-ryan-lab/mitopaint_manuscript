@@ -99,7 +99,7 @@ load_data <- function(file_name) {
   ))
 }
 # run function to load data ####
-batches <- map(
+batches <- purrr::map(
   batches_info,
   function(batch_info) {
     load_data(
@@ -142,7 +142,7 @@ make_seurat_object <- function(batch_obj) {
   return(seurat_obj)
 }
 # run function to make seurat object in df.seurat container ####
-df.seurat <- map(
+df.seurat <- purrr::map(
   batches,
   make_seurat_object
 )
@@ -159,7 +159,7 @@ integrated.seurat <- IntegrateData(
     # only integrate features shared across all N
     anchor.features = Reduce(
       intersect,
-      map(batches, ~ colnames(.x$df))
+      purrr::map(batches, ~ colnames(.x$df))
     ),
     scale = FALSE
   ),

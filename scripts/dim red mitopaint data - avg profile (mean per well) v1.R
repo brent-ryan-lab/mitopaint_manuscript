@@ -10,9 +10,9 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
-integrate_state <- "unintegrated"
+integrate_state <- "integrated"
 dims_use <- 1:50
 k_param <- 20
 res <- 1

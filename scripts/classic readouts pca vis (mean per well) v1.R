@@ -22,7 +22,7 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
                 "mkeima ph7 mitochondria Ratio Width to Length")
-avg_profile <- TRUE
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
   # load classic

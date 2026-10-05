@@ -13,13 +13,13 @@ library(Seurat)
 library(ggplot2)
 library(ggpubr)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- c("integrated", "unintegrated")
-pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+pastel_cols <- lighten(c("#440154FF","#46337EFF","#365C8DFF","#277F8EFF","#1FA187FF","#4AC16DFF","#9FDA3AFF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500
-avg_profile <- FALSE
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
   if (avg_profile == TRUE) {
@@ -112,7 +112,7 @@ plots <- list()
 # data is a large list containing sublists for integrate_state (integrated, unintegrated)
 data <- integrate_state |>
   set_names() |>
-  map(
+  purrr::map(
     # each sublist contains corresponding df and meta
     ~ load_data(
       file_name = file_name,

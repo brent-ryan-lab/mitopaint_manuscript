@@ -15,17 +15,17 @@ library(cluster)
 library(tidyverse)
 library(vegan)
 # set file variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
-compound_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
-batch_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 annot_feats_disc <- c("Compound", "Batch")
+compound_cols <- c(lighten("#440154FF", amount = 0.3), scales::hue_pal()(32))
+batch_cols <- lighten(c(viridis(6)), amount = 0.3)
 annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")
 agg_well <- TRUE
-plot_width <- 7.4
-plot_height <- 6
+plot_width <- 12
+plot_height <- 9
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,

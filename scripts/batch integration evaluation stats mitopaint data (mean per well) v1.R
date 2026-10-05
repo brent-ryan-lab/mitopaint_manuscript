@@ -20,11 +20,11 @@ library(kBET)
 library(lisi)
 library(aricode)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_states <- c("integrated", "unintegrated")
-ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
-avg_profile <- FALSE
+ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_4")
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
   # avoid bug with numeric coercion with as.numeric helper function

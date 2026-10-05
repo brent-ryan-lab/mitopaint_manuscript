@@ -20,20 +20,20 @@ library(cowplot)
 library(grid)
 library(stringr)
 # set file variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
-md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
-classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
+md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
+classic_file_name <- "mPaintSpace2_N1_N2_N3_Classic"
 integrate_state <- "integrated"
-plot_feats <- c("Intensity Cytoplasm CellRox Mean",
-                "Intensity Cytoplasm TMRM Mean",
-                "Mitochondria Selected Ratio Width to Length",
-                "Number of Selected Spots/ Selected Cell")
+plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Intensity Cytoplasm TMRM test Mean",
+                "mkeima ph7 mitochondria Ratio Width to Length",
+                "Number of Mitophagy Spots Selected- per Cell")
 y_lab <- c("Cytoplasm ROS Intensity",
            "Cytoplasm MMP Intensity",
            "Mitochondria Width:Length",
            "Mitophagy Spots")
-plot_cond <- c("CCCP", "ROT")
-pastel_cols <- lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3)
+plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomycin", "Cyclosporin A", "CQ", "BAM15", "MitoQ", "Nocodazole",  "Cytochalasin D")
+pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
 # create list holders ####
 # create compound_cols list to link plot_cond and pastel_cols
 compound_cols <- setNames(

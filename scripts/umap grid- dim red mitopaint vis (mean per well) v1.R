@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 04-09-2026
+# Last edit: 04-10-2026
 
 library(data.table)
 library(ggplot2)
@@ -20,7 +20,7 @@ integrate_state <- "integrated"
 plot_width <- 12
 plot_height <- 10
 grid_width <- 6
-avg_profile <- TRUE
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -115,7 +115,9 @@ plot_umap_compound <- function(data, compound_name) {
     ) +
     labs(
       title = compound_name,
-      colour = "[uM]"
+      colour = "[uM]",
+      x = "UMAP_1",
+      y = "UMAP_2"
     ) +
     guides(
       colour = guide_colorbar(

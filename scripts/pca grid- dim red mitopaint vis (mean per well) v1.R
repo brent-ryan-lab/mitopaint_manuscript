@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 25-08-2026
+# Last edit: 02-10-2026
 
 # load packages ####
 library(data.table)
@@ -15,12 +15,12 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintDR2_N2_N3_N4"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12
-plot_height <- 3
-grid_width <- 3
+plot_height <- 10
+grid_width <- 6
 avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name,

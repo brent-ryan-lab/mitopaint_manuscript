@@ -24,7 +24,7 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
-avg_profile <- TRUE
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,

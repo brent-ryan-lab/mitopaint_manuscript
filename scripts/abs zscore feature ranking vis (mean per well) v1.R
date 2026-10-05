@@ -28,7 +28,7 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
                "Cytochalasin D_5")
 contrast_all <- FALSE
 rank <- 10
-avg_profile <- TRUE
+avg_profile <- FALSE
 # load data ####
 # load data as df
   if (avg_profile == TRUE) {
