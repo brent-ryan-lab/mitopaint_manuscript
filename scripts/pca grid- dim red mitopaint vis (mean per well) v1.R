@@ -15,13 +15,15 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
-plot_width <- 12
-plot_height <- 10
-grid_width <- 6
-avg_profile <- FALSE
+plot_width <- 10
+plot_height <- 3
+grid_width <- 5
+avg_profile <- TRUE
+plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
+               "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -159,11 +161,19 @@ plots <- purrr::map(
   compound_levels,
   ~ add_fixed_legend_space(plot_pca_compound(data, .x))
 )
+names(plots) <- compound_levels
 # arrange into a grid #
-pca_grid <- cowplot::plot_grid(
-  plotlist = plots,
-  ncol = grid_width
-)
+if ("all" %in% plot_cond) {
+  pca_grid <- cowplot::plot_grid(
+    plotlist = plots,
+    ncol = grid_width
+  )
+} else {
+  pca_grid <- cowplot::plot_grid(
+    plotlist = plots[names(plots) %in% plot_cond],
+    ncol = grid_width
+  )
+}
 pca_grid
 
 # save plot ####

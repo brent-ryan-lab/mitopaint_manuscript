@@ -11,7 +11,7 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 # load data ####

@@ -1183,7 +1183,7 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "hues"
-avg_profile <- FALSE
+avg_profile <- TRUE
 ```
 ---
 ### `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
@@ -1199,6 +1199,12 @@ file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+```
 ---
 ### `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following file variables
@@ -1210,6 +1216,12 @@ integrate_state <- "integrated"
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ```
@@ -1255,6 +1267,26 @@ dims_plot <- c("PC_1", "PC_2")
 plot_width <- 7
 plot_height <- 5
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+integrate_state <- "integrated"
+redu_state <- "redu"
+annot_colors <- c(
+  CellROX = "#DC267F",
+  TMRM = "#FFB000",
+  `mt-Keima pH7` = "#23CC86",
+  `mt-Keima pH4` = "#FE6100",
+  Other = "grey")
+feature_patterns <- c(
+  CellROX = "cellrox",
+  TMRM = "tmrm",
+  `mt-Keima pH7` = "mt-keima ph7",
+  `mt-Keima pH4` = "mt-keima ph4")
+dims_plot <- c("PC_1", "PC_2")
+plot_width <- 7
+plot_height <- 5
+```
 ---
 ### `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1266,6 +1298,7 @@ plot_width <- 12
 plot_height <- 3
 grid_width <- 3
 avg_profile <- FALSE
+plot_cond <- "all"
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1276,6 +1309,19 @@ plot_width <- 12
 plot_height <- 10
 grid_width <- 6
 avg_profile <- FALSE
+plot_cond <- "all"
+```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 10
+plot_height <- 3
+grid_width <- 5
+avg_profile <- TRUE
+plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
+               "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 --- 
 ### `6.2` umap- dim red mitopaint vis (mean per well) v1

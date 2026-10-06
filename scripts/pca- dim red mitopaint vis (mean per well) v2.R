@@ -19,7 +19,7 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "hues"
-avg_profile <- FALSE
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
