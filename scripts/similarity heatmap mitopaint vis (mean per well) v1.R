@@ -15,11 +15,11 @@ library(cluster)
 library(tidyverse)
 library(vegan)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_feats_disc <- c("Compound", "Batch")
-compound_cols <- c(lighten("#440154FF", amount = 0.3), scales::hue_pal()(32))
+compound_cols <- c(lighten("#440154FF", amount = 0.3), scales::hue_pal()(1005))
 batch_cols <- lighten(c(viridis(6)), amount = 0.3)
 annot_feats_cont <- c("Concentration")
 col_scale <- c("blue", "white", "red")

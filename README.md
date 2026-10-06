@@ -1418,6 +1418,17 @@ rank <- 10
 avg_profile <- FALSE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+ctrl_cond <- "DMSO_0"
+plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5",
+               "MitoQ_3", "MLN4924_0.1", "Nocodazole_0.1", "Oligomycin_0.03", "ROT_4", "SodiumArsenite_1")
+contrast_all <- FALSE
+rank <- 10
+avg_profile <- TRUE
+```
 ---
 ### `7.` mahalanobis distance mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1439,6 +1450,14 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- FALSE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pc_use <- 10
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+avg_profile <- TRUE
+```
 ---
 ### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables

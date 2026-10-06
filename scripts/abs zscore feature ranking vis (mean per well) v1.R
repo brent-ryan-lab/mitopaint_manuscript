@@ -19,16 +19,15 @@ library(tibble)
 library(viridis)
 library(colorspace)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ctrl_cond <- "DMSO_0"
-plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valinomycin_5",
-               "Cyclosporin A_10", "ROT_3", "CQ_20", "BAM15_10", "MitoQ_3", "Nocodazole_10",
-               "Cytochalasin D_5")
+plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5",
+               "MitoQ_3", "MLN4924_0.1", "Nocodazole_0.1", "Oligomycin_0.03", "ROT_4", "SodiumArsenite_1")
 contrast_all <- FALSE
 rank <- 10
-avg_profile <- FALSE
+avg_profile <- TRUE
 # load data ####
 # load data as df
   if (avg_profile == TRUE) {
