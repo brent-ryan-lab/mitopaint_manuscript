@@ -1345,6 +1345,16 @@ sep_legend_width <- 3
 sep_legend_height <- 5
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+pastel_cols <- scales::hue_pal()(1006)
+sep_legend_width <- 3
+sep_legend_height <- 5
+avg_profile <- TRUE
+```
 ---
 ### `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1356,6 +1366,7 @@ plot_width <- 12
 plot_height <- 3
 grid_width <- 3
 avg_profile <- FALSE
+plot_cond <- "all"
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1366,6 +1377,19 @@ plot_width <- 12
 plot_height <- 10
 grid_width <- 6
 avg_profile <- FALSE
+plot_cond <- "all"
+```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 10
+plot_height <- 3
+grid_width <- 5
+avg_profile <- TRUE
+plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
+               "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 ---
 ### `6.3` abs zscore feature ranking vis (mean per well) v1
@@ -1393,6 +1417,7 @@ contrast_all <- FALSE
 rank <- 10
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `7.` mahalanobis distance mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1413,6 +1438,7 @@ pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1449,6 +1475,7 @@ y_lab <- c("Cytoplasm ROS Intensity",
 plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomycin", "Cyclosporin A", "CQ", "BAM15", "MitoQ", "Nocodazole",  "Cytochalasin D")
 pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1473,6 +1500,7 @@ grid_width <- 6
 plot_width <- 12
 plot_height <- 10
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `8.` similarity heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1503,6 +1531,7 @@ agg_well <- TRUE
 plot_width <- 12
 plot_height <- 9
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `8.1` profile heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1567,6 +1596,7 @@ plot_height <- 4.5
 plot_width <- 8
 visible_legend <- TRUE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `9.` classic readouts mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1709,6 +1739,7 @@ size_axis <- 12
 plot_width <- 9
 plot_height <- 3
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `9.1` classic readouts pca vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1735,6 +1766,7 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "mkeima ph7 mitochondria Ratio Width to Length")
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1783,6 +1815,7 @@ col_scale <- c("blue", "white", "red")
 dims_plot <- c("PC_1", "PC_2")
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `9.2` channel corrected spot count mitopaint data (mean per well) v1
 - for mPaintDR2_N2 use the following variables
@@ -1843,3 +1876,4 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "mkeima ph7 mitochondria Ratio Width to Length")
 avg_profile <- FALSE
 ```
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
