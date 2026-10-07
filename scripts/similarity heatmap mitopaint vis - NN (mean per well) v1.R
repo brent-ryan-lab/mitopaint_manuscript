@@ -1,9 +1,9 @@
-# Title: similarity heatmap mitopaint vis (mean per well) v1
-# Step: 8
+# Title: similarity heatmap mitopaint vis - NN (mean per well) v1
+# Step: 8.2
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 02-10-2026
+# Last edit: 07-10-2026
 
 # load packages ####
 library(data.table)
@@ -15,22 +15,35 @@ library(cluster)
 library(tidyverse)
 library(vegan)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 integrate_state <- "integrated"
 redu_state <- "redu"
-annot_feats_disc <- c("Compound", "Batch")
-compound_cols <- c(lighten("#440154FF", amount = 0.3), scales::hue_pal()(32))
-batch_cols <- lighten(c(viridis(6)), amount = 0.3)
-annot_feats_cont <- c("Concentration")
+annot_feats_disc <- c("PCA_NN", "UMAP_NN", "Batch", "Compound_ID")
+pca_nn_cols <- scales::hue_pal()(11)
+umap_nn_cols <- scales::hue_pal()(18)
+batch_cols <- lighten(c(viridis(8)), amount = 0.3)
+comp_id_cols <- c(Library = "lightgrey", setNames(scales::hue_pal()(10),pos_ctrls))
 col_scale <- c("blue", "white", "red")
-agg_well <- TRUE
-plot_width <- 12
-plot_height <- 9
+plot_width <- 20
+plot_height <- 15
+avg_profile <- TRUE
+incl_dmso <- FALSE
+pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
+               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
 # set function to load data ####
 load_data <- function(file_name,
                       integrate_state,
                       redu_state) {
-    # load data
+  # load data
+  if (avg_profile == TRUE) {
+    data <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_data.csv", sep = ""),
+        header = TRUE
+      )
+    )
+  } else {
     data <- as.data.frame(
       fread(
         paste(
@@ -38,10 +51,20 @@ load_data <- function(file_name,
         header = TRUE
       )
     )
-    # keep rownames
-    rownames(data) <- data$V1
-    data$V1 <- NULL
-    # load meta
+  }
+  # keep rownames
+  rownames(data) <- data$V1
+  data$V1 <- NULL
+  # load meta
+  if (avg_profile == TRUE) {
+    meta <- as.data.frame(
+      fread(
+        paste(
+          "data/processed/", file_name, "_", integrate_state, "_", redu_state, "_avg_dimred_meta.csv", sep = ""),
+        header = TRUE
+      )
+    )
+  } else {
     meta <- as.data.frame(
       fread(
         paste(
@@ -49,9 +72,10 @@ load_data <- function(file_name,
         header = TRUE
       )
     )
-    # keep rownames
-    rownames(meta) <- meta$V1
-    meta$V1 <- NULL 
+  }
+  # keep rownames
+  rownames(meta) <- meta$V1
+  meta$V1 <- NULL 
   return(list(
     data = data,
     meta = meta
@@ -59,53 +83,21 @@ load_data <- function(file_name,
 }
 # run function to load data ####
 data <- load_data(file_name, integrate_state, redu_state)
-# set function to agg_well ####
-# if agg_well = TRUE, then technical replicate wells within batch get averaged together
-avg <- function(obj) {
-  meta <- obj$meta
-  dat  <- obj$data
-  # combine meta + data so the grouping variables stay attached to each well
-  combined <- cbind(meta, dat)
-  # average replicate wells within each Batch x Condition group
-  summary_df <- combined |>
-    group_by(Batch, Condition) |>
-    summarise(
-      Compound = first(Compound),
-      Concentration = first(Concentration),
-      across(
-        all_of(colnames(dat)),
-        ~ mean(.x, na.rm = TRUE)
-      ),
-      .groups = "drop"
-    ) |>
-    select(
-      Compound,
-      Concentration,
-      Batch,
-      Condition,
-      all_of(colnames(dat))
-    )
-  # create output meta and data
-  meta_out <- summary_df |>
-    select(Compound, Concentration, Batch, Condition)
-  meta_out <- as.data.frame(meta_out)
-  data_out <- summary_df |>
-    select(all_of(colnames(dat)))
-  data_out <- as.data.frame(data_out)
-  # row names must match and be Condition_Batch
-  rn <- paste(meta_out$Condition, meta_out$Batch, sep = "_")
-  rownames(meta_out) <- rn
-  rownames(data_out) <- rn
-  return(list(
-    data = data_out,
-    meta = meta_out
-  ))
+# if incl_dmso == FALSE, exclude DMSO wells ####
+if (incl_dmso == FALSE) {
+  data$meta <- data$meta[!data$meta$Compound %in% c("DMSO"),]
+  data$data <- data$data[rownames(data$data) %in% rownames(data$meta),]
 }
-# run function to agg_well
-if (agg_well) {
-  data <- avg(data)
-} else {
-  data <- data
+# populate Compound_ID if an annotation feature
+if ("Compound_ID" %in% annot_feats_disc) {
+  data$meta <- data$meta |>
+    dplyr::mutate(
+      Compound_ID = dplyr::case_when(
+        Compound %in% pos_ctrls ~ Compound,
+        Compound == "DMSO" ~ "DMSO",
+        TRUE ~ "Library"
+      )
+    )
 }
 # compute pearson correlation matrix ####
 heatmap_matrix <- cor(
@@ -115,92 +107,64 @@ heatmap_matrix <- cor(
 )
 # build annotation ####
 annot_df <- data$meta[
-  , colnames(data$meta) %in% c(annot_feats_disc, annot_feats_cont),
+  , colnames(data$meta) %in% c(annot_feats_disc),
   drop = FALSE]
 annot_df_stats <- annot_df
 annot_df_plot  <- annot_df
-# only log-transform (large range) Concentration for the heatmap annotation
-log_conc <- FALSE
-if (diff(range(annot_df_plot$Concentration, na.rm = TRUE)) > 1000) {
-  log_conc <- TRUE
-  min_pos <- min(
-    annot_df_plot$Concentration[annot_df_plot$Concentration > 0],
-    na.rm = TRUE
-  )
-  annot_df_plot$Concentration <- ifelse(
-    annot_df_plot$Concentration == 0,
-    log10(0.9 * min_pos),
-    log10(annot_df_plot$Concentration)
-  )
-}
-conc_title <- if (log_conc) {
-  expression(log[10](Concentration))
-} else {
-  "Concentration"
-}
 # annotation df
 annot_df_plot <- as.data.frame(annot_df_plot)
-rownames(annot_df_plot) <- paste(annot_df_plot$Compound, annot_df_plot$Concentration, annot_df_plot$Batch, sep = "_")
-make_disc_cols <- function(meta, var, palette) {
-  levs <- sort(unique(as.character(meta[[var]])))
-  if ("DMSO" %in% levs) {
-    levs <- c("DMSO", setdiff(levs, "DMSO"))
-  }
-  setNames(
-    palette[seq_along(levs)],
-    levs
-  )
+rownames(annot_df_plot) <- paste(rownames(data$meta))
+annot_cols <- list()
+# PCA_NN cols
+pca_nn_levs <- sort(unique(as.character(data$meta$PCA_NN)))
+annot_cols$PCA_NN <- setNames(
+  pca_nn_cols[seq_along(pca_nn_levs)],
+  pca_nn_levs
+)
+# UMAP_NN cols
+umap_nn_levs <- sort(unique(as.character(data$meta$UMAP_NN)))
+annot_cols$UMAP_NN <- setNames(
+  umap_nn_cols[seq_along(umap_nn_levs)],
+  umap_nn_levs
+)
+# Batch cols
+batch_levs <- sort(unique(as.character(data$meta$Batch)))
+annot_cols$Batch <- setNames(
+  batch_cols[seq_along(batch_levs)],
+  batch_levs
+)
+# comp_id cols
+comp_id_levs <- unique(as.character(data$meta$Compound_ID))
+# Put Library first if present
+if ("Library" %in% comp_id_levs) {
+  comp_id_levs <- c("Library", setdiff(comp_id_levs, "Library"))
 }
-  annot_cols <- list()
-  # Compound colours
-  compound_levs <- sort(unique(as.character(data$meta$Compound)))
-  if ("DMSO" %in% compound_levs) {
-    compound_levs <- c("DMSO", setdiff(compound_levs, "DMSO"))
-  }
-  annot_cols$Compound <- setNames(
-    compound_cols[seq_along(compound_levs)],
-    compound_levs
-  )
-  # Batch colours
-  batch_levs <- sort(unique(as.character(data$meta$Batch)))
-  annot_cols$Batch <- setNames(
-    batch_cols[seq_along(batch_levs)],
-    batch_levs
-  )
-  # continuous annotation features (function)
-  for (feat in annot_feats_cont) {
-    annot_cols[[feat]] <- circlize::colorRamp2(
-      range(annot_df_plot[[feat]], na.rm = TRUE),
-      c("white", "black")
-    )
-  }
-  # conditional compound legend columns
-  compound_legend <- list(
-    title_gp = gpar(fontsize = 14, fontface = "bold"),
-    labels_gp = gpar(fontsize = 14)
-  )
-  if (length(compound_levs) > 10) {
-    compound_legend$ncol <- 2
-    compound_legend$by_row <- TRUE
-  }
-  # full heatmap annotation object
-  heatmap_annot <- HeatmapAnnotation(
-    df = annot_df_plot,
-    col = annot_cols,
-    annotation_name_gp = gpar(fontsize = 14),
-    annotation_legend_param = list(
-      Compound = compound_legend,
-      Batch = list(
-        title_gp = gpar(fontsize = 14, fontface = "bold"),
-        labels_gp = gpar(fontsize = 14)
-      ),
-      Concentration = list(
-        title = conc_title,
+annot_cols$Compound_ID <- comp_id_cols[comp_id_levs]
+# full heatmap annotation object
+heatmap_annot <- HeatmapAnnotation(
+  df = annot_df_plot,
+  col = annot_cols,
+  annotation_name_gp = gpar(fontsize = 14),
+  annotation_legend_param = list(
+    Batch = list(
+      title_gp = gpar(fontsize = 14, fontface = "bold"),
+      labels_gp = gpar(fontsize = 14)
+    ),
+    PCA_NN = list(
+      title_gp = gpar(fontsize = 14, fontface = "bold"),
+      labels_gp = gpar(fontsize = 14)
+    ),
+    UMAP_NN = list(
+      title_gp = gpar(fontsize = 14, fontface = "bold"),
+      labels_gp = gpar(fontsize = 14)
+    ),
+    Compound_ID = 
+      list(
         title_gp = gpar(fontsize = 14, fontface = "bold"),
         labels_gp = gpar(fontsize = 14)
       )
-    )
   )
+)
 # plot heatmap ####
 # clustering dendrogram (hierarchical clustering) using correlation distance #
 # correlation distance measures the dissimilarity based on linear relationship between data points
@@ -226,8 +190,7 @@ draw(plot)
 # create function to calculate stats from correlation distance ####
 calc_heatmap_stats <- function(heatmap_matrix,
                                annot_df,
-                               annot_feats_disc,
-                               annot_feats_cont,
+                               annot_feats_disc
                                n_permanova = 999) {
   
   # make sure annotation rows line up with matrix rows
@@ -237,7 +200,7 @@ calc_heatmap_stats <- function(heatmap_matrix,
   # silhouette score quantifies if there are discrete clusters for the given grouping variable
   # value close to 1 = variable explains a high degree of separation, close to 0 = does not explain separation
   silhouette_df <- map_dfr(
-    c(annot_feats_disc, annot_feats_cont),
+    c(annot_feats_disc),
     function(feat) {
       group <- factor(annot_df[[feat]])
       # factor group annot_feats
@@ -268,7 +231,7 @@ calc_heatmap_stats <- function(heatmap_matrix,
   # large F means the groups are more separated relative to the spread within groups
   # low p value = statistically significant
   permanova_df <- map_dfr(
-    c(annot_feats_disc, annot_feats_cont),
+    c(annot_feats_disc),
     function(feat) {
       ann <- annot_df
       # discrete vars should be factors

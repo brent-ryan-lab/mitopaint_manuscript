@@ -1550,7 +1550,6 @@ agg_well <- TRUE
 plot_width <- 12
 plot_height <- 9
 ```
-- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
 ### `8.1` profile heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1615,8 +1614,26 @@ plot_height <- 4.5
 plot_width <- 8
 visible_legend <- TRUE
 ```
-- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
+### `8.2` similarity heatmap mitopaint vis - NN (mean per well) v1
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+integrate_state <- "integrated"
+redu_state <- "redu"
+annot_feats_disc <- c("PCA_NN", "UMAP_NN", "Batch", "Compound_ID")
+pca_nn_cols <- scales::hue_pal()(11)
+umap_nn_cols <- scales::hue_pal()(18)
+batch_cols <- lighten(c(viridis(8)), amount = 0.3)
+comp_id_cols <- c(Library = "lightgrey", setNames(scales::hue_pal()(10),pos_ctrls))
+col_scale <- c("blue", "white", "red")
+plot_width <- 20
+plot_height <- 15
+avg_profile <- TRUE
+incl_dmso <- FALSE
+pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
+               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
+```
 ### `9.` classic readouts mitopaint data (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
