@@ -190,7 +190,7 @@ draw(plot)
 # create function to calculate stats from correlation distance ####
 calc_heatmap_stats <- function(heatmap_matrix,
                                annot_df,
-                               annot_feats_disc
+                               annot_feats_disc,
                                n_permanova = 999) {
   
   # make sure annotation rows line up with matrix rows
