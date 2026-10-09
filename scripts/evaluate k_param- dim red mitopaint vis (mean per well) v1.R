@@ -19,11 +19,12 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_values <- c(8, 10, 12, 15, 20)
+k_values <- c(8, 12, 16, 20, 30, 40)
 res <- 1
 perplexity <- 20
 max_iter <- 500
 avg_profile <- TRUE
+selected_k <- 8
 # load data ####
 # load data as df
 if (redu_state == "redu") {
@@ -348,7 +349,6 @@ calc_cluster_silhouette <- function(
     na.rm = TRUE
   )
 }
-# helper function: evaluate one cluster assignment ####
 # helper function: evaluate one cluster assignment ####
 evaluate_clusters <- function(
     cosine_sim,
@@ -811,7 +811,7 @@ plot_k_tuning <- function(
     ggplot2::labs(
       title = paste0(
         method_name,
-        ":\n Cosine similarity"
+        "\nCosine similarity"
       ),
       x = "k",
       y = "Mean within-cluster\ncosine similarity"
@@ -852,7 +852,7 @@ plot_k_tuning <- function(
     ggplot2::labs(
       title = paste0(
         method_name,
-        ":\n Pearson similarity"
+        "\nPearson similarity"
       ),
       x = "k",
       y = "Mean within-cluster\npearson similarity"
@@ -966,15 +966,18 @@ plot_k_tuning <- function(
 # generate k tuning plots for PCA, tSNE and UMAP ####
 plots$PCA <- plot_k_tuning(
   k_summary = k_summary,
-  method_name = "PCA"
+  method_name = "PCA",
+  selected_k = selected_k
 )
 plots$tSNE <- plot_k_tuning(
   k_summary = k_summary,
-  method_name = "tSNE"
+  method_name = "tSNE",
+  selected_k = selected_k
 )
 plots$UMAP <- plot_k_tuning(
   k_summary = k_summary,
-  method_name = "UMAP"
+  method_name = "UMAP",
+  selected_k = selected_k
 )
 # function to plot adjacent-k stability ####
 plot_adjacent_k <- function(
@@ -1013,7 +1016,7 @@ plot_adjacent_k <- function(
     ggplot2::labs(
       title = paste0(
         method_name,
-        ": adjacent cross-k ",
+        "\nAdjacent cross-k ",
         metric
       ),
       x = "k2 in cross comparison",
@@ -1070,7 +1073,7 @@ plots$UMAP$NMI <- plot_adjacent_k(
   method_name = "UMAP",
   metric = "NMI"
 )
-
+plots
 # save results ####
 write.csv(
   k_summary,

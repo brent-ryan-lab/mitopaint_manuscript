@@ -1129,7 +1129,7 @@ file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 15
+k_param <- 16
 res <- 1
 perplexity <- 20
 max_iter <- 4000
@@ -1428,6 +1428,40 @@ plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5
 contrast_all <- FALSE
 rank <- 10
 avg_profile <- TRUE
+```
+---
+### `6.4` nn bar- dim red mitopaint vis (mean per well) v1 ###
+- for mPaintDR2_N2_N3_N4 use the following variables
+- for mPaintSpace2_N1_N2_N3 use the following variables
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+---
+### `6.5` evaluate k_param- dim red mitopaint vis (mean per well) v1 ###
+- for mPaintDR2_N2_N3_N4 use the following variables
+```
+file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+dims_use <- 1:50
+k_values <- c(8, 12, 16, 20, 30, 40)
+res <- 1
+perplexity <- 20
+max_iter <- 500
+avg_profile <- FALSE
+selected_k <- 16
+```
+- for mPaintSpace2_N1_N2_N3 use the following variables
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+dims_use <- 1:50
+k_values <- c(8, 12, 16, 20, 30, 40)
+res <- 1
+perplexity <- 20
+max_iter <- 500
+avg_profile <- TRUE
+selected_k <- 8
 ```
 ---
 ### `7.` mahalanobis distance mitopaint data (mean per well) v1

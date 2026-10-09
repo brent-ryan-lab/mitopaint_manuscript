@@ -14,7 +14,7 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 20
+k_param <- 8
 res <- 1
 perplexity <- 20
 max_iter <- 500
