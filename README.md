@@ -1903,7 +1903,7 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration")
 
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_Classic"
 
 plot_cond <- c("DMSO_0","CCCP_30","ROT_4","AntimycinA_0.01","Oligomycin_0.03",
                "MitoQ_3","Nocodazole_0.1","SodiumArsenite_1","CytochalasinD_0.5",
@@ -1953,6 +1953,17 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
 avg_profile <- FALSE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name_paint <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name_classic <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_Classic"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
+                "Intensity Cytoplasm CellRox Deep Red test Mean",
+                "Number of Mitophagy Spots Selected- per Cell",
+                "mkeima ph7 mitochondria Ratio Width to Length")
+avg_profile <- TRUE
+```
 ---
 ### `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables

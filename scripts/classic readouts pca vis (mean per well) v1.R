@@ -14,15 +14,15 @@ library(viridis)
 library(tidyverse)
 library(cowplot)
 # set variables ####
-file_name_paint <- "mPaintSpace2_N1_N2_N3"
-file_name_classic <- "mPaintSpace2_N1_N2_N3_Classic"
+file_name_paint <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name_classic <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_Classic"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
                 "Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Number of Mitophagy Spots Selected- per Cell",
                 "mkeima ph7 mitochondria Ratio Width to Length")
-avg_profile <- FALSE
+avg_profile <- TRUE
 # create function to load data ####
 load_data <- function(file_name_paint, file_name_classic) {
   # load classic
@@ -143,10 +143,12 @@ if (avg_profile == TRUE) {
   # overwrite classic
   data$classic <- combined_avg
   data$classic <- data$classic[rownames(data$classic) %in% rownames(data$pca_embeddings),]
+  data$pca_embeddings <- data$pca_embeddings[rownames(data$pca_embeddings) %in% rownames(data$classic),]
   rm(dmso, non_dmso, combined_avg)
 } else {
   data$classic <- data$classic
   data$classic <- data$classic[rownames(data$classic) %in% rownames(data$pca_embeddings),]
+  data$pca_embeddings <- data$pca_embeddings[rownames(data$pca_embeddings) %in% rownames(data$classic),]
 }
 # create function to plot pca ####
 plot_pca <- function(data,
