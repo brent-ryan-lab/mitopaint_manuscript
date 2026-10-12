@@ -35,7 +35,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
     - `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
   - `6.3` abs zscore feature ranking vis (mean per well) v1
-- `7.` mahalanobis distance mitopaint data (mean per well) v1
+- `7.` mahalanobis distance mitopaint data (mean per well) v2
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
   - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v1
 - `8.` similarity heatmap mitopaint vis (mean per well) v1
@@ -1334,6 +1334,8 @@ pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 sep_legend_width <- 3
 sep_legend_height <- 4
 avg_profile <- FALSE
+plot_width <- 3.7
+plot_height <- 3
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1344,6 +1346,8 @@ pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
 sep_legend_height <- 5
 avg_profile <- FALSE
+plot_width <- 3.7
+plot_height <- 3
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
@@ -1354,6 +1358,8 @@ pastel_cols <- scales::hue_pal()(1006)
 sep_legend_width <- 3
 sep_legend_height <- 5
 avg_profile <- TRUE
+plot_width <- 5
+plot_height <- 4
 ```
 ---
 ### `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
@@ -1434,6 +1440,14 @@ avg_profile <- TRUE
 - for mPaintDR2_N2_N3_N4 use the following variables
 - for mPaintSpace2_N1_N2_N3 use the following variables
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+avg_profile <- TRUE
+pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
+                "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
+```
 ---
 ### `6.5` evaluate k_param- dim red mitopaint vis (mean per well) v1 ###
 - for mPaintDR2_N2_N3_N4 use the following variables
@@ -1464,7 +1478,7 @@ avg_profile <- TRUE
 selected_k <- 8
 ```
 ---
-### `7.` mahalanobis distance mitopaint data (mean per well) v1
+### `7.` mahalanobis distance mitopaint data (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1473,6 +1487,8 @@ redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- FALSE
+post_hoc <- "bonferroni"
+lmme_batch <- TRUE
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1482,6 +1498,8 @@ redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- FALSE
+post_hoc <- "bonferroni"
+lmme_batch <- TRUE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
@@ -1491,6 +1509,8 @@ redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- TRUE
+post_hoc <- "BH"
+lmme_batch <- FALSE
 ```
 ---
 ### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1

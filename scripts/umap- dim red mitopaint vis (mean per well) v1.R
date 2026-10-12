@@ -22,6 +22,8 @@ pastel_cols <- scales::hue_pal()(1006)
 sep_legend_width <- 3
 sep_legend_height <- 5
 avg_profile <- TRUE
+plot_width <- 5
+plot_height <- 4
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -314,8 +316,8 @@ iwalk(
         ".pdf"
       ),
       plot = plot,
-      width = 3.7,
-      height = 3,
+      width = plot_width,
+      height = plot_height,
       units = "in",
       dpi = 300
     )
