@@ -1,9 +1,9 @@
-# Title: mahalanobis distance mitopaint data (mean per well) v1
+# Title: mahalanobis distance mitopaint data (mean per well) v2
 # Step: 7.
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 02-10-26
+# Last edit: 12-10-26
 
 # load packages ####
 library(data.table)
@@ -25,6 +25,8 @@ redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
 avg_profile <- TRUE
+post_hoc <- "BH"
+lmme_batch <- FALSE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -200,54 +202,80 @@ mahalanobis_hits <- function(obj, md, pc_use) {
       md_sig_cutoff
     )
   # test 2, batch aware linear mixed model on mahalanobis distance
-  md_model <- lmer(
-    as.formula(
-      paste0("`", md_col, "` ~ Condition + (1|Batch)")
-    ),
-    data = md_df
+  # make DMSO the reference condition
+  md_df$Condition <- relevel(
+    factor(md_df$Condition),
+    ref = "DMSO_0"
   )
-  # test 2, estimated marginal means
-  md_emm <- emmeans(
-    md_model,
-    ~ Condition
-  )
-  # test 2, contrasts only DMSO v. other conditions
-  md_contrasts <- contrast(
-    md_emm,
-    method = "trt.vs.ctrl",
-    ref = "DMSO_0",
-    adjust = "bonferroni"
-  )
-  # test 2, model-based pairwise comparison table
-  md_contrasts_df <- as.data.frame(md_contrasts)
-  # test 2, mahalanobis lmme summary
-  md_model_results <- md_contrasts_df
-      # remove brackets in contrast character string
-  md_model_results <- md_contrasts_df |>
-    mutate(
-      contrast = gsub("[()]", "", contrast)
+  if (lmme_batch) {
+    # fit batch-aware linear mixed effect model
+    md_model <- lmerTest::lmer(
+      as.formula(
+        paste0("`", md_col, "` ~ Condition + (1|Batch)")
+      ),
+      data = md_df
     )
-  md_contrasts_df <- md_contrasts_df |>
-    mutate(
-      contrast = gsub("[()]", "", contrast)
+  } else {
+    # fit ordinary linear model without batch adjustment
+    md_model <- stats::lm(
+      as.formula(
+        paste0("`", md_col, "` ~ Condition")
+      ),
+      data = md_df
+    )
+  }
+  # extract coefficient table
+  coef_df <- as.data.frame(
+    summary(md_model)$coefficients
+  ) |>
+    tibble::rownames_to_column("term")
+  # lm() does not return df as a coefficient-table column
+  if (!"df" %in% colnames(coef_df)) {
+    coef_df$df <- stats::df.residual(md_model)
+  }
+  # make DMSO contrasts table
+  md_contrasts_df <- coef_df |>
+    dplyr::filter(
+      stringr::str_starts(term, "Condition")
+    ) |>
+    dplyr::transmute(
+      Condition = stringr::str_remove(
+        term,
+        "^Condition"
+      ),
+      Control = "DMSO_0",
+      contrast = paste(
+        Condition,
+        Control,
+        sep = " - "
+      ),
+      estimate = Estimate,
+      SE = `Std. Error`,
+      df = .data$df,
+      t.ratio = `t value`,
+      p.value_raw = `Pr(>|t|)`
+    ) |>
+    dplyr::mutate(
+      p.value = p.adjust(
+        p.value_raw,
+        method = post_hoc
+      )
     )
   # test 2, populate table with matching metadata
   # make a lookup table from the metadata
   condition_lookup <- md_df |>
-    distinct(Condition, Compound, Concentration)
+    dplyr::distinct(
+      Condition,
+      Compound,
+      Concentration
+    )
   # add Condition / Compound / Concentration to the contrast table
   md_model_results <- md_contrasts_df |>
-    separate(
-      contrast,
-      into = c("Condition", "Control"),
-      sep = " - ",
-      remove = FALSE
-    ) |>
-    left_join(
+    dplyr::left_join(
       condition_lookup,
       by = "Condition"
     ) |>
-    select(
+    dplyr::select(
       Condition,
       Compound,
       Concentration,
@@ -257,6 +285,7 @@ mahalanobis_hits <- function(obj, md, pc_use) {
       df,
       t.ratio,
       p.value,
+      p.value_raw,
       everything()
     )
   # return list

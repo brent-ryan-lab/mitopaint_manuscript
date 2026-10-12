@@ -20,59 +20,69 @@ library(emmeans)
 # make sure order of plot_cond and plot_lab are the same
 # make sure order of plot_feats and y_lab are the same
 batches_info <- list(
-  N1A = list(
-    file_name = "SF260604_mPaintSpace2_N1A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N1A"
+  N1 = list(
+    file_name = "SF250813_mPaintFDA_1_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N1"
   ),
-  N1B = list(
-    file_name = "SF260604_mPaintSpace2_N1B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N1B"
+  N2 = list(
+    file_name = "SF250813_mPaintFDA_2_Classic",
+    dmso_wells = c("2_8","4_8","6_8","8_8","10_8","12_8",
+                   "14_8","16_8","18_8","20_8","22_8",
+                   "3_15","5_15","7_15","9_15","11_15",
+                   "13_15","15_15","17_15","19_15","21_15","23_15"),
+    batch_name = "N2"
   ),
-  N2A = list(
-    file_name = "SF260604_mPaintSpace2_N2A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N2A"
+  N3 = list(
+    file_name = "SF250813_mPaintFDA_3_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N3"
   ),
-  N2B = list(
-    file_name = "SF260604_mPaintSpace2_N2B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N2B"
+  N4 = list(
+    file_name = "SF250813_mPaintFDA_4_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N4"
   ),
-  N3A = list(
-    file_name = "SF260701_mPaintSpace2_N3A_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N3A"
+  N5 = list(
+    file_name = "SF250813_mPaintFDA_5_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N5"
   ),
-  N3B = list(
-    file_name = "SF260701_mPaintSpace2_N3B_Classic",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9"),
-    batch_name = "N3B"
+  N6 = list(
+    file_name = "SF250813_mPaintFDA_6_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N6"
+  ),
+  N7 = list(
+    file_name = "SF250813_mPaintFDA_7_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N7"
+  ),
+  N8 = list(
+    file_name = "SF250813_mPaintFDA_8_Classic",
+    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
+                   "14_2","16_2","18_2","20_2","22_2",
+                   "3_9","5_9","7_9","9_9","11_9","13_9",
+                   "15_9","17_9","19_9","21_9","23_9"),
+    batch_name = "N8"
   )
 )
 nuc_count = "Non-border cells Selected - Number of Objects"
@@ -80,12 +90,14 @@ meta_cols = c("Row",
               "Column",
               "Compound",	
               "Concentration")
-file_name <- "mPaintSpace2_N1_N2_N3_Classic"
-plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",
-               "Rapamycin_10", "Valinomycin_5", "Cyclosporin A_10", "CQ_10",
-               "BAM15_10", "MitoQ_3", "Nocodazole_10", "Cytochalasin D_5")
-plot_lab <- c("DMSO", "CCCP", "ROT", "NIG", "OLI", "RAP", "VAL", "CYC", "CQ",
-              "BAM15", "MITOQ", "NOC", "CYT")
+
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+
+plot_cond <- c("DMSO_0","CCCP_30","ROT_4","AntimycinA_0.01","Oligomycin_0.03",
+               "MitoQ_3","Nocodazole_0.1","SodiumArsenite_1","CytochalasinD_0.5",
+               "Chloroquine_20","MLN4924_0.1")
+plot_lab <- c("DMSO", "CCCP", "ROT", "ANTA","OLI","MITOQ","NOC","SA","CYTD",
+              "CQ","MLN")
 plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
                 "Intensity Cytoplasm TMRM test Mean",
                 "mkeima ph7 mitochondria Ratio Width to Length",
@@ -95,7 +107,7 @@ y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
            "Mitochondria Width:Length (a.u.)",
            "Mitophagy Spots (a.u.)")
 x_lab <- "Compound"
-pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
+pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(8))
 point_size <- 3
 size_annot <- 6
 size_axis <- 12
