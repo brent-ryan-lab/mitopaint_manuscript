@@ -22,7 +22,7 @@ plot_width <- 10
 plot_height <- 3
 grid_width <- 5
 avg_profile <- TRUE
-plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
+plot_cond <- c("AntimycinA", "CCCP", "Chloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 # create function to load data ####
 load_data <- function(file_name,

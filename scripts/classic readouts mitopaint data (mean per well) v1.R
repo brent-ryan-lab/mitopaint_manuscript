@@ -91,7 +91,7 @@ meta_cols = c("Row",
               "Compound",	
               "Concentration")
 
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_Classic"
 
 plot_cond <- c("DMSO_0","CCCP_30","ROT_4","AntimycinA_0.01","Oligomycin_0.03",
                "MitoQ_3","Nocodazole_0.1","SodiumArsenite_1","CytochalasinD_0.5",

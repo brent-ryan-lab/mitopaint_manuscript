@@ -1,9 +1,9 @@
-# Title: mahalanobis distance mitopaint data (mean per well) v2
+# Title: mahalanobis distance mitopaint data (mean per well) v3
 # Step: 7.
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 12-10-26
+# Last edit: 14-10-26
 
 # load packages ####
 library(data.table)
@@ -166,7 +166,7 @@ plots$pca_md<- plot_pca(
   )
 )
 plots$pca_md
-# create function to calculate mahalanobis hits ####
+# create function to calculate mahalanobis hits (lmme) ####
 mahalanobis_hits <- function(obj, md, pc_use) {
   # test 1 = mahalanobis d-squared p val to chi squared val
   # test 1 is calculated on a well level
@@ -296,7 +296,7 @@ mahalanobis_hits <- function(obj, md, pc_use) {
     md_lmme_p = md_model_results
   ))
 }
-# run function to calculate mahalanobis hits ####
+# run function to calculate mahalanobis hits (lmme) ####
 md_stats <- mahalanobis_hits(data, md, pc_use)
 # pca plot by mahalanobis p ####
 # colour_var by p value
@@ -349,6 +349,30 @@ plots_fixed <- purrr::map(
   add_fixed_legend_space
 )
 plots_fixed
+# calculate mahalanobis hits from mean from chi test ####
+md_stats$md_chi_mean <- md_stats$md_chi_p |>
+  dplyr::group_by(Condition) |>
+  dplyr::summarise(
+    # number of replicate wells
+    n = dplyr::n(),
+    # mean Mahalanobis d-squared
+    md2_mean = mean(
+      mahalanobis_d2_PC_10,
+      na.rm = TRUE
+    ),
+    # standard deviation
+    md2_sd = sd(
+      mahalanobis_d2_PC_10,
+      na.rm = TRUE
+    ),
+    # standard error of the mean
+    md2_sem = md2_sd / sqrt(n),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    # mean profile is significant if above chi-square cutoff
+    md_sig = md2_mean > md_stats$md_chi_cutoff
+  )
 # save data ####
 write.csv(
   md,
@@ -357,6 +381,10 @@ write.csv(
 write.csv(
   md_stats$md_chi_p,
   paste("data/processed/", file_name, "_mahal_chi_p_", "PC", pc_use,".csv", sep = "")
+)
+write.csv(
+  md_stats$md_chi_mean,
+  paste("data/processed/", file_name, "_mahal_chi_mean_", "PC", pc_use,".csv", sep = "")
 )
 write.csv(
   md_stats$md_lmme_p,
