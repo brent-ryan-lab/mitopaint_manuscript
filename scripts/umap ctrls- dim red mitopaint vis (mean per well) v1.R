@@ -11,8 +11,6 @@ library(ggplot2)
 library(colorspace)
 library(ggpubr)
 library(tidyverse)
-library(viridis)
-library(ggrepel)
 library(cowplot)
 # set variables ####
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -139,7 +137,7 @@ pos_ctrl_cols <- setNames(
   scales::hue_pal()(length(pos_ctrls)),
   pos_ctrls
 )
-# function to highlight one positive control ####
+# function to highlight one positive control #
 plot_umap_pos_ctrl <- function(
     plot_df,
     pos_ctrl,
@@ -215,7 +213,7 @@ plots <- c(
   pos_ctrl_plots
 )
 # plot umap grid - individual highlight ctrl ####
-# make grid of positive control highlight plots ####
+# make grid of positive control highlight plots #
 plots$umap_pos_ctrl_grid <- cowplot::plot_grid(
   plotlist = pos_ctrl_plots,
   ncol = grid_plot_width,
