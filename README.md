@@ -34,6 +34,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
     - `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
   - `6.2` umap- dim red mitopaint vis (mean per well) v1
     - `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
+    - `6.2.3` umap ctrls- dim red mitopaint vis (mean per well) v1
   - `6.3` abs zscore feature ranking vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v3
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
@@ -1396,6 +1397,22 @@ grid_width <- 5
 avg_profile <- TRUE
 plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
+```
+---
+### `6.2.3` umap ctrls- dim red mitopaint vis (mean per well) v1 ###
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+avg_profile <- TRUE
+pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924", 
+               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
+plot_width <- 5
+plot_height <- 4
+grid_plot_width <- 3
+grid_width <- 5
+grid_height <- 7.5
 ```
 ---
 ### `6.3` abs zscore feature ranking vis (mean per well) v1
