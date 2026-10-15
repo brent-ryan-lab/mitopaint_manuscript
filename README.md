@@ -37,7 +37,7 @@ note that the data (raw and processed) and outputs (data and figures) are not se
   - `6.3` abs zscore feature ranking vis (mean per well) v1
 - `7.` mahalanobis distance mitopaint data (mean per well) v3
   - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
-  - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v1
+  - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v2
 - `8.` similarity heatmap mitopaint vis (mean per well) v1
   - `8.1` profile heatmap mitopaint vis (mean per well) v1
 - `9.` classic readouts mitopaint data (mean per well) v1
@@ -1549,7 +1549,7 @@ plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomyc
 pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
 ```
 ---
-### `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v1
+### `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1575,6 +1575,17 @@ plot_height <- 10
 avg_profile <- FALSE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+md_file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_mahal_lmme_p_PC10"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pc_use <- 10
+grid_width <- 2
+plot_width <- 12
+plot_height <- 10
+avg_profile <- TRUE
+```
 ---
 ### `8.` similarity heatmap mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
