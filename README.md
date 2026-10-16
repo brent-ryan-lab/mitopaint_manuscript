@@ -1469,6 +1469,23 @@ rank <- 10
 avg_profile <- TRUE
 ```
 ---
+### `6.3.2` abs zscore feature ranking vis-NN (mean per well) v1 ###
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+``` 
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+ctrl_cond <- "DMSO_0"
+ctrl_cond_col <- "Condition"
+plot_cond <- c(seq(from = 0, to = 27, by = 1))
+plot_cond_col <- "UMAP_NN"
+post_hoc <- "bonferroni"
+contrast_all <- FALSE
+rank <- 10
+avg_profile <- TRUE
+chan_cols <- c("TMRM" = "#FFB000", "CellRox" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100")
+```
+---
 ### `6.4` nn bar- dim red mitopaint vis (mean per well) v1 ###
 - for mPaintDR2_N2_N3_N4 use the following variables
 - for mPaintSpace2_N1_N2_N3 use the following variables
