@@ -225,6 +225,33 @@ meta_cols = c("Row",
               "Condition")
 rm_cond = NULL
 ```
+- for mPaint2DR2 (N1) use the following variables
+``` 
+batches_info <- list(
+  N1 = list(
+    file_name = "SF261028_mPaint2DR2_N1",
+    batch_name = "N1"
+  )
+)
+rm_cols = c("Timepoint",
+            "Sequence",
+            "Nuclei - Number of Objects",
+            "Non-border cells Selected - Number of Objects",
+            "Percentage Cells Selected",
+            "Number of Analyzed Fields",
+            "Time [s]",
+            "Temperature",
+            "Target Temperature",
+            "CO2",	"Target CO2"
+)
+nuc_count = "Percentage Cells Selected"
+meta_cols = c("Row",
+              "Column",
+              "Compound",	
+              "Concentration",
+              "Condition")
+rm_cond = NULL
+```
 ---
 ### `2.` plate drift correct mitopaint data (mean per well) v1
 - for mPaintDR2 (N2,N3,N4) use the following variables
