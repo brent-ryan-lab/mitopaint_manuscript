@@ -8,9 +8,9 @@
 # load packages ####
 library(data.table)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaint2DR2_N1"
 integrate_state <- "unintegrated"
-dataset_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+dataset_name <- "mPaint2DR2_N1"
 cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")

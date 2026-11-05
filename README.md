@@ -1189,6 +1189,15 @@ cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 ```
+- for mPaint2DR2 (N1) use the following variables
+```
+file_name <- "mPaint2DR2_N1"
+integrate_state <- "unintegrated"
+dataset_name <- "mPaint2DR2_N1"
+cor_thresh <- 0.95
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+```
 ---
 ### `5.1` remove redundant mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following variables
