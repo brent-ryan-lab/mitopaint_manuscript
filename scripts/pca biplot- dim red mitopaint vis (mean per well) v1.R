@@ -1,4 +1,4 @@
-# Title: pca biplot- dim red mitopaint vis (mean per well) v1
+# Title: pca biplot- dim red mitopaint vis (mean per well) v2
 # Step: 6.1.3
 # R: 4.4.1
 # Author: Sarah Franks
@@ -11,9 +11,15 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaint2DR2_N1"
 redu_state <- "redu"
-integrate_state <- "integrated"
+integrate_state <- "unintegrated"
+chan_cols <- c(
+  "Alexa 647" = "#DC267F",
+  "Alexa 488" = "yellowgreen",
+  "mt-Keima pH7" = "#23CC86",
+  "mKeima ph4" = "#FE6100"
+)
 # load data ####
 # load pca variance as var
 var <- as.data.frame(
@@ -45,8 +51,6 @@ embeddings <- as.data.frame(
 rownames(embeddings) <- embeddings$V1
 embeddings$V1 <- NULL
 # set plot variables ####
-# chan_cols color order is TMRM, CellROX, mt-Keima pH7, mt-Keima pH4
-chan_cols <- c("#FFB000", "#DC267F", "#23CC86", "#FE6100")
 x_lab <- paste0(
   "PC_1 (",
   round(var[1, "Percent_Variance"], 2),
@@ -104,14 +108,24 @@ biplot_df <- plot_df %>% mutate(
   PC_1 = PC_1 * arrow_scale, 
   PC_2 = PC_2 * arrow_scale)
 # colour arrows by feature channel ####
-biplot_df <- biplot_df %>%
-  mutate(
-    feature_color = case_when(
-      grepl("TMRM test", feature, ignore.case = TRUE) ~ chan_cols[1],
-      grepl("CellRox", feature, ignore.case = TRUE) ~ chan_cols[2],
-      grepl("mt-Keima pH7", feature, ignore.case = TRUE) ~ chan_cols[3],
-      grepl("mt-Keima pH4", feature, ignore.case = TRUE) ~ chan_cols[4],
-      TRUE ~ "black"))
+# default all features to black
+biplot_df$feature_color <- "black"
+
+# loop through predefined channel names
+for (chan in names(chan_cols)) {
+  
+  # identify features containing channel name
+  matches <- stringr::str_detect(
+    biplot_df$feature,
+    stringr::regex(
+      chan,
+      ignore_case = TRUE
+    )
+  )
+  
+  # assign corresponding channel colour
+  biplot_df$feature_color[matches] <- chan_cols[[chan]]
+}
 # plot biplot ####
 plot <- ggplot(embeddings, aes(x = PC_1, y = PC_2)) +
   ## grey out points, point size = 2

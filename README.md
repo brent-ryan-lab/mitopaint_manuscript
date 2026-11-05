@@ -1384,6 +1384,12 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ```
+- for mPaint2DR2 (N1) use the following variables
+```
+file_name <- "mPaint2DR2_N1"
+redu_state <- "redu"
+integrate_state <- "unintegrated"
+```
 ---
 ### `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
 - for mPaintDR2_N2_N3_N4 use the following file variables
@@ -1391,18 +1397,48 @@ integrate_state <- "integrated"
 file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
+```
+- for mPaint2DR2 (N1) use the following variables
+```
+file_name <- "mPaint2DR2_N1"
+redu_state <- "redu"
+integrate_state <- "unintegrated"
+chan_cols <- c(
+  "Alexa 647" = "#DC267F",
+  "Alexa 488" = "yellowgreen",
+  "mt-Keima pH7" = "#23CC86",
+  "mKeima ph4" = "#FE6100"
+)
 ```
 ---
 ### `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1

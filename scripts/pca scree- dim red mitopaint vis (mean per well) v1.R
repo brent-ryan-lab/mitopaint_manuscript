@@ -11,9 +11,9 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaint2DR2_N1"
 redu_state <- "redu"
-integrate_state <- "integrated"
+integrate_state <- "unintegrated"
 # load file ####
 # load pca variance as var
 var <- as.data.frame(
