@@ -1211,6 +1211,14 @@ cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "mTagBFP2" = "mTagBFP2",
+  "CellROX" = "CellRox",
+  "mt-Keima pH7" = "mt-Keima pH7",
+  "mt-Keima pH4" = "mt-Keima pH4",
+  "TMRM" = "TMRM test"
+)
+pattern_cols <- c("TMRM" = "#FFB000", "CellROX" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -1223,6 +1231,14 @@ cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "mTagBFP2" = "mTagBFP2",
+  "CellROX" = "CellRox",
+  "mt-Keima pH7" = "mt-Keima pH7",
+  "mt-Keima pH4" = "mt-Keima pH4",
+  "TMRM" = "TMRM test"
+)
+pattern_cols <- c("TMRM" = "#FFB000", "CellROX" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
@@ -1235,6 +1251,34 @@ cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "mTagBFP2" = "mTagBFP2",
+  "CellROX" = "CellRox",
+  "mt-Keima pH7" = "mt-Keima pH7",
+  "mt-Keima pH4" = "mt-Keima pH4",
+  "TMRM" = "TMRM test"
+)
+pattern_cols <- c("TMRM" = "#FFB000", "CellROX" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
+```
+- for mPaint2DR2 (N1) use the following variables
+```
+file_name <- "mPaint2DR2_N1"
+integrate_state <- "unintegrated"
+dataset_name <- "mPaint2DR2_N1"
+cor_thresh <- 0.95
+cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
+cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
+var_tol <- 1e-12
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "mTagBFP2" = "mTagBFP2",
+  "CellROX" = "Alexa 488",
+  "mt-Keima pH7" = "mt-Keima pH7",
+  "mt-Keima pH4" = "mt-Keima pH4",
+  "DilC15" = "Alexa 647"
+)
+pattern_cols <- c("DilC15" = "#DC267F", "CellROX" = "yellowgreen", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 ```
 ---
 ### `6.` dim red mitopaint data - avg profile (mean per well) v2
