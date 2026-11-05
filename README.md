@@ -1086,6 +1086,22 @@ batches_info <- list(
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 k_weight <- 50
 ```
+- for mPaint2DR2 (N1) use the following variables
+```
+batches_info <- list(
+  N1 = list(
+    file_name = "SF261028_mPaint2DR2_N1",
+    dmso_wells = c(
+      "2_9","2_2","3_2","3_9","4_9","5_2","5_9","6_9","6_2","7_2","7_9","8_9",
+      "8_2","9_2","9_9","10_9","10_2","11_2","11_9","12_9","12_2","13_2","13_9",
+      "14_9","14_2","15_2","15_9","16_9","16_2","17_2","17_9","18_9","18_2",
+      "19_2","19_9","20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"
+    )
+  )
+)
+file_name <- "mPaint2DR2_N1"
+k_weight <- 50
+```
 ---
 ### `4.1` batch integration mitopaint vis (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables
