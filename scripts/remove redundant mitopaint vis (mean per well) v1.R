@@ -1,9 +1,9 @@
-# Title: remove redundant mitopaint vis (mean per well) v1
+# Title: remove redundant mitopaint vis (mean per well) v2
 # Step: 5.1
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 03-08-26
+# Last edit: 05-11-26
 
 # load packages ####
 library(data.table)
@@ -21,15 +21,23 @@ library(rlang)
 library(viridis)
 library(cluster)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
-integrate_state <- "integrated"
-dataset_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaint2DR2_N1"
+integrate_state <- "unintegrated"
+dataset_name <- "mPaint2DR2_N1"
 cor_thresh <- 0.95
 cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "mTagBFP2" = "mTagBFP2",
+  "CellROX" = "Alexa 488",
+  "mt-Keima pH7" = "mt-Keima pH7",
+  "mt-Keima pH4" = "mt-Keima pH4",
+  "DilC15" = "Alexa 647"
+)
+pattern_cols <- c("DilC15" = "#DC267F", "CellROX" = "yellowgreen", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 # load data ####
 # initialise plots list
 plots <- list()
@@ -272,16 +280,9 @@ plots$channel_pie <- plot_feature_pie(
   # uses cor_thresh df (eg. redu_0.95)
   # this is under the assumption that is was already calculate in scree_df
   scree_df[[paste("redu_", cor_thresh, sep = "")]],
-  patterns = c(
-    "mTagBFP2" = "mTagBFP2",
-    "CellROX" = "CellRox",
-    "mt-Keima pH7" = "mt-Keima pH7",
-    "mt-Keima pH4" = "mt-Keima pH4",
-    "TMRM" = "TMRM test"
-  ),
+  patterns = patterns,
   plot_title = "Features Retained by Channel",
-  colours = c("TMRM" = "#FFB000", "CellROX" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
-)
+  colours = pattern_cols)
 plots$channel_pie
 # run function to plot feature retained pie chart (by region) ####
 plots$region_pie <- plot_feature_pie(
