@@ -1318,6 +1318,18 @@ perplexity <- 20
 max_iter <- 500
 avg_profile <- TRUE
 ```
+- for mPaint2DR2 (N1) use the following variables
+```
+file_name <- "mPaint2DR2_N1"
+redu_state <- "redu"
+integrate_state <- "unintegrated"
+dims_use <- 1:50
+k_param <- 16
+res <- 1
+perplexity <- 20
+max_iter <- 4000
+avg_profile <- FALSE
+```
 ---
 ### `6.1` pca- dim red mitopaint vis (mean per well) v2
 - for mPaintDR2_N2_N3_N4 use the following variables

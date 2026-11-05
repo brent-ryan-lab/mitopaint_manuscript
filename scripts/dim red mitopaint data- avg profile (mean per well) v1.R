@@ -10,15 +10,15 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaint2DR2_N1"
 redu_state <- "redu"
-integrate_state <- "integrated"
+integrate_state <- "unintegrated"
 dims_use <- 1:50
-k_param <- 8
+k_param <- 16
 res <- 1
 perplexity <- 20
-max_iter <- 500
-avg_profile <- TRUE
+max_iter <- 4000
+avg_profile <- FALSE
 # load data ####
 # load data as df
 if (redu_state == "redu") {
@@ -288,9 +288,9 @@ DimPlot(
   reduction = "pca",
   # coloured by compound, concentration, batch and PCA clusters
   group.by = c(
-#    "Compound",
+    "Compound",
     "Concentration",
-    "Batch",
+#    "Batch",
     "PCA_NN")
 )
 # run tsne ####
