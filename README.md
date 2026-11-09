@@ -15,42 +15,49 @@ note that the data (raw and processed) and outputs (data and figures) are not se
 - `outputs/figures/` – results figure files
 
 ## usage
-- `1.` tidy raw mitopaint data (mean per well) v1
-- `2.` plate drift correct mitopaint data (mean per well) v1
-  - `2.1` plate drift correct mitopaint vis (mean per well) v1
-  - `2.2` plate drift raw mitopaint vis (mean per well) v1
-- `3.` robust zscore norm mitopaint data (mean per well) v1
-  - `3.1` robust zscore norm mitopaint vis (mean per well) v1
-- `4.` batch integration mitopaint data (mean per well) v1
-  - `4.1` batch integration mitopaint vis (mean per well) v2
-  -  `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
-- `5.` remove redundant mitopaint data (mean per well) v1
-  - `5.1` remove redundant mitopaint vis (mean per well) v1
-- `6.` dim red mitopaint data - avg profile (mean per well) v2
-  - `6.1` pca- dim red mitopaint vis (mean per well) v2
-    - `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
-    - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
-    - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
-    - `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
-  - `6.2` umap- dim red mitopaint vis (mean per well) v1
-    - `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
-    - `6.2.3` umap ctrls- dim red mitopaint vis (mean per well) v1
-  - `6.3` abs zscore feature ranking vis (mean per well) v1
-- `7.` mahalanobis distance mitopaint data (mean per well) v3
-  - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
-  - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v2
-- `8.` similarity heatmap mitopaint vis (mean per well) v1
-  - `8.1` profile heatmap mitopaint vis (mean per well) v1
-- `9.` classic readouts mitopaint data (mean per well) v1
-  - `9.1` classic readouts pca vis (mean per well) v1
-    - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
-  - `9.2` channel corrected spot count mitopaint data (mean per well) v1
-  - `9.3` classic readouts umap vis (mean per well) v1
-  
-- `WIP` 7.3 fov- mahalanobis distance mitopaint vis (mean per well) v1
+- `1.` tidy raw mitopaint data (mean per well)
+- `2.` plate drift correct mitopaint data (mean per well)
+  - `2.1` plate drift correct mitopaint vis (mean per well)
+  - `2.2` plate drift raw mitopaint vis (mean per well) 
+- `3.` robust zscore norm mitopaint data (mean per well) 
+  - `3.1` robust zscore norm mitopaint vis (mean per well) 
+- `4.` batch integration mitopaint data (mean per well) 
+  - `4.1` batch integration mitopaint vis (mean per well) 
+  -  `4.2` batch integration evaluation stats mitopaint data (mean per well) 
+- `5.` remove redundant mitopaint data (mean per well) 
+  - `5.1` remove redundant mitopaint vis (mean per well) 
+- `6.` dim red mitopaint data - avg profile (mean per well) 
+  - `6.1` pca- dim red mitopaint vis (mean per well) 
+    - `6.1.2` pca scree- dim red mitopaint vis (mean per well) 
+    - `6.1.3` pca biplot- dim red mitopaint vis (mean per well) 
+    - `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) 
+    - `6.1.5` pca grid- dim red mitopaint vis (mean per well) 
+    - `6.1.6` pca ctrls- dim red mitopaint vis (mean per well) 
+  - `6.2` umap- dim red mitopaint vis (mean per well) 
+    - `6.2.2` umap grid- dim red mitopaint vis (mean per well) 
+    - `6.2.3` umap ctrls- dim red mitopaint vis (mean per well) 
+  - `6.3` abs zscore feature ranking vis (mean per well) 
+    - `6.3.2` abs zscore feature ranking vis- NN (mean per well)
+  - `6.4` nn bar- dim red mitopaint vis (mean per well)
+    - `6.4.2` nn bar md hits- dim red mitpaint vis (mean per well)
+  - `6.5` evaluate k_param- dim red mitopaint vis (mean per well)
+- `7.` mahalanobis distance mitopaint data (mean per well) 
+  - `7.1` dr- mahalanobis distance classic readouts vis (mean per well) 
+  - `7.2` hits- mahalanobis distance mitopaint vis (mean per well) 
+  - `7.3` library meta- merge library and hits metadata (mean per well)
+- `8.` similarity heatmap mitopaint vis (mean per well) 
+  - `8.1` profile heatmap mitopaint vis (mean per well) 
+    - `8.1.2` profile heatmap mitopaint vis- NN (mean per well)
+  - `8.2` similarity heatmap mitopaint vis- NN (mean per well)
+- `9.` classic readouts mitopaint data (mean per well) 
+  - `9.1` classic readouts pca vis (mean per well) 
+    - `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) 
+  - `9.2` channel corrected spot count mitopaint data (mean per well) 
+  - `9.3` classic readouts umap vis (mean per well) 
+  - `9.4` classic readouts mitpaint data vis- NN (mean per well)
 
 ---
-### `1.` tidy raw mitopaint data (mean per well) v1
+### `1.` tidy raw mitopaint data (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -253,7 +260,7 @@ meta_cols = c("Row",
 rm_cond = NULL
 ```
 ---
-### `2.` plate drift correct mitopaint data (mean per well) v1
+### `2.` plate drift correct mitopaint data (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -416,7 +423,7 @@ batches_info <- list(
 p_sig <- 0.05
 ```
 ---
-### `2.1` plate drift correct mitopaint vis (mean per well) v1
+### `2.1` plate drift correct mitopaint vis (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -589,7 +596,7 @@ pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 ```
 ---
-### `2.2` plate drift raw mitopaint vis (mean per well) v1
+### `2.2` plate drift raw mitopaint vis (mean per well) 
 - for mPaintDrift_DMSO (N1) use the following variables
 ```
 batches_info <- list(
@@ -633,7 +640,7 @@ legend_titles <- c(
 )
 ```
 ---
-### `3.` robust zscore norm mitopaint data v1
+### `3.` robust zscore norm mitopaint data 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -792,7 +799,7 @@ batches_info <- list(
 )
 ```
 ---
-### `3.1` robust zscore norm mitopaint vis (mean per well) v1
+### `3.1` robust zscore norm mitopaint vis (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -951,7 +958,7 @@ batches_info <- list(
 )
 ```
 ---
-### `4.` batch integration mitopaint data (mean per well) v1
+### `4.` batch integration mitopaint data (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
 batches_info <- list(
@@ -1103,7 +1110,7 @@ file_name <- "mPaint2DR2_N1"
 k_weight <- 50
 ```
 ---
-### `4.1` batch integration mitopaint vis (mean per well) v2
+### `4.1` batch integration mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1135,7 +1142,7 @@ n_epochs <- 500
 avg_profile <- TRUE
 ```
 ---
-### `4.2` batch integration evaluation stats mitopaint data (mean per well) v1
+### `4.2` batch integration evaluation stats mitopaint data (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1161,7 +1168,7 @@ ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_4")
 avg_profile <- TRUE
 ```
 ---
-### `5.` remove redundant mitopaint data (mean per well) v1
+### `5.` remove redundant mitopaint data (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1199,7 +1206,7 @@ var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 ```
 ---
-### `5.1` remove redundant mitopaint vis (mean per well) v1
+### `5.1` remove redundant mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1281,7 +1288,7 @@ patterns <- c(
 pattern_cols <- c("DilC15" = "#DC267F", "CellROX" = "yellowgreen", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 ```
 ---
-### `6.` dim red mitopaint data - avg profile (mean per well) v2
+### `6.` dim red mitopaint data - avg profile (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1331,7 +1338,7 @@ max_iter <- 4000
 avg_profile <- FALSE
 ```
 ---
-### `6.1` pca- dim red mitopaint vis (mean per well) v2
+### `6.1` pca- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1365,7 +1372,7 @@ pastel_cols <- "viridis"
 avg_profile <- FALSE
 ```
 ---
-### `6.1.2` pca scree- dim red mitopaint vis (mean per well) v1
+### `6.1.2` pca scree- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following file variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1391,7 +1398,7 @@ redu_state <- "redu"
 integrate_state <- "unintegrated"
 ```
 ---
-### `6.1.3` pca biplot- dim red mitopaint vis (mean per well) v1
+### `6.1.3` pca biplot- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following file variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1441,7 +1448,7 @@ chan_cols <- c(
 )
 ```
 ---
-### `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) v1
+### `6.1.4` pca feature loadings- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1503,7 +1510,7 @@ plot_width <- 7
 plot_height <- 5
 ```
 ---
-### `6.1.5` pca grid- dim red mitopaint vis (mean per well) v1
+### `6.1.5` pca grid- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1539,7 +1546,7 @@ plot_cond <- c("AntimycinA", "CCCP", "Chloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 --- 
-### `6.1.6` pca ctrls- dim red mitopaint vis (mean per well) v1 ###
+### `6.1.6` pca ctrls- dim red mitopaint vis (mean per well)  ###
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1555,7 +1562,7 @@ grid_width <- 5
 grid_height <- 7.5
 ```
 ---
-### `6.2` umap- dim red mitopaint vis (mean per well) v1
+### `6.2` umap- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1593,7 +1600,7 @@ plot_width <- 5
 plot_height <- 4
 ```
 ---
-### `6.2.2` umap grid- dim red mitopaint vis (mean per well) v1
+### `6.2.2` umap grid- dim red mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1629,7 +1636,7 @@ plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 ---
-### `6.2.3` umap ctrls- dim red mitopaint vis (mean per well) v1 ###
+### `6.2.3` umap ctrls- dim red mitopaint vis (mean per well)  ###
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1645,7 +1652,7 @@ grid_width <- 5
 grid_height <- 7.5
 ```
 ---
-### `6.3` abs zscore feature ranking vis (mean per well) v1
+### `6.3` abs zscore feature ranking vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1683,7 +1690,7 @@ rank <- 10
 avg_profile <- TRUE
 ```
 ---
-### `6.3.2` abs zscore feature ranking vis-NN (mean per well) v1 ###
+### `6.3.2` abs zscore feature ranking vis-NN (mean per well)  ###
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ``` 
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1700,9 +1707,7 @@ avg_profile <- TRUE
 chan_cols <- c("TMRM" = "#FFB000", "CellRox" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100")
 ```
 ---
-### `6.4` nn bar- dim red mitopaint vis (mean per well) v1 ###
-- for mPaintDR2_N2_N3_N4 use the following variables
-- for mPaintSpace2_N1_N2_N3 use the following variables
+### `6.4` nn bar- dim red mitopaint vis (mean per well)  ###
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1713,7 +1718,7 @@ pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
                 "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
 ```
 ---
-### `6.5` evaluate k_param- dim red mitopaint vis (mean per well) v1 ###
+### `6.5` evaluate k_param- dim red mitopaint vis (mean per well)  ###
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1727,7 +1732,6 @@ max_iter <- 500
 avg_profile <- FALSE
 selected_k <- 16
 ```
-- for mPaintSpace2_N1_N2_N3 use the following variables
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1742,7 +1746,7 @@ avg_profile <- TRUE
 selected_k <- 8
 ```
 ---
-### `7.` mahalanobis distance mitopaint data (mean per well) v3
+### `7.` mahalanobis distance mitopaint data (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1777,7 +1781,7 @@ post_hoc <- "BH"
 lmme_batch <- FALSE
 ```
 ---
-### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) v1
+### `7.1` dr- mahalanobis distance classic readouts vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1813,7 +1817,7 @@ plot_cond <- c("CCCP", "ROT", "Nigericin", "Oligomycin", "Rapamycin", "Valinomyc
 pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(10))
 ```
 ---
-### `7.2` hits- mahalanobis distance mitopaint vis (mean per well) v2
+### `7.2` hits- mahalanobis distance mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1854,7 +1858,7 @@ chi_height <- 20
 lmme_height <- 6
 ```
 ---
-### `8.` similarity heatmap mitopaint vis (mean per well) v1
+### `8.` similarity heatmap mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1884,7 +1888,7 @@ plot_width <- 12
 plot_height <- 9
 ```
 ---
-### `8.1` profile heatmap mitopaint vis (mean per well) v1
+### `8.1` profile heatmap mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
@@ -1948,7 +1952,7 @@ plot_width <- 8
 visible_legend <- TRUE
 ```
 ---
-### `8.2` similarity heatmap mitopaint vis - NN (mean per well) v1
+### `8.2` similarity heatmap mitopaint vis - NN (mean per well) 
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1967,7 +1971,8 @@ incl_dmso <- FALSE
 pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
                "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
 ```
-### `9.` classic readouts mitopaint data (mean per well) v1
+---
+### `9.` classic readouts mitopaint data (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 batches_info <- list(
@@ -2206,7 +2211,7 @@ plot_width <- 9
 plot_height <- 3
 ```
 ---
-### `9.1` classic readouts pca vis (mean per well) v1
+### `9.1` classic readouts pca vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name_paint <- "mPaintDR2_N2_N3_N4"
@@ -2244,7 +2249,7 @@ plot_feats <- c("Intensity Cytoplasm TMRM test Mean",
 avg_profile <- TRUE
 ```
 ---
-### `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) v1
+### `9.1.2` classic readouts pca pearson corr heatmap vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 classic_file_name <- "mPaintDR2_Classic_N2_N3_N4"
@@ -2293,7 +2298,7 @@ avg_profile <- FALSE
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ---
-### `9.2` channel corrected spot count mitopaint data (mean per well) v1
+### `9.2` channel corrected spot count mitopaint data (mean per well) 
 - for mPaintDR2_N2 use the following variables
 ```
 batches_info <- list(
@@ -2327,7 +2332,7 @@ point_size <- 3
 size_axis <- 10
 ```
 ---
-### `9.3` classic readouts umap vis (mean per well) v1
+### `9.3` classic readouts umap vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name_paint <- "mPaintDR2_N2_N3_N4"
