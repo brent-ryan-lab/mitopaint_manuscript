@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 14-10-26
+# Last edit: 09-11-26
 
 # load packages ####
 library(data.table)
@@ -402,6 +402,7 @@ md_stats$md_chi_p <- md_stats$md_chi_p |>
   dplyr::select(c("md2", "chi_p")) |>
   tibble::rownames_to_column("ID")
 # join with meta
+data$meta$ID <- rownames(data$meta)
 md_summ <- left_join(data$meta, md_stats$md_chi_p, by = "ID")
 md_summ <- left_join(md_summ, md_summ_avg, by = "Condition") |>
   dplyr::select(!c("seurat_clusters"))
@@ -447,4 +448,4 @@ iwalk(
     )
   }
 )
-rm(list = ls())
+#rm(list = ls())

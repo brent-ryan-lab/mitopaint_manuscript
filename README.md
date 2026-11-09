@@ -1858,6 +1858,14 @@ chi_height <- 20
 lmme_height <- 6
 ```
 ---
+### `7.3` library meta- merge library and hits metadata (mean per well)
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+meta_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_mahal_summary_PC10"
+library_name <- "SF250909_mPaintFDA_Library"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_meta_summary"
+```
+---
 ### `8.` similarity heatmap mitopaint vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
