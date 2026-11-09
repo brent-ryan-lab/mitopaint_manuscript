@@ -13,8 +13,6 @@ library(ggpubr)
 library(cowplot)
 # set file variables ####
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
-md_lmme_file <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_mahal_lmme_p_PC10"
-md_chi_file <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_mahal_chi_mean_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
@@ -29,7 +27,7 @@ load_data <- function(md_chi_file,
   # load mahalanobis distance (md)
   md_chi_mean <- as.data.frame(
     fread(
-      paste("data/processed/", md_chi_file, ".csv", sep = ""),
+      paste("data/processed/", file_name, "_mahal_chi_mean_PC", pc_use, ".csv", sep = ""),
       header = TRUE
     )
   )
@@ -37,15 +35,15 @@ load_data <- function(md_chi_file,
   rownames(md_chi_mean) <- md_chi_mean$V1
   md_chi_mean$V1 <- NULL
   # load md_lmme_p
-  md_lmmme_p <- as.data.frame(
+  md_lmme_p <- as.data.frame(
     fread(
-      paste("data/processed/", md_lmme_file,".csv", sep = ""),
+      paste("data/processed/", file_name, "_mahal_lmme_p_PC", pc_use,".csv", sep = ""),
       header = TRUE
     )
   )
   # keep rownames
-  rownames(md_lmmme_p) <- md_lmmme_p$V1
-  md_lmmme_p$V1 <- NULL  
+  rownames(md_lmme_p) <- md_lmme_p$V1
+  md_lmme_p$V1 <- NULL  
   # load metadata
   meta <- as.data.frame(
     fread(
@@ -61,7 +59,7 @@ load_data <- function(md_chi_file,
   return(list(
     meta = meta,
     md_chi_mean = md_chi_mean,
-    md_lmmme_p = md_lmmme_p
+    md_lmme_p = md_lmme_p
   ))
 }
 # load data ####
@@ -70,7 +68,7 @@ data <- load_data(md_chi_file,
                   integrate_state)
 # plot all hits by lmme p ####
 # filter hits to those with p < 0.05
-plot_df <- data$md_lmmme_p |>
+plot_df <- data$md_lmme_p |>
   # replace exact 0 p.value with slightly smaller than min value
   mutate(
     p.value = if_else(
@@ -175,7 +173,7 @@ plots$hits_chi <- ggplot(
 plots$hits_chi
 # create function to plot grid of lmme_p by compound ####
 # identify compounds with more than one unique concentration
-multi_conc_compounds <- data$md_lmmme_p |>
+multi_conc_compounds <- data$md_lmme_p |>
   dplyr::filter(
     !is.na(Compound),
     !is.na(Concentration)
@@ -190,7 +188,7 @@ multi_conc_compounds <- data$md_lmmme_p |>
   ) |>
   dplyr::pull(Compound)
 # subset data to compounds with multiple concentrations
-multi_conc_df <- data$md_lmmme_p |>
+multi_conc_df <- data$md_lmme_p |>
   dplyr::filter(
     Compound %in% multi_conc_compounds
   )
@@ -341,7 +339,7 @@ plots$p_grid <- cowplot::plot_grid(
 plots$p_grid
 # create function to plot grid of md by compound ####
 # identify conditions for compounds with more than one unique concentration
-multi_conc_conditions <- data$md_lmmme_p |>
+multi_conc_conditions <- data$md_lmme_p |>
   dplyr::filter(
     !is.na(Compound),
     !is.na(Concentration)
@@ -354,7 +352,7 @@ multi_conc_conditions <- data$md_lmmme_p |>
   dplyr::distinct(Condition) |>
   dplyr::pull(Condition)
 # lookup table for Condition -> Compound + Concentration
-condition_lookup <- data$md_lmmme_p |>
+condition_lookup <- data$md_lmme_p |>
   dplyr::distinct(
     Condition,
     Compound,
