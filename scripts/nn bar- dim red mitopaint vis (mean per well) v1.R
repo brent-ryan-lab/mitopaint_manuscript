@@ -16,7 +16,7 @@ redu_state <- "redu"
 integrate_state <- "integrated"
 avg_profile <- TRUE
 pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
-                "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
+               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
 
 # load meta ####
 if (avg_profile == TRUE) {

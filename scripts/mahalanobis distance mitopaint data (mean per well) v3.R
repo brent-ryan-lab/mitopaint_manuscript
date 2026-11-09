@@ -373,11 +373,39 @@ md_stats$md_chi_mean <- md_stats$md_chi_p |>
     # mean profile is significant if above chi-square cutoff
     md_sig = md2_mean > md_stats$md_chi_cutoff
   )
+# combine md_stats and meta ####
+# summarise condition level stats into single df
+md_summ_avg <- left_join(md_stats$md_chi_mean, 
+                        md_stats$md_lmme_p, 
+                        by = "Condition") |>
+  dplyr::select(
+    dplyr::all_of(c("Condition", "n", "md2_mean", "md2_sd", "md2_sem", "md_sig",
+                    "contrast", "estimate", "p.value_raw", "p.value"))
+  ) |>
+  dplyr::rename(
+    n_profiles = n,
+    chi_sig = md_sig,
+    lmme_contrast = contrast,
+    lmme_estimate = estimate,
+    lmme_p_raw = p.value_raw,
+    lmme_p_adj = p.value
+  ) |>
+  dplyr::mutate(
+    lmme_adj_sig = lmme_p_adj < 0.05
+  )
+# summarise well level stats into single df
+md_stats$md_chi_p <- md_stats$md_chi_p |> 
+  dplyr::rename(
+    md2 = mahalanobis_d2_PC_10,
+    chi_p = p_md, 
+  ) |> 
+  dplyr::select(c("md2", "chi_p")) |>
+  tibble::rownames_to_column("ID")
+# join with meta
+md_summ <- left_join(data$meta, md_stats$md_chi_p, by = "ID")
+md_summ <- left_join(md_summ, md_summ_avg, by = "Condition") |>
+  dplyr::select(!c("seurat_clusters"))
 # save data ####
-write.csv(
-  md,
-  paste("data/processed/", file_name, "_mahal_", "PC", pc_use,".csv", sep = "")
-)
 write.csv(
   md_stats$md_chi_p,
   paste("data/processed/", file_name, "_mahal_chi_p_", "PC", pc_use,".csv", sep = "")
@@ -389,6 +417,10 @@ write.csv(
 write.csv(
   md_stats$md_lmme_p,
   paste("data/processed/", file_name, "_mahal_lmme_p_", "PC", pc_use,".csv", sep = "")
+)
+write.csv(
+  md_summ,
+  paste("data/processed/", file_name, "_mahal_summary_", "PC", pc_use,".csv", sep = "")
 )
 # save plots ####
 dir.create(
