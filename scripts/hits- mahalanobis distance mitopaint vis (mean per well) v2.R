@@ -12,16 +12,16 @@ library(ggplot2)
 library(ggpubr)
 library(cowplot)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
-grid_width <- 6
-plot_width <- 12
-plot_height <- 10
-avg_profile <- FALSE
-chi_height <- 12
-lmme_height <- 5.5
+grid_width <- 2
+plot_width <- 5
+plot_height <- 2.5
+avg_profile <- TRUE
+chi_height <- 20
+lmme_height <- 6
 # create function to load data ####
 load_data <- function(md_chi_file,
                       md_lmme_file,
@@ -530,4 +530,4 @@ ggsave(
   width = 3.5,
   height = chi_height
 )
-#rm(list = ls())
+rm(list = ls())

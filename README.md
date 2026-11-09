@@ -1847,11 +1847,11 @@ integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 grid_width <- 2
-plot_width <- 8
-plot_height <- 4
+plot_width <- 5
+plot_height <- 2.5
 avg_profile <- TRUE
 chi_height <- 20
-lmme_height <-6
+lmme_height <- 6
 ```
 ---
 ### `8.` similarity heatmap mitopaint vis (mean per well) v1
