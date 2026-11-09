@@ -1817,7 +1817,6 @@ pastel_cols <- c(lighten(c("#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"
-md_file_name <- "mPaintDR2_N2_N3_N4_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
@@ -1825,11 +1824,12 @@ grid_width <- 2
 plot_width <- 5
 plot_height <- 2.5
 avg_profile <- FALSE
+chi_height <- 5.5
+lmme_height <- 5.5
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
-md_file_name <- "mPaintSpace2_N1_N2_N3_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
@@ -1837,18 +1837,21 @@ grid_width <- 6
 plot_width <- 12
 plot_height <- 10
 avg_profile <- FALSE
+chi_height <- 12
+lmme_height <- 5.5
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
-md_file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_mahal_lmme_p_PC10"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 grid_width <- 2
-plot_width <- 12
-plot_height <- 10
+plot_width <- 8
+plot_height <- 4
 avg_profile <- TRUE
+chi_height <- 20
+lmme_height <-6
 ```
 ---
 ### `8.` similarity heatmap mitopaint vis (mean per well) v1

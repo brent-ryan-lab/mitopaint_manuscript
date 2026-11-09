@@ -19,14 +19,14 @@ library(emmeans)
 library(purrr)
 library(cowplot)
 # set file variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "mPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
-avg_profile <- TRUE
-post_hoc <- "BH"
-lmme_batch <- FALSE
+avg_profile <- FALSE
+post_hoc <- "bonferroni"
+lmme_batch <- TRUE
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
