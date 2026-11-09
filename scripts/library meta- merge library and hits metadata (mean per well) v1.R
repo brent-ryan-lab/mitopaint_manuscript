@@ -37,3 +37,4 @@ write.csv(
   df,
   paste("data/processed/", file_name,".csv", sep = "")
 )
+rm(list = ls())
