@@ -1546,7 +1546,7 @@ plot_cond <- c("AntimycinA", "CCCP", "Chloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 --- 
-### `6.1.6` pca ctrls- dim red mitopaint vis (mean per well)  ###
+### `6.1.6` pca ctrls- dim red mitopaint vis (mean per well)  
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1636,7 +1636,7 @@ plot_cond <- c("AntimycinA", "CCCP", "Cloroquine", "CytochalasinD", "DMSO",
                "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
 ```
 ---
-### `6.2.3` umap ctrls- dim red mitopaint vis (mean per well)  ###
+### `6.2.3` umap ctrls- dim red mitopaint vis (mean per well)  
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1690,7 +1690,7 @@ rank <- 10
 avg_profile <- TRUE
 ```
 ---
-### `6.3.2` abs zscore feature ranking vis-NN (mean per well)  ###
+### `6.3.2` abs zscore feature ranking vis-NN (mean per well)  
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ``` 
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1707,7 +1707,7 @@ avg_profile <- TRUE
 chan_cols <- c("TMRM" = "#FFB000", "CellRox" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100")
 ```
 ---
-### `6.4` nn bar- dim red mitopaint vis (mean per well)  ###
+### `6.4` nn bar- dim red mitopaint vis (mean per well)  
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1718,7 +1718,15 @@ pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924",
                 "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
 ```
 ---
-### `6.5` evaluate k_param- dim red mitopaint vis (mean per well)  ###
+### `6.4.2` nn bar md hits- dim red mitopaint vis (mean per well) 
+- for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
+```
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+redu_state <- "redu"
+integrate_state <- "integrated"
+```
+---
+### `6.5` evaluate k_param- dim red mitopaint vis (mean per well)  
 - for mPaintDR2_N2_N3_N4 use the following variables
 ```
 file_name <- "mPaintDR2_N2_N3_N4"

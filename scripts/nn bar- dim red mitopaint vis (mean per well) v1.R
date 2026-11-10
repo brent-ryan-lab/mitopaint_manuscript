@@ -116,7 +116,7 @@ pca_nn_by_umap_nn <- ggplot(meta, aes(x = factor(.data[["PCA_NN"]]), fill = fact
     y = "Percentage",
     x = "PCA_NN",
     fill = "UMAP_NN"
-  ) +
+  ) + 
   theme_pubr() +
   theme(plot.title = element_text(hjust = 0.5, size = 10, face = "bold"),
         axis.text = element_text(size = 6),

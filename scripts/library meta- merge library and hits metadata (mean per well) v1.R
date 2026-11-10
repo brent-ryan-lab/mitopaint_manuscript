@@ -29,6 +29,18 @@ library <- as.data.frame(
 )
 rownames(library) <- library$V1
 library$V1 <- NULL
+# modify meta Condition ####
+meta <- meta |>
+  dplyr::mutate(
+    Condition = dplyr::if_else(
+      Condition %in% library$Condition,
+      Condition,
+      stringr::str_remove(
+        Condition,
+        "_[0-9.]+$"
+      )
+    )
+  )
 # join meta and library ####
 df <- left_join(meta, library, by = "Condition") |>
   arrange(desc(md2))
