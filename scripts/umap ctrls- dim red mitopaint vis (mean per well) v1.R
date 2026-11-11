@@ -3,7 +3,7 @@
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 15-10-2026
+# Last edit: 11-11-2026
 
 # load packages ####
 library(data.table)
@@ -17,13 +17,16 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 avg_profile <- TRUE
-pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924", 
-               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
-plot_width <- 5
-plot_height <- 4
-grid_plot_width <- 3
-grid_width <- 5
-grid_height <- 7.5
+pos_ctrls <- c(
+  "489","184","1233","683","1345","118","873","1251","1085","1243","634","479",
+  "441","647","83","147","481","558","859","47","923","954","847","468","1067",
+  "1008","190","516","1109","313","825","1074","1099","1118","1287","470","344",
+  "235","117","1091","1102","1010","1249","339")
+plot_width <- 6
+plot_height <- 5
+grid_plot_width <- 10
+grid_width <- 12
+grid_height <- 7
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -73,7 +76,7 @@ data <- load_data(
   integrate_state = integrate_state,
   redu_state = redu_state
 )
-# plot umap - color each ctrl ####
+# make plot_df ####
 # add Condition_label column to meta
 data$meta <- data$meta |>
   dplyr::mutate(
@@ -83,17 +86,53 @@ data$meta <- data$meta |>
       TRUE ~ "Library"
     )
   )
-plot_df <- cbind(data$meta, data$umap_embeddings)
-# arrange rows in plotting order
+
+plot_df <- cbind(
+  data$meta,
+  data$umap_embeddings
+)
+
+# identify UMAP_NN levels represented by positive controls
+pos_ctrl_umap_nn <- plot_df |>
+  dplyr::filter(
+    Compound %in% pos_ctrls
+  ) |>
+  dplyr::pull(UMAP_NN) |>
+  unique() |>
+  sort()
+
+# assign one colour to each UMAP_NN
+umap_nn_cols <- setNames(
+  scales::hue_pal()(length(pos_ctrl_umap_nn)),
+  paste0("UMAP_NN ", pos_ctrl_umap_nn)
+)
+
+# create plotting colour group
 plot_df <- plot_df |>
   dplyr::mutate(
+    UMAP_NN_highlight = dplyr::case_when(
+      Compound == "DMSO" ~ "DMSO",
+      
+      Compound %in% pos_ctrls ~ paste0(
+        "UMAP_NN ",
+        UMAP_NN
+      ),
+      
+      TRUE ~ "Library"
+    ),
+    
+    # plotting order:
+    # DMSO first -> Library -> positive controls last
     plot_order = dplyr::case_when(
-      Condition_label == "DMSO" ~ 1,
-      Condition_label == "Library" ~ 2,
+      Compound == "DMSO" ~ 1,
+      !Compound %in% pos_ctrls ~ 2,
       TRUE ~ 3
     )
   ) |>
-  dplyr::arrange(plot_order)
+  dplyr::arrange(
+    plot_order
+  )
+# plot umap - color by pos_ctrls ####
 plots <- list()
 plots$umap_pos_ctrls <- 
   ggplot(plot_df,aes(x = umap_1,y = umap_2,
@@ -131,6 +170,52 @@ plots$umap_pos_ctrls <-
     panel.grid = element_blank()
   )
 plots$umap_pos_ctrls
+# plot umap - color each by UMAP_NN ####
+plots$umap_ctrls_nn <- ggplot(
+  plot_df,
+  aes(
+    x = umap_1,
+    y = umap_2,
+    colour = UMAP_NN_highlight
+  )
+) +
+  geom_point(
+    size = 2
+  ) +
+  
+  scale_colour_manual(
+    values = c(
+      "DMSO" = "grey40",
+      "Library" = "grey60",
+      umap_nn_cols
+    )
+  ) +
+  
+  labs(
+    title = "UMAP UMAP_NN highlight",
+    x = "UMAP_1",
+    y = "UMAP_2",
+    colour = "UMAP_NN highlight"
+  ) +
+  
+  theme_pubr() +
+  
+  theme(
+    aspect.ratio = 1,
+    plot.title = element_text(
+      hjust = 0.5,
+      size = 9,
+      face = "bold"
+    ),
+    axis.text = element_text(size = 7),
+    axis.title = element_text(size = 7),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 7),
+    legend.position = "right",
+    panel.grid = element_blank()
+  )
+
+plots$umap_ctrls_nn
 # plot umap - individual highlight ctrl ####
 # assign consistent colour to each positive control
 pos_ctrl_cols <- setNames(
@@ -222,9 +307,18 @@ plots$umap_pos_ctrl_grid <- cowplot::plot_grid(
 )
 plots$umap_pos_ctrl_grid
 # save plots ####
-iwalk(
-  plots,
+# plots to save
+save_plots <- c(
+  "umap_pos_ctrls",
+  "umap_ctrls_nn",
+  "umap_pos_ctrl_grid"
+)
+
+# save selected plots only
+purrr::iwalk(
+  plots[save_plots],
   function(plot, plot_name) {
+    
     ggsave(
       filename = paste0(
         "outputs/figures/umap/",
@@ -234,8 +328,16 @@ iwalk(
         ".pdf"
       ),
       plot = plot,
-      width = ifelse(plot_name == "umap_pos_ctrl_grid", grid_width, plot_width),
-      height = ifelse(plot_name == "umap_pos_ctrl_grid", grid_height, plot_height),
+      width = ifelse(
+        plot_name == "umap_pos_ctrl_grid",
+        grid_width,
+        plot_width
+      ),
+      height = ifelse(
+        plot_name == "umap_pos_ctrl_grid",
+        grid_height,
+        plot_height
+      ),
       units = "in",
       dpi = 300
     )
