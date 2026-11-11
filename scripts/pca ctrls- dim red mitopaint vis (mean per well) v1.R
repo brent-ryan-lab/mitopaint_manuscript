@@ -17,13 +17,15 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 avg_profile <- TRUE
-pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924", 
-               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
-plot_width <- 5
-plot_height <- 4
-grid_plot_width <- 3
-grid_width <- 5
-grid_height <- 7.5
+pos_ctrls <- c(
+  "CCCP", "ROT", "Nocodazole", "47", "923", "954", "847", "468", "441","647",
+  "147","481","859","118","184","683","1091","1010","344","313","825","1099",
+  "1008","1067","516","489","AntimycinA","MLN4924","Chloroquine")
+plot_width <- 6
+plot_height <- 5
+grid_plot_width <- 10
+grid_width <- 12
+grid_height <- 4
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
@@ -90,7 +92,8 @@ data <- load_data(
 )
 x_lab <- paste0("PC_1 (",round(data$pca_var$Percent_Variance[1],2),"%)")
 y_lab <-paste0("PC_2 (",round(data$pca_var$Percent_Variance[2],2),"%)")
-# plot pca - color each ctrl ####
+# make plot_df ####
+
 # add Condition_label column to meta
 data$meta <- data$meta |>
   dplyr::mutate(
@@ -100,27 +103,74 @@ data$meta <- data$meta |>
       TRUE ~ "Library"
     )
   )
-plot_df <- cbind(data$meta, data$pca_embeddings)
-# arrange rows in plotting order
+
+plot_df <- cbind(
+  data$meta,
+  data$pca_embeddings
+)
+
+# identify PCA_NN levels represented by positive controls
+pos_ctrl_pca_nn <- plot_df |>
+  dplyr::filter(
+    Compound %in% pos_ctrls
+  ) |>
+  dplyr::pull(PCA_NN) |>
+  unique() |>
+  sort()
+
+# assign one colour to each PCA_NN
+pca_nn_cols <- setNames(
+  scales::hue_pal()(length(pos_ctrl_pca_nn)),
+  paste0("PCA_NN ", pos_ctrl_pca_nn)
+)
+
+# create plotting colour group
 plot_df <- plot_df |>
   dplyr::mutate(
+    
+    # DMSO and Library remain grey;
+    # positive controls are grouped by PCA_NN
+    PCA_NN_highlight = dplyr::case_when(
+      Compound == "DMSO" ~ "DMSO",
+      
+      Compound %in% pos_ctrls ~ paste0(
+        "PCA_NN ",
+        PCA_NN
+      ),
+      
+      TRUE ~ "Library"
+    ),
+    
+    # plotting order:
+    # DMSO first -> Library -> positive controls last
     plot_order = dplyr::case_when(
-      Condition_label == "DMSO" ~ 1,
-      Condition_label == "Library" ~ 2,
+      Compound == "DMSO" ~ 1,
+      !Compound %in% pos_ctrls ~ 2,
       TRUE ~ 3
     )
   ) |>
-  dplyr::arrange(plot_order)
+  dplyr::arrange(
+    plot_order
+  )
+# plot pca - color each ctrl ####
 plots <- list()
+
 plots$pca_pos_ctrls <- 
-  ggplot(plot_df,aes(x = PC_1,y = PC_2,
-                     colour = Condition_label)) +
+  ggplot(
+    plot_df,
+    aes(
+      x = PC_1,
+      y = PC_2,
+      colour = Condition_label
+    )
+  ) +
   geom_point(size = 2) +
   labs(
     title = "PCA by Condition",
     x = x_lab,
     y = y_lab,
-    colour = "Condition") +
+    colour = "Condition"
+  ) +
   scale_colour_manual(
     values = c(
       DMSO = "grey40",
@@ -147,8 +197,54 @@ plots$pca_pos_ctrls <-
     legend.position = "right",
     panel.grid = element_blank()
   )
-plots$pca_pos_ctrls
 
+plots$pca_pos_ctrls
+# plot pca - colour positive controls by PCA_NN ####
+plots$pca_ctrls_nn <- ggplot(
+  plot_df,
+  aes(
+    x = PC_1,
+    y = PC_2,
+    colour = PCA_NN_highlight
+  )
+) +
+  geom_point(
+    size = 2
+  ) +
+  
+  scale_colour_manual(
+    values = c(
+      "DMSO" = "grey40",
+      "Library" = "grey60",
+      pca_nn_cols
+    )
+  ) +
+  
+  labs(
+    title = "PCA PCA_NN highlight",
+    x = x_lab,
+    y = y_lab,
+    colour = "PCA_NN highlight"
+  ) +
+  
+  theme_pubr() +
+  
+  theme(
+    aspect.ratio = 1,
+    plot.title = element_text(
+      hjust = 0.5,
+      size = 9,
+      face = "bold"
+    ),
+    axis.text = element_text(size = 7),
+    axis.title = element_text(size = 7),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 7),
+    legend.position = "right",
+    panel.grid = element_blank()
+  )
+
+plots$pca_ctrls_nn
 # plot pca - individual highlight ctrl ####
 # assign consistent colour to each positive control
 pos_ctrl_cols <- setNames(
@@ -241,9 +337,18 @@ plots$pca_pos_ctrl_grid <- cowplot::plot_grid(
 plots$pca_pos_ctrl_grid
 
 # save plots ####
-iwalk(
-  plots,
+# plots to save
+save_plots <- c(
+  "pca_pos_ctrls",
+  "pca_ctrls_nn",
+  "pca_pos_ctrl_grid"
+)
+
+# save selected plots only
+purrr::iwalk(
+  plots[save_plots],
   function(plot, plot_name) {
+    
     ggsave(
       filename = paste0(
         "outputs/figures/pca/",
@@ -253,8 +358,16 @@ iwalk(
         ".pdf"
       ),
       plot = plot,
-      width = ifelse(plot_name == "pca_pos_ctrl_grid", grid_width, plot_width),
-      height = ifelse(plot_name == "pca_pos_ctrl_grid", grid_height, plot_height),
+      width = ifelse(
+        plot_name == "pca_pos_ctrl_grid",
+        grid_width,
+        plot_width
+      ),
+      height = ifelse(
+        plot_name == "pca_pos_ctrl_grid",
+        grid_height,
+        plot_height
+      ),
       units = "in",
       dpi = 300
     )
