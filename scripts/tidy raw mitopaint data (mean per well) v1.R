@@ -13,29 +13,76 @@ library(purrr)
 # set variables ####
 batches_info <- list(
   N1 = list(
-    file_name = "SF261028_mPaint2DR2_N1",
+    file_name = "SF250813_mPaintFDA_1",
     batch_name = "N1"
+  ),
+  N2 = list(
+    file_name = "SF250813_mPaintFDA_2",
+    batch_name = "N2"
+  ),
+  N3 = list(
+    file_name = "SF250813_mPaintFDA_3",
+    batch_name = "N3"
+  ),
+  N4 = list(
+    file_name = "SF250813_mPaintFDA_4",
+    batch_name = "N4"
+  ),
+  N5 = list(
+    file_name = "SF250813_mPaintFDA_5",
+    batch_name = "N5"
+  ),
+  N6 = list(
+    file_name = "SF250813_mPaintFDA_6",
+    batch_name = "N6"
+  ),
+  N7 = list(
+    file_name = "SF250813_mPaintFDA_7",
+    batch_name = "N7"
+  ),
+  N8 = list(
+    file_name = "SF250813_mPaintFDA_8",
+    batch_name = "N8"
   )
 )
-rm_cols = c("Timepoint",
-            "Sequence",
-            "Nuclei - Number of Objects",
-            "Non-border cells Selected - Number of Objects",
-            "Percentage Cells Selected",
-            "Number of Analyzed Fields",
-            "Time [s]",
-            "Temperature",
-            "Target Temperature",
-            "CO2",	"Target CO2"
+rm_cols <- c("Timepoint",
+             "Number of Analyzed Fields",
+             "Time [s]",
+             "Temperature",
+             "Target Temperature",
+             "CO2",	"Target CO2",
+             "Nuclei - Number of Objects",
+             "Non-border cells Selected - Number of Objects",
+             "Non-border cells Selected - Nucleus Area [¬µm¬≤] - Mean per Well",
+             "Non-border cells Selected - Nucleus Roundness - Mean per Well",
+             "Non-border cells Selected - Cell Area [¬µm¬≤] - Mean per Well",
+             "Non-border cells Selected - Cell Roundness - Mean per Well",
+             "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
+             "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+             "Non-border cells Selected - Intensity Cytoplasm TMRM test Mean - Mean per Well",
+             "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Area [¬µm¬≤] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Width [¬µm] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Length [¬µm] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
+             "Cell Type",	
+             "Cell Count"
 )
-nuc_count <- "Percentage Cells Selected"
+nuc_count <- "Non-border cells Selected - Number of Objects"
 meta_cols <- c("Row",
-              "Column",
-              "Compound",	
-              "Concentration",
-              "Condition")
+               "Column",
+               "Compound",	
+               "Concentration",
+               "Condition")
 rm_cond <- NULL
-min_nuc <- 50
+keep_cond <- c("DMSO_0", "CCCP_1", "CCCP_4", "CCCP_10", "CCCP_20", "Nocodazole_0.1", 
+               "ROT_0.05","ROT_0.1","ROT_2","ROT_4","47_10","923_10","954_10",
+               "847_10","468_10","441_10","647_10","147_10","481_10","859_10",
+               "118_10","184_10","683_10","1091_10","1010_10","344_10","313_10",
+               "825_10","1099_10","1008_10","1067_10","516_10","489_10",
+               "AntimycinA_0.01","MLN4924_0.1","Chloroquine_20")
+min_nuc <- 100
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 
@@ -85,6 +132,12 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
     meta <- meta[keep_rows, , drop = FALSE]
     df <- df[rownames(meta), , drop = FALSE]
   }
+  # only keep an rows with Condition in keep_cond
+  if (!is.null(keep_cond)) {
+    keep_rows <- meta$Condition %in% keep_cond
+    meta <- meta[keep_rows, , drop = FALSE]
+    df <- df[rownames(meta), , drop = FALSE]
+  }
   # return data and metadata as a list
   return(list(data = df,
               meta = meta,
@@ -93,7 +146,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
          )
 }
 # run function to load and tidy data ####
-batches <- map(
+batches <- purrr::map(
   batches_info,
   function(batch_info) {
     load_data(

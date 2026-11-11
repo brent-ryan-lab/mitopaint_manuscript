@@ -103,6 +103,7 @@ meta_cols <- c("Row",
               "Compound",	
               "Concentration")
 rm_cond <- NULL
+keep_cond <- NULL
 min_nuc <- 100
 ```
 - for mPaintSpace2 (N1,N2,N3) use the following variables
@@ -164,6 +165,7 @@ meta_cols <- c("Row",
               "Concentration",
               "Condition")
 rm_cond <- "UT_0"
+keep_cond <- NULL
 min_nuc <- 100
 ```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
@@ -233,6 +235,7 @@ meta_cols <- c("Row",
               "Concentration",
               "Condition")
 rm_cond <- NULL
+keep_cond <- NULL
 min_nuc <- 100
 ```
 - for mPaint2DR2 (N1) use the following variables
@@ -261,6 +264,7 @@ meta_cols <- c("Row",
               "Concentration",
               "Condition")
 rm_cond <- NULL
+keep_cond <- NULL
 min_nuc <- 50
 ```
 ---
