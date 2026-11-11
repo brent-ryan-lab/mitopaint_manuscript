@@ -1,4 +1,4 @@
-# Title: umap ctrls- dim red mitopaint vis (mean per well) v1
+# Title: umap ctrls- dim red mitopaint vis (mean per well) v2
 # Step: 6.2.3
 # R: 4.4.1
 # Author: Sarah Franks
