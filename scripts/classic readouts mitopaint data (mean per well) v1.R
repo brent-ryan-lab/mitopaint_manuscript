@@ -1,9 +1,9 @@
-# Title: classic readouts mitopaint data (mean per well) v1
+# Title: classic readouts mitopaint data (mean per well) v2
 # Step: 9
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 28-08-2026
+# Last edit: 10-11-2026
 
 # load packages ####
 library(data.table)
@@ -21,98 +21,57 @@ library(emmeans)
 # make sure order of plot_feats and y_lab are the same
 batches_info <- list(
   N1 = list(
-    file_name = "SF250813_mPaintFDA_1_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
+    file_name = "SF240627_mPaintDR2_N2_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
     batch_name = "N1"
   ),
   N2 = list(
-    file_name = "SF250813_mPaintFDA_2_Classic",
-    dmso_wells = c("2_8","4_8","6_8","8_8","10_8","12_8",
-                   "14_8","16_8","18_8","20_8","22_8",
-                   "3_15","5_15","7_15","9_15","11_15",
-                   "13_15","15_15","17_15","19_15","21_15","23_15"),
+    file_name = "SF240704_mPaintDR2_N3_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
     batch_name = "N2"
   ),
   N3 = list(
-    file_name = "SF250813_mPaintFDA_3_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
+    file_name = "SF240711_mPaintDR2_N4_Classic",
+    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
+                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
+                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
+                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
+                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
     batch_name = "N3"
-  ),
-  N4 = list(
-    file_name = "SF250813_mPaintFDA_4_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
-    batch_name = "N4"
-  ),
-  N5 = list(
-    file_name = "SF250813_mPaintFDA_5_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
-    batch_name = "N5"
-  ),
-  N6 = list(
-    file_name = "SF250813_mPaintFDA_6_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
-    batch_name = "N6"
-  ),
-  N7 = list(
-    file_name = "SF250813_mPaintFDA_7_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
-    batch_name = "N7"
-  ),
-  N8 = list(
-    file_name = "SF250813_mPaintFDA_8_Classic",
-    dmso_wells = c("2_2","4_2","6_2","8_2","10_2","12_2",
-                   "14_2","16_2","18_2","20_2","22_2",
-                   "3_9","5_9","7_9","9_9","11_9","13_9",
-                   "15_9","17_9","19_9","21_9","23_9"),
-    batch_name = "N8"
   )
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
-              "Column",
-              "Compound",	
-              "Concentration")
-
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8_Classic"
-
-plot_cond <- c("DMSO_0","CCCP_30","ROT_4","AntimycinA_0.01","Oligomycin_0.03",
-               "MitoQ_3","Nocodazole_0.1","SodiumArsenite_1","CytochalasinD_0.5",
-               "Chloroquine_20","MLN4924_0.1")
-plot_lab <- c("DMSO", "CCCP", "ROT", "ANTA","OLI","MITOQ","NOC","SA","CYTD",
-              "CQ","MLN")
-plot_feats <- c("Intensity Cytoplasm CellRox Deep Red test Mean",
-                "Intensity Cytoplasm TMRM test Mean",
-                "mkeima ph7 mitochondria Ratio Width to Length",
-                "Number of Mitophagy Spots Selected- per Cell")
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
+               "Column",
+               "Compound",	
+               "Concentration")
+file_name <- "mPaintDR2_Classic_N2_N3_N4"
+plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+plot_lab <- c("DMSO", "CCCP", "ROT")
+plot_feats <- c("Intensity Cytoplasm CellRox Mean",
+                "Intensity Cytoplasm TMRM Mean",
+                "Mitochondria Selected Ratio Width to Length",
+                "Number of Selected Spots/ Selected Cell")
 y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
            "Cytoplasm MMP Intensity (a.u.)",
            "Mitochondria Width:Length (a.u.)",
            "Mitophagy Spots (a.u.)")
 x_lab <- "Compound"
-pastel_cols <- c(lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3), scales::hue_pal()(8))
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 point_size <- 3
 size_annot <- 6
 size_axis <- 12
-plot_width <- 9
-plot_height <- 3
+plot_width <- 3
+plot_height <- 4
+min_nuc <- 100
 # pair up plot_feats and y_lab ####
 # pairs link the shorthand (y_lab) for each feature to the full feature name
 y_lab_lookup <- setNames(
@@ -147,13 +106,13 @@ load_data <- function(file_name, batch_name, dmso_wells) {
   names(df) <- names(df) |>
     str_remove("^Non-border cells Selected - ") |>
     str_remove(" - Mean per Well$") |>
-    str_replace("mKeima ph4/TMRM", "mt-Keima pH4") |>
+    str_replace("mKeima ph4(?:/TMRM)?", "mt-Keima pH4") |>
     str_replace("mKeima ph7", "mt-Keima pH7") |>
     str_trim(side = "right")
   # convert all features to numeric
   df[] <- lapply(df, as.numeric)
   # remove any low cell count
-  df <- df[df$`Number of Objects` > 100, , drop = FALSE]
+  df <- df[df$`Number of Objects` > min_nuc, , drop = FALSE]
   # remove any columns with NA
   df <- df[, colSums(is.na(df)) == 0, drop = FALSE]
   # remove any rows with NA
@@ -180,6 +139,11 @@ batches <- purrr::map(
     )
   }
 )
+# count how many batches ####
+# number of independent batches
+n_batches <- length(batches)
+# whether statistical testing should be performed
+run_stats <- n_batches > 1
 # create function to fold change normalise data to dmso ####
 norm_data <- function(df, meta, dmso_wells) {
   # df_norm is where norm values will be stored
@@ -286,99 +250,127 @@ all_mean$Condition <- factor(
 # this asks: what is the effect of Condition
 # while accounting for variability between Batches?
 # 1|Batch, assumes that each batch has its own baseline/ vertical offset
-models <- lapply(plot_feats, function(feat) {
-  lmer(
-    as.formula(
-      paste0("`", feat, "` ~ Condition + (1|Batch)")
-    ),
-    data = all_norm_filt
+# calculate statistics only with multiple independent batches ####
+if (run_stats) {
+  message(
+    n_batches,
+    " batches detected: running linear mixed-effects models."
   )
-})
-# each model is named after the corresponding feature
-# this is to ease manual inspection, and dictates the feature col in emm_df
-names(models) <- plot_feats
-# collate p values for mixed effect models for each plot_feats ####
-emm_df <- purrr::imap_dfr(
-  models,
-  function(model, feat) {
-    # estimated marginal means (least squares means) parwise comparisons
-    emmeans(
-      model,
-      pairwise ~ Condition,
-      # Bonferroni-adjusted p-values for multiple testing
-      adjust = "bonferroni"
-    )$contrasts |>
-      # t-tests on model coefficients between each contrast
-      as.data.frame() |>
-      dplyr::mutate(
-        feature = feat,
-        .before = 1
+  # model assumes fixed effect of condition
+  # and random intercept for batch
+  models <- lapply(
+    plot_feats,
+    function(feat) {
+      lmerTest::lmer(
+        as.formula(
+          paste0(
+            "`",
+            feat,
+            "` ~ Condition + (1|Batch)"
+          )
+        ),
+        data = all_norm_filt
       )
-  }
-)
+    }
+  )
+  # name models by feature
+  names(models) <- plot_feats
+  # collate p-values
+  emm_df <- purrr::imap_dfr(
+    models,
+    function(model, feat) {
+      emmeans::emmeans(
+        model,
+        pairwise ~ Condition,
+        adjust = "bonferroni"
+      )$contrasts |>
+        as.data.frame() |>
+        dplyr::mutate(
+          feature = feat,
+          .before = 1
+        )
+    }
+  )
+} else {
+  message(
+    "Only one batch detected: skipping statistical testing."
+  )
+  # placeholders so downstream code still works
+  models <- NULL
+  emm_df <- NULL
+}
 # save summary of values plotted ####
 # summary stats are the bars and SEM in the final plot
+# save summary of values plotted ####
+# statistics are calculated across independent batch means
 summary_df <- purrr::map_dfr(
   plot_feats,
   function(feature) {
-    all_norm_filt |>
+    all_mean |>
       dplyr::group_by(Condition) |>
       dplyr::summarise(
+        # number of independent batches
         n = dplyr::n(),
-        mean = mean(.data[[feature]], na.rm = TRUE),
-        sd = sd(.data[[feature]], na.rm = TRUE),
-        sem = sd / sqrt(n),
+        # mean across batch means
+        mean = mean(
+          .data[[feature]],
+          na.rm = TRUE
+        ),
+        # SD across batches
+        sd = if (dplyr::n() > 1) {
+          sd(
+            .data[[feature]],
+            na.rm = TRUE
+          )
+        } else {
+          NA_real_
+        },
         .groups = "drop"
       ) |>
       dplyr::mutate(
+        # SEM only meaningful with >1 independent batch
+        sem = dplyr::if_else(
+          n > 1,
+          sd / sqrt(n),
+          NA_real_
+        ),
         feature = feature,
         .before = 1
       )
   }
 )
 # create a function to make barplot of plot_feat ####
-plot_feature <- function(feature,
-                         model,
-                         all_norm_filt,
-                         all_mean,
-                         pastel_cols) {
-  # estimated marginal means
-  emm <- emmeans(model, ~ Condition)
-  
-  # pairwise contrasts
-  # explicitly states first condition given in plot_conds is control
-  contrast_df <- contrast(
-    emm,
-    method = "trt.vs.ctrl",
-    ref = 1,
-    adjust = "bonferroni"
-  ) |>
-    summary() |>
-    as.data.frame()
-  
-  # significance labels
-  # *** is p<0.001
-  contrast_df$label <- cut(
-    contrast_df$p.value,
-    breaks = c(-Inf, 0.001, 0.01, 0.05, Inf),
-    labels = c("***", "**", "*", "ns")
-  )
-  
-  # set maximum y value
-  y_max <- max(
-    all_norm_filt[[feature]],
-    na.rm = TRUE
-  )
-  
-  # batch means for this feature
+plot_feature <- function(
+    feature,
+    model = NULL,
+    all_norm_filt,
+    all_mean,
+    summary_df,
+    pastel_cols,
+    run_stats = TRUE
+) {
+  # batch means
   batch_means <- all_mean |>
     dplyr::transmute(
       Batch,
       Condition,
       batch_mean = .data[[feature]]
     )
-  
-  # make plot
+  # summary for bars
+  plot_summary <- summary_df |>
+    dplyr::filter(
+      .data$feature == .env$feature
+    )
+  # determine y maximum
+  y_max <- max(
+    c(
+      all_norm_filt[[feature]],
+      plot_summary$mean +
+        dplyr::coalesce(plot_summary$sem, 0)
+    ),
+    na.rm = TRUE
+  )
+  # base plot
   p <- ggplot(
     all_norm_filt,
     aes(
@@ -387,30 +379,32 @@ plot_feature <- function(feature,
       fill = Condition
     )
   ) +
-    # bar plots mean across all N (N=3, means by batch)
-    stat_summary(
-      fun = mean,
-      geom = "bar",
+    # bar = mean across independent batch means
+    geom_col(
+      data = plot_summary,
+      aes(
+        x = Condition,
+        y = mean,
+        fill = Condition
+      ),
+      inherit.aes = FALSE,
       colour = "black",
       width = 0.8
     ) +
-    # bar error bar is SEM across all N (N=3, means by batch)
-    stat_summary(
-      fun.data = mean_se,
-      geom = "errorbar",
-      width = 0.5
-    ) +
-    # faint black points are all technical replicate points (N = variable)
-    # jittered to visualise point distribution
+    # faint points = technical replicate wells
     geom_point(
-      aes(group = Batch),
-      position = position_jitter(width = 0.2),
+      aes(
+        group = Batch
+      ),
+      position = position_jitter(
+        width = 0.2
+      ),
       shape = 16,
       colour = "black",
       size = point_size,
       alpha = 0.1
     ) +
-    # coloured points are means by batch (N = 3)
+    # solid points = mean for each independent batch
     geom_point(
       data = batch_means,
       aes(
@@ -419,115 +413,205 @@ plot_feature <- function(feature,
         fill = Condition
       ),
       inherit.aes = FALSE,
-      position = position_jitter(width = 0.1),
+      position = if (n_batches > 1) {
+        position_jitter(width = 0.1, height = 0)
+      } else {
+        position_identity()
+      },
       shape = 21,
       size = point_size,
       colour = "black",
       stroke = 0.6
-    ) +
-    # manual colors
+    )
+  # SEM only if there are multiple batches
+  if (n_batches > 1) {
+    p <- p +
+      geom_errorbar(
+        data = plot_summary,
+        aes(
+          x = Condition,
+          ymin = mean - sem,
+          ymax = mean + sem
+        ),
+        inherit.aes = FALSE,
+        width = 0.5,
+        colour = "black",
+        na.rm = TRUE
+      )
+  }
+  # formatting
+  p <- p +
     scale_fill_manual(
       values = pastel_cols
     ) +
-    # manual x category labels
     scale_x_discrete(
       labels = setNames(
         plot_lab,
         plot_cond
       )
     ) +
-    # extend y axis to allow for annotations to not be cutoff
     scale_y_continuous(
       expand = c(0, 0),
-      limits = c(0, y_max * 1.25)
+      limits = c(
+        0,
+        if (run_stats) {
+          y_max * 1.25
+        } else {
+          y_max * 1.05
+        }
+      )
     ) +
-    # manual axis labels
     labs(
       y = y_lab_lookup[feature],
       x = x_lab
     ) +
     theme_pubr() +
     theme(
-      axis.text = element_text(size = size_axis),
-      axis.title = element_text(size = size_axis),
+      axis.text = element_text(
+        size = size_axis
+      ),
+      axis.title = element_text(
+        size = size_axis
+      ),
       panel.grid = element_blank(),
       legend.position = "none"
     )
-  
-  # If there are more than 3 conditions, just print stars above the corresponding bars.
-  # No ns label.
-  if (length(plot_cond) > 3) {
-    contrast_df$bar_x <- seq_along(plot_cond)[-1]
-    contrast_df$star_y <- y_max * 1.08
-    
-    p <- p +
-      geom_text(
-        data = subset(contrast_df, label != "ns"),
-        aes(
-          x = bar_x,
-          y = star_y,
-          label = label
-        ),
-        inherit.aes = FALSE,
-        size = size_annot,
-        vjust = 0
-      )
-  } else {
-    # original bracket-style annotations for smaller numbers of contrasts
-    annotation_df <- data.frame(
-      xmin = 1,
-      xmax = seq_along(plot_cond)[-1],
-      y = y_max * (0.95 + 0.1 * seq_along(plot_cond[-1])),
-      label = contrast_df$label
+  # statistics / annotations
+  # only with multiple independent batches
+  if (run_stats && !is.null(model)) {
+    # estimated marginal means
+    emm <- emmeans::emmeans(
+      model,
+      ~ Condition
     )
-    
-    p <- p +
-      geom_segment(
-        data = annotation_df,
-        aes(
-          x = xmin,
-          xend = xmax,
-          y = y,
-          yend = y
-        ),
-        inherit.aes = FALSE
-      ) +
-      geom_text(
-        data = subset(annotation_df, label != "ns"),
-        aes(
-          x = (xmin + xmax) / 2,
-          y = y * 1.04,
-          label = label
-        ),
-        inherit.aes = FALSE,
-        size = size_annot
-      ) +
-      geom_text(
-        data = subset(annotation_df, label == "ns"),
-        aes(
-          x = (xmin + xmax) / 2,
-          y = y * 1.05,
-          label = label
-        ),
-        inherit.aes = FALSE,
-        size = size_annot * 0.6
+    # compare each condition against control
+    contrast_df <- emmeans::contrast(
+      emm,
+      method = "trt.vs.ctrl",
+      ref = 1,
+      adjust = "bonferroni"
+    ) |>
+      summary() |>
+      as.data.frame()
+    # significance labels
+    contrast_df$label <- cut(
+      contrast_df$p.value,
+      breaks = c(
+        -Inf,
+        0.001,
+        0.01,
+        0.05,
+        Inf
+      ),
+      labels = c(
+        "***",
+        "**",
+        "*",
+        "ns"
       )
+    )
+    # >3 conditions:
+    # stars directly above corresponding bars
+    if (length(plot_cond) > 3) {
+      contrast_df$bar_x <- seq_along(
+        plot_cond
+      )[-1]
+      contrast_df$star_y <- y_max * 1.08
+      p <- p +
+        geom_text(
+          data = subset(
+            contrast_df,
+            label != "ns"
+          ),
+          aes(
+            x = bar_x,
+            y = star_y,
+            label = label
+          ),
+          inherit.aes = FALSE,
+          size = size_annot,
+          vjust = 0
+        )
+    } else {
+      # <=3 conditions:
+      # bracket-style annotations
+      annotation_df <- data.frame(
+        xmin = 1,
+        xmax = seq_along(plot_cond)[-1],
+        y = y_max *
+          (
+            0.95 +
+              0.1 *
+              seq_along(plot_cond[-1])
+          ),
+        label = contrast_df$label
+      )
+      p <- p +
+        geom_segment(
+          data = annotation_df,
+          aes(
+            x = xmin,
+            xend = xmax,
+            y = y,
+            yend = y
+          ),
+          inherit.aes = FALSE
+        ) +
+        geom_text(
+          data = subset(
+            annotation_df,
+            label != "ns"
+          ),
+          aes(
+            x = (xmin + xmax) / 2,
+            y = y * 1.04,
+            label = label
+          ),
+          inherit.aes = FALSE,
+          size = size_annot
+        ) +
+        geom_text(
+          data = subset(
+            annotation_df,
+            label == "ns"
+          ),
+          aes(
+            x = (xmin + xmax) / 2,
+            y = y * 1.05,
+            label = label
+          ),
+          inherit.aes = FALSE,
+          size = size_annot * 0.6
+        )
+    }
   }
-  
-  p
+  return(p)
 }
 # run function to make barplot of plot_feat ####
 # loop making plots for each feature defined in plot_feats
-plots <- purrr::imap(
-  models,
-  ~ plot_feature(
-    feature = .y,
-    model = .x,
-    all_norm_filt = all_norm_filt,
-    all_mean = all_mean,
-    pastel_cols = pastel_cols
-  )
+# run function to make barplot of plot_feat ####
+plots <- purrr::map(
+  plot_feats,
+  function(feat) {
+    # retrieve model only when statistics were run
+    model <- if (run_stats) {
+      models[[feat]]
+    } else {
+      NULL
+    }
+    plot_feature(
+      feature = feat,
+      model = model,
+      all_norm_filt = all_norm_filt,
+      all_mean = all_mean,
+      summary_df = summary_df,
+      pastel_cols = pastel_cols,
+      run_stats = run_stats
+    )
+  }
 )
+# name plots by feature
+names(plots) <- plot_feats
 plots
 # align axis in each plots, so that gird is not misaligned
 aligned_plots <- cowplot::align_plots(
@@ -557,10 +641,17 @@ write.csv(
   all_mean,
   paste("outputs/data/", file_name, "_batch_means.csv", sep = "")
 )
-write.csv(
-  emm_df,
-  paste("outputs/data/", file_name, "_pvals.csv", sep = "")
-)
+# save statistical results only when statistics were run
+if (run_stats) {
+  write.csv(
+    emm_df,
+    paste0(
+      "outputs/data/",
+      file_name,
+      "_pvals.csv"
+    )
+  )
+}
 # save plots ####
 # save plots using shorthand feature name
 # remove (a.u.) if in the shorthand to avoid code breaking file names

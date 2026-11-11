@@ -28,13 +28,14 @@ rm_cols = c("Timepoint",
             "Target Temperature",
             "CO2",	"Target CO2"
 )
-nuc_count = "Percentage Cells Selected"
-meta_cols = c("Row",
+nuc_count <- "Percentage Cells Selected"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = NULL
+rm_cond <- NULL
+min_nuc <- 50
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   # load df 
@@ -46,7 +47,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
     )
   # remove any rows with low nuclei
   df <- df %>% 
-    filter(.data[[nuc_count]] > 50)
+    filter(.data[[nuc_count]] > min_nuc)
   # remove unwanted columns
   df <- df %>%
     select(-any_of(rm_cols))
@@ -67,7 +68,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   names(df) <- names(df) |>
     str_remove("^Non-border cells Selected - ") |>
     str_remove(" - Mean per Well$") |>
-    str_replace("mKeima ph4/TMRM", "mt-Keima pH4") |>
+    str_replace("mKeima ph4(?:/TMRM)?", "mt-Keima pH4") |>
     str_replace("mKeima ph7", "mt-Keima pH7") |>
     str_trim(side = "right")
   # convert all features to numeric

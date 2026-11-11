@@ -74,7 +74,7 @@ batches_info <- list(
     batch_name = "N3"
   )
 )
-rm_cols = c("Timepoint",
+rm_cols <- c("Timepoint",
             "Number of Analyzed Fields",
             "Time [s]",
             "Temperature",
@@ -97,12 +97,13 @@ rm_cols = c("Timepoint",
             "Cell Type",	
             "Cell Count"
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration")
-rm_cond = NULL
+rm_cond <- NULL
+min_nuc <- 100
 ```
 - for mPaintSpace2 (N1,N2,N3) use the following variables
 ```
@@ -132,7 +133,7 @@ batches_info <- list(
     batch_name = "N3B"
   )
 )
-rm_cols = c("Timepoint",
+rm_cols <- c("Timepoint",
             "Number of Analyzed Fields",
             "Time [s]",
             "Temperature",
@@ -156,13 +157,14 @@ rm_cols = c("Timepoint",
             "Cell Type",	
             "Cell Count"
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = "UT_0"
+rm_cond <- "UT_0"
+min_nuc <- 100
 ```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
 ```
@@ -200,7 +202,7 @@ batches_info <- list(
     batch_name = "N8"
   )
 )
-rm_cols = c("Timepoint",
+rm_cols <- c("Timepoint",
             "Number of Analyzed Fields",
             "Time [s]",
             "Temperature",
@@ -224,13 +226,14 @@ rm_cols = c("Timepoint",
             "Cell Type",	
             "Cell Count"
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = NULL
+rm_cond <- NULL
+min_nuc <- 100
 ```
 - for mPaint2DR2 (N1) use the following variables
 ``` 
@@ -251,13 +254,14 @@ rm_cols = c("Timepoint",
             "Target Temperature",
             "CO2",	"Target CO2"
 )
-nuc_count = "Percentage Cells Selected"
-meta_cols = c("Row",
+nuc_count <- "Percentage Cells Selected"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration",
               "Condition")
-rm_cond = NULL
+rm_cond <- NULL
+min_nuc <- 50
 ```
 ---
 ### `2.` plate drift correct mitopaint data (mean per well) 
@@ -2020,8 +2024,8 @@ batches_info <- list(
     batch_name = "N3"
   )
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration")
@@ -2043,6 +2047,7 @@ size_annot <- 6
 size_axis <- 12
 plot_width <- 3
 plot_height <- 4
+min_nuc <- 100
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -2102,8 +2107,8 @@ batches_info <- list(
     batch_name = "N3B"
   )
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration")
@@ -2128,6 +2133,7 @@ size_annot <- 6
 size_axis <- 12
 plot_width <- 9
 plot_height <- 3
+min_nuc <- 100
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
@@ -2197,8 +2203,8 @@ batches_info <- list(
     batch_name = "N8"
   )
 )
-nuc_count = "Non-border cells Selected - Number of Objects"
-meta_cols = c("Row",
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
               "Column",
               "Compound",	
               "Concentration")
@@ -2225,7 +2231,9 @@ size_annot <- 6
 size_axis <- 12
 plot_width <- 9
 plot_height <- 3
+min_nuc <- 100
 ```
+- for mPaint2DR2 (N1) use the following variables
 ---
 ### `9.1` classic readouts pca vis (mean per well) 
 - for mPaintDR2_N2_N3_N4 use the following variables
