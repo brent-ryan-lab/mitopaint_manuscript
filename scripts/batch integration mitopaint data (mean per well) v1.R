@@ -60,6 +60,40 @@ batches <- purrr::map(
     )
   }
 )
+# create function to convert one batch to a Seurat object ####
+make_seurat_object <- function(batch_obj) {
+  # fetch zscore and metadata
+  z_mat <- batch_obj$df
+  meta_df <- batch_obj$meta
+  # transpose zscore matrix
+  # Seurat expects features as rows and wells/samples as columns
+  mat <- t(as.matrix(z_mat))
+  # create seurat object for each batch
+  seurat_obj <- CreateSeuratObject(
+    counts = mat,
+    assay = "MP",
+    meta.data = meta_df,
+    min.cells = 0,
+    min.features = 0
+  )
+  # manually copy counts to data layer to circumvent v5 seurat structure syntax
+  seurat_obj <- SetAssayData(
+    seurat_obj,
+    assay = "MP",
+    layer = "data",
+    new.data = GetAssayData(
+      seurat_obj,
+      assay = "MP",
+      layer = "counts"
+    )
+  )
+  # scale data
+  seurat_obj <- ScaleData(
+    seurat_obj,
+    verbose = FALSE
+  )
+  return(seurat_obj)
+}
 # put unintegrated data in a single table ####
 unintegrated <- list()
 # all unintegrated batch data

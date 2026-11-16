@@ -34,7 +34,7 @@ patterns <- c(
   "mTagBFP2" = "mTagBFP2",
   "CellROX" = "Alexa 488",
   "mt-Keima pH7" = "mt-Keima pH7",
-  "mt-Keima pH4" = "mt-Keima pH4",
+  "mt-Keima pH4" = "mKeima ph4 test",
   "DilC15" = "Alexa 647"
 )
 pattern_cols <- c("DilC15" = "#DC267F", "CellROX" = "yellowgreen", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
@@ -141,7 +141,7 @@ for (ct in cor_thresh_range_scree) {
 rm(output_name, ct, ct_label)
 # plot elbow plot of n features x corr thresh ####
 # scree_plotting_df makes a simple data frame of the redundancy cutoff (ct) vs. number of features retained
-scree_plotting_df <- imap_dfr(
+scree_plotting_df <- purrr::imap_dfr(
   scree_df,
   function(df, name) {
     tibble(
@@ -211,12 +211,12 @@ plot_feature_pie <- function(obj,
   ) %>%
     mutate(
       feature_type = case_when(
-        !!!imap(patterns, 
+        !!!purrr::imap(patterns, 
                        ~ expr(str_detect(feature_name, !!.x) ~ !!.y)),
         TRUE ~ "Other"
       )
     ) %>%
-    count(feature_type, name = "counts")
+    dplyr::count(feature_type, name = "counts")
   # df_redu_2 calculates the plotting order in the pie chart
   df_redu_2 <- df_redu %>% 
     mutate(

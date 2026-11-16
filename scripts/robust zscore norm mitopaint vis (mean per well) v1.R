@@ -15,13 +15,14 @@ library(ggpubr)
 library(scales)
 # set variables ####
 batches_info <- list(
-  N1 = list(
-    file_name = "SF261028_mPaint2DR2_N1",
+  N2 = list(
+    file_name = "SF261109_mPaint2DR2_N2",
     dmso_wells = c(
-      "2_9","2_2","3_2","3_9","4_9","5_2","5_9","6_9","6_2","7_2","7_9","8_9",
-      "8_2","9_2","9_9","10_9","10_2","11_2","11_9","12_9","12_2","13_2","13_9",
-      "14_9","14_2","15_2","15_9","16_9","16_2","17_2","17_9","18_9","18_2",
-      "19_2","19_9","20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"
+      "2_15","2_8","3_8","3_15","4_15","4_8","5_8","5_15","6_8","7_8","7_15",
+      "8_15","8_8","9_8","9_15","10_15","10_8","11_8","11_15","12_15","12_8",
+      "13_8","13_15","14_15","14_8","15_8","15_15","16_15","16_8","17_8",
+      "17_15","18_15","18_8","19_8","19_15","20_15","20_8","21_8","22_15",
+      "22_8","23_8","23_15"
     )
   )
 )
@@ -66,7 +67,7 @@ load_data <- function(file_name, dmso_wells) {
   ))
 }
 # load data ####
-batches <- map(
+batches <- purrr::map(
   batches_info,
   function(batch_info) {
     load_data(
@@ -76,7 +77,7 @@ batches <- map(
   }
 )
 # subset dmso wells for all Ns in batches #
-batches <- map(
+batches <- purrr::map(
   batches,
   function(batch_obj) {
     # df is subsetted to just wells present in dmso_wells
@@ -151,7 +152,7 @@ plot_density <- function(df, plot_title) {
     )
 }
 # run function to plot density of feature values before and after z score correction ####
-plots <- map(
+plots <- purrr::map(
   batches,
   function(batch_obj) {
     # map() loops plot_density for df and z for any number of Ns in batches

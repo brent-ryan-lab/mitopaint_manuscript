@@ -17,15 +17,13 @@ file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 avg_profile <- TRUE
-pos_ctrls <- c(
-  "CCCP", "ROT", "Nocodazole", "47", "923", "954", "847", "468", "441","647",
-  "147","481","859","118","184","683","1091","1010","344","313","825","1099",
-  "1008","1067","516","489","AntimycinA","MLN4924","Chloroquine")
-plot_width <- 6
-plot_height <- 5
-grid_plot_width <- 10
-grid_width <- 12
-grid_height <- 4
+pos_ctrls <- c("SodiumArsenite", "ROT", "Oligomycin", "Nocodazole", "MLN4924", 
+               "MitoQ", "CytochalasinD", "Chloroquine", "CCCP", "AntimycinA")
+plot_width <- 5
+plot_height <- 4
+grid_plot_width <- 3
+grid_width <- 5
+grid_height <- 7.5
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,

@@ -12,62 +12,36 @@ library(stringr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1 = list(
-    file_name = "SF250813_mPaintFDA_1",
-    batch_name = "N1"
+  N1A = list(
+    file_name = "SF260713_cPaintSpace2_N1A",
+    batch_name = "N1A"
   ),
-  N2 = list(
-    file_name = "SF250813_mPaintFDA_2",
-    batch_name = "N2"
+  N1B = list(
+    file_name = "SF260713_cPaintSpace2_N1B",
+    batch_name = "N1B"
   ),
-  N3 = list(
-    file_name = "SF250813_mPaintFDA_3",
-    batch_name = "N3"
+  N2A = list(
+    file_name = "SF260713_cPaintSpace2_N2A",
+    batch_name = "N2A"
   ),
-  N4 = list(
-    file_name = "SF250813_mPaintFDA_4",
-    batch_name = "N4"
+  N2B = list(
+    file_name = "SF260713_cPaintSpace2_N2B",
+    batch_name = "N2B"
   ),
-  N5 = list(
-    file_name = "SF250813_mPaintFDA_5",
-    batch_name = "N5"
+  N3A = list(
+    file_name = "SF260713_cPaintSpace2_N3A",
+    batch_name = "N3A"
   ),
-  N6 = list(
-    file_name = "SF250813_mPaintFDA_6",
-    batch_name = "N6"
-  ),
-  N7 = list(
-    file_name = "SF250813_mPaintFDA_7",
-    batch_name = "N7"
-  ),
-  N8 = list(
-    file_name = "SF250813_mPaintFDA_8",
-    batch_name = "N8"
+  N3B = list(
+    file_name = "SF260713_cPaintSpace2_N3B",
+    batch_name = "N3B"
   )
 )
 rm_cols <- c("Timepoint",
              "Number of Analyzed Fields",
              "Time [s]",
-             "Temperature",
-             "Target Temperature",
-             "CO2",	"Target CO2",
              "Nuclei - Number of Objects",
-             "Non-border cells Selected - Number of Objects",
-             "Non-border cells Selected - Nucleus Area [¬µm¬≤] - Mean per Well",
-             "Non-border cells Selected - Nucleus Roundness - Mean per Well",
-             "Non-border cells Selected - Cell Area [¬µm¬≤] - Mean per Well",
-             "Non-border cells Selected - Cell Roundness - Mean per Well",
-             "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
-             "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
-             "Non-border cells Selected - Intensity Cytoplasm TMRM test Mean - Mean per Well",
-             "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
-             "Non-border cells Selected - mkeima ph7 mitochondria Area [¬µm¬≤] - Mean per Well",
-             "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
-             "Non-border cells Selected - mkeima ph7 mitochondria Width [¬µm] - Mean per Well",
-             "Non-border cells Selected - mkeima ph7 mitochondria Length [¬µm] - Mean per Well",
-             "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
-             "Cell Type",	
-             "Cell Count"
+             "Non-border cells Selected - Number of Objects"
 )
 nuc_count <- "Non-border cells Selected - Number of Objects"
 meta_cols <- c("Row",
@@ -75,13 +49,8 @@ meta_cols <- c("Row",
                "Compound",	
                "Concentration",
                "Condition")
-rm_cond <- NULL
-keep_cond <- c("DMSO_0", "CCCP_1", "CCCP_4", "CCCP_10", "CCCP_20", "Nocodazole_0.1", 
-               "ROT_0.05","ROT_0.1","ROT_2","ROT_4","47_10","923_10","954_10",
-               "847_10","468_10","441_10","647_10","147_10","481_10","859_10",
-               "118_10","184_10","683_10","1091_10","1010_10","344_10","313_10",
-               "825_10","1099_10","1008_10","1067_10","516_10","489_10",
-               "AntimycinA_0.01","MLN4924_0.1","Chloroquine_20")
+rm_cond <- "UT_0"
+keep_cond <- NULL
 min_nuc <- 100
 # create function to load and tidy data ####
 load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
@@ -115,6 +84,7 @@ load_data <- function(file_name, batch_name, rm_cols, meta_cols, nuc_count) {
   names(df) <- names(df) |>
     str_remove("^Non-border cells Selected - ") |>
     str_remove(" - Mean per Well$") |>
+    str_remove("Cell Painting ") |>
     str_replace("mKeima ph4(?:/TMRM)?", "mt-Keima pH4") |>
     str_replace("mKeima ph7", "mt-Keima pH7") |>
     str_trim(side = "right")

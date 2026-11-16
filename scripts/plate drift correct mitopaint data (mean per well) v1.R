@@ -18,7 +18,7 @@ batches_info <- list(
       "8_2","9_2","9_9","10_9","10_2","11_2","11_9","12_9","12_2","13_2","13_9",
       "14_9","14_2","15_2","15_9","16_9","16_2","17_2","17_9","18_9","18_2",
       "19_2","19_9","20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"
-      )
+    )
   )
 )
 p_sig <- 0.05
@@ -50,7 +50,7 @@ load_data <- function(file_name, dmso_wells) {
   ))
 }
 # load data ####
-batches <- map(
+batches <- purrr::map(
   batches_info,
   function(batch_info) {
     load_data(
@@ -141,7 +141,7 @@ calc_drift <- function(df, meta, dmso_wells, p_sig) {
   return(fit_table_best)
 }
 # run function to calculate plate drift ####
-batches <- map(
+batches <- purrr::map(
   batches,
   function(batch_obj) {
     batch_obj$fits <- calc_drift(
@@ -204,7 +204,7 @@ return(list(
 ))
 }
 # run function to apply plate drift correction ####
-batches <- map(
+batches <- purrr::map(
   batches,
   function(batch_obj) {
     corr <- drift_corr(

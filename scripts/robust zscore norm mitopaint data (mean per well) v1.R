@@ -50,7 +50,7 @@ load_data <- function(file_name, dmso_wells) {
   ))
 }
 # load data ####
-batches <- map(
+batches <- purrr::map(
   batches_info,
   function(batch_info) {
     load_data(
@@ -84,7 +84,7 @@ calc_zscore <- function(df, meta, dmso_wells) {
   return(df_z)
 }
 # run function to calculate zscore relative to dmso wells ####
-batches <- map(
+batches <- purrr::map(
   batches,
   function(batch_obj) {
     batch_obj$df_z <- calc_zscore(

@@ -11,7 +11,7 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaint2DR2_N1"
+file_name <- "mPaint2DR2_N2"
 redu_state <- "redu"
 integrate_state <- "unintegrated"
 # load file ####

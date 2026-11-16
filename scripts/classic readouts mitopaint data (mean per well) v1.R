@@ -21,45 +21,29 @@ library(emmeans)
 # make sure order of plot_feats and y_lab are the same
 batches_info <- list(
   N1 = list(
-    file_name = "SF240627_mPaintDR2_N2_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N1"
-  ),
-  N2 = list(
-    file_name = "SF240704_mPaintDR2_N3_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
+    file_name = "SF261109_mPaint2DR2_N2_Classic",
+    dmso_wells = c(
+      "2_15","2_8","3_8","3_15","4_15","4_8","5_8","5_15","6_8","7_8","7_15",
+      "8_15","8_8","9_8","9_15","10_15","10_8","11_8","11_15","12_15","12_8",
+      "13_8","13_15","14_15","14_8","15_8","15_15","16_15","16_8","17_8",
+      "17_15","18_15","18_8","19_8","19_15","20_15","20_8","21_8","22_15",
+      "22_8","23_8","23_15"
+    ),
     batch_name = "N2"
-  ),
-  N3 = list(
-    file_name = "SF240711_mPaintDR2_N4_Classic",
-    dmso_wells = c("2_9","2_2","3_2","3_9","4_9","4_2","5_2","5_9","6_9","6_2",
-                   "7_2","7_9","8_9","8_2","9_2","9_9","10_9","10_2","11_2","11_9",
-                   "12_9","12_2","13_2","13_9","14_9","14_2","15_2","15_9",
-                   "16_9","16_2","17_2","17_9","18_9","18_2","19_2","19_9",
-                   "20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"),
-    batch_name = "N3"
   )
 )
-nuc_count <- "Non-border cells Selected - Number of Objects"
+nuc_count <- "Percentage Cells Selected"
 meta_cols <- c("Row",
                "Column",
                "Compound",	
                "Concentration")
-file_name <- "mPaintDR2_Classic_N2_N3_N4"
+file_name <- "mPaint2DR2_Classic_N2"
 plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
 plot_lab <- c("DMSO", "CCCP", "ROT")
-plot_feats <- c("Intensity Cytoplasm CellRox Mean",
-                "Intensity Cytoplasm TMRM Mean",
-                "Mitochondria Selected Ratio Width to Length",
-                "Number of Selected Spots/ Selected Cell")
+plot_feats <- c("Intensity Cytoplasm CellROX 488 Calculated Mean",
+                "Intensity Cytoplasm DilC15 647 Mean",
+                "mt-Keima pH7 Region Ratio Width to Length- Mean per Cell",
+                "Number of Mitophagy Spots Selected- per Cell")
 y_lab <- c("Cytoplasm ROS Intensity (a.u.)",
            "Cytoplasm MMP Intensity (a.u.)",
            "Mitochondria Width:Length (a.u.)",
@@ -70,8 +54,8 @@ point_size <- 3
 size_annot <- 6
 size_axis <- 12
 plot_width <- 3
-plot_height <- 4
-min_nuc <- 100
+plot_height <- 3.5
+min_nuc <- 50
 # pair up plot_feats and y_lab ####
 # pairs link the shorthand (y_lab) for each feature to the full feature name
 y_lab_lookup <- setNames(

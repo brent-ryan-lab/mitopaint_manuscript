@@ -10,7 +10,7 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaint2DR2_N1"
+file_name <- "mPaint2DR2_N2"
 redu_state <- "redu"
 integrate_state <- "unintegrated"
 dims_use <- 1:50
@@ -230,7 +230,7 @@ for (i in 1:ncol(pca$loadings)) {
 # convert pca top features into a single long df
 # imap_dfr() function loops over the list and binds all rows at the end
 # function(pc_...) gives the contents of the list, and list number (PC)
-pca$top_features_df <- imap_dfr(pca$top_features, function(pc_features, pc_i) {
+pca$top_features_df <- purrr::imap_dfr(pca$top_features, function(pc_features, pc_i) {
   pc_col <- as.integer(pc_i)
   # first makes df for positive and negative weighted features, then bind_rows()
   positive_df <- data.frame(
