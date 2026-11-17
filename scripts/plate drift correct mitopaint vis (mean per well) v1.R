@@ -1,4 +1,4 @@
-# Title: plate drift correct mitopaint vis (mean per well) v1
+# Title: plate drift correct mitopaint vis (mean per well) v2
 # Step: 2.1
 # R: 4.4.1
 # Author: Sarah Franks
@@ -16,60 +16,29 @@ library(ggpubr)
 library(purrr)
 # set variables ####
 batches_info <- list(
-  N1A = list(
-    file_name = "SF260713_cPaintSpace2_N1A",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
-  ),
-  N1B = list(
-    file_name = "SF260713_cPaintSpace2_N1B",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
-  ),
-  N2A = list(
-    file_name = "SF260713_cPaintSpace2_N2A",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
-  ),
-  N2B = list(
-    file_name = "SF260713_cPaintSpace2_N2B",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
-  ),
-  N3A = list(
-    file_name = "SF260713_cPaintSpace2_N3A",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
-  ),
-  N3B = list(
-    file_name = "SF260713_cPaintSpace2_N3B",
-    dmso_wells = c("2_2","3_9","4_2","5_9","6_2",
-                   "7_9","8_2","9_9","10_2","11_9",
-                   "12_2","13_9","14_2","15_9",
-                   "16_2","17_9","18_2","19_9",
-                   "20_2","21_9","22_2","23_9")
+  N1 = list(
+    file_name = "SF261028_mPaint2DR2_N1",
+    dmso_wells = c(
+      "2_9","2_2","3_2","3_9","4_9","5_2","5_9","6_9","6_2","7_2","7_9","8_9",
+      "8_2","9_2","9_9","10_9","10_2","11_2","11_9","12_9","12_2","13_2","13_9",
+      "14_9","14_2","15_2","15_9","16_9","16_2","17_2","17_9","18_9","18_2",
+      "19_2","19_9","20_9","20_2","21_2","21_9","22_9","22_2","23_2","23_9"
+    )
   )
 )
-perc_width <- 6.2
-perc_height <- 6.4
-file_name <- "cPaintSpace2_N1_N2_N3"
-pos_control <- "CCCP_20"
+perc_width <- 4
+perc_height <- 5
+file_name <- "mPaint2DR2_N1"
+pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "Alexa 647" = "#DC267F",
+  "Alexa 488" = "yellowgreen",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+  "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 # create a function to load data ####
 load_data <- function(batch_name, file_name, dmso_wells) {
   # load plate drift corrected data as df
@@ -314,7 +283,203 @@ walk(plots_dmso, ~ print(.x$qc_plot))
 plots_p <- lapply(batches, qc_plots, plot_condition = pos_control)
 # open positive control qc plots in viewer
 walk(plots_p, ~ print(.x$qc_plot))
-# create function to calculate % of drift corrected features per N ####
+# create function to plot drift corrected features by channel ####
+plot_drift_channel <- function(
+    drift_channel_df,
+    drift_type,
+    channel_cols
+) {
+  
+  # subset selected drift model
+  plot_df <- drift_channel_df |>
+    dplyr::filter(
+      Drift == drift_type
+    ) |>
+    dplyr::mutate(
+      Channel = factor(
+        Channel,
+        levels = names(channel_cols)
+      )
+    ) |>
+    dplyr::arrange(
+      Batch,
+      Channel
+    )
+  
+  # calculate exact midpoint of every stacked segment
+  # reverse ordering to match position_stack(reverse = TRUE)
+  label_df <- plot_df |>
+    dplyr::group_by(Batch) |>
+    dplyr::arrange(
+      as.integer(Channel),
+      .by_group = TRUE
+    ) |>
+    dplyr::mutate(
+      label_y = cumsum(Percentage) - Percentage / 2
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::filter(
+      Percentage > 5
+    )
+  
+  # X/Y labels above bars
+  total_df <- plot_df |>
+    dplyr::distinct(
+      Batch,
+      Corrected_total,
+      Total_features
+    ) |>
+    dplyr::mutate(
+      total_label = paste0(
+        Corrected_total,
+        "/",
+        Total_features
+      )
+    )
+  
+  # plot
+  p <- ggplot2::ggplot(
+    plot_df,
+    ggplot2::aes(
+      x = Batch,
+      y = Percentage,
+      fill = Channel
+    )
+  ) +
+    
+    # stacked bars
+    ggplot2::geom_col(
+      colour = "black",
+      width = 0.8,
+      position = ggplot2::position_stack(
+        reverse = TRUE
+      )
+    ) +
+    
+    # percentage labels within bars
+    # zero percentage categories are not labelled
+    ggplot2::geom_label(
+      data = label_df,
+      ggplot2::aes(
+        x = Batch,
+        y = label_y,
+        label = sprintf("%.2f%%", Percentage)
+      ),
+      inherit.aes = FALSE,
+      colour = "black",
+      fill = "white",
+      label.size = 0.4,
+      size = 4,
+      show.legend = FALSE
+    ) +
+    
+    # X/Y label above each bar
+    ggplot2::geom_text(
+      data = total_df,
+      ggplot2::aes(
+        x = Batch,
+        y = 103,
+        label = total_label
+      ),
+      inherit.aes = FALSE,
+      size = 4
+    ) +
+    
+    # channel colours
+    ggplot2::scale_fill_manual(
+      values = channel_cols,
+      drop = FALSE
+    ) +
+    
+    # y axis
+    # extends above 100% to leave room for X/Y labels
+    ggplot2::scale_y_continuous(
+      expand = c(0, 0),
+      limits = c(0, 108),
+      breaks = seq(
+        0,
+        100,
+        by = 20
+      )
+    ) +
+    
+    # labels
+    ggplot2::labs(
+      title = paste0(
+        "Percentage of ",
+        tolower(drift_type),
+        " drift\ncorrected features per channel"
+      ),
+      y = "Percentage of Features (%)",
+      x = "Batch",
+      fill = "Channel"
+    ) +
+    
+    # theme
+    ggpubr::theme_pubr() +
+    
+    # legend across two rows
+    ggplot2::guides(
+      fill = ggplot2::guide_legend(
+        nrow = 2,
+        byrow = TRUE
+      )
+    ) +
+    
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(
+        hjust = 0.5,
+        face = "bold"
+      ),
+      axis.text.y = ggplot2::element_text(
+        size = 10
+      ),
+      axis.text.x = ggplot2::element_text(
+        size = 10
+      ),
+      axis.title = ggplot2::element_text(
+        size = 15
+      ),
+      panel.grid = ggplot2::element_blank(),
+      
+      # legend
+      legend.position = "top",
+      legend.direction = "horizontal",
+      legend.box = "horizontal",
+      legend.box.just = "left",
+      legend.title = ggplot2::element_text(
+        hjust = 0.5,
+        size = 8
+      ),
+      legend.text = ggplot2::element_text(
+        size = 7
+      ),
+      
+      # remove extra legend padding
+      legend.margin = ggplot2::margin(
+        t = 0,
+        r = 0,
+        b = 0,
+        l = 0
+      ),
+      legend.box.margin = ggplot2::margin(
+        t = 0,
+        r = 0,
+        b = 0,
+        l = 0
+      ),
+      
+      plot.margin = ggplot2::margin(
+        t = 5,
+        r = 5,
+        b = 5,
+        l = 0
+      )
+    )
+  
+  return(p)
+}
+# run function to calculate % of drift corrected features per N ####
 perc_drift <- function(batch_obj, batch_name) {
   fits <- batch_obj$fits
   total <- nrow(fits)
@@ -328,7 +493,7 @@ perc_drift <- function(batch_obj, batch_name) {
     Percentage = c(poly, linear, none) / total * 100
   )
 }
-# run function to calculate % of drift corrected features per N ####
+
 drift_df <- imap_dfr(
   batches,
   function(batch_obj, batch_name) {
@@ -350,12 +515,24 @@ drift_perc_plot <- ggplot(drift_df,
            colour = "black",
            width = 0.8,
            position = position_stack(reverse = TRUE)) +
-  geom_label(aes(label = sprintf("%.2f%%", Percentage)),
-             position = position_stack(vjust = 0.5, reverse = TRUE),
-             colour = "black",
-             fill = "white",
-             label.size = 0.4,
-             size = 4) +
+  geom_label(
+    aes(
+      label = if_else(
+        Percentage > 5,
+        sprintf("%.2f%%", Percentage),
+        NA_character_
+      )
+    ),
+    position = position_stack(
+      vjust = 0.5,
+      reverse = TRUE
+    ),
+    colour = "black",
+    fill = "white",
+    label.size = 0.4,
+    size = 4,
+    na.rm = TRUE
+  ) +
   scale_fill_manual(values = c(
     "Polynomial"   = pastel_cols[1],
     "Linear" = pastel_cols[2],
@@ -386,6 +563,227 @@ drift_perc_plot <- ggplot(drift_df,
     plot.margin = margin(t = 5, r = 5, b = 5, l = 0)
   )
 drift_perc_plot
+# create function to assign feature channel ####
+assign_channel <- function(feature, chan_cols) {
+  
+  # default to Other
+  channel <- rep("Other", length(feature))
+  
+  # assign channel based on strings defined in names(chan_cols)
+  for (chan in names(chan_cols)) {
+    
+    matches <- stringr::str_detect(
+      feature,
+      stringr::regex(
+        chan,
+        ignore_case = TRUE
+      )
+    )
+    
+    channel[matches] <- chan
+  }
+  
+  channel
+}
+
+
+# create function to calculate drift correction by channel ####
+calc_drift_channel <- function(
+    batch_obj,
+    batch_name,
+    chan_cols
+) {
+  
+  fits <- batch_obj$fits
+  
+  # total number of features before separating by drift model
+  total_features <- nrow(fits)
+  
+  # classify feature channel and drift model
+  fits_df <- fits |>
+    dplyr::mutate(
+      
+      Channel = assign_channel(
+        feature,
+        chan_cols
+      ),
+      
+      Drift = dplyr::case_when(
+        best_grad2 != 0 ~ "Polynomial",
+        best_grad2 == 0 & best_grad1 != 0 ~ "Linear",
+        TRUE ~ "None"
+      )
+    )
+  
+  # calculate channel composition separately for
+  # linear and polynomial corrected features
+  fits_df |>
+    dplyr::filter(
+      Drift %in% c(
+        "Linear",
+        "Polynomial"
+      )
+    ) |>
+    dplyr::count(
+      Drift,
+      Channel,
+      name = "Count"
+    ) |>
+    dplyr::group_by(
+      Drift
+    ) |>
+    dplyr::mutate(
+      
+      # total number corrected by this model
+      Corrected_total = sum(Count),
+      
+      # percentage of corrected features belonging to each channel
+      Percentage = Count / Corrected_total * 100,
+      
+      # total number of features in dataset
+      Total_features = total_features,
+      
+      Batch = batch_name
+    ) |>
+    dplyr::ungroup()
+}
+
+
+# calculate drift channel percentages for all batches ####
+drift_channel_df <- purrr::imap_dfr(
+  batches, 
+  function(batch_obj, batch_name) {
+    
+    calc_drift_channel(
+      batch_obj = batch_obj,
+      batch_name = batch_name,
+      chan_cols = chan_cols
+    )
+  }
+)
+
+
+# create function to calculate drift correction by channel ####
+calc_drift_channel <- function(
+    batch_obj,
+    batch_name,
+    chan_cols
+) {
+  
+  fits <- batch_obj$fits
+  
+  # total number of features
+  total_features <- nrow(fits)
+  
+  # classify feature channel and drift model
+  fits_df <- fits |>
+    dplyr::mutate(
+      
+      Channel = assign_channel(
+        feature,
+        chan_cols
+      ),
+      
+      Drift = dplyr::case_when(
+        best_grad2 != 0 ~ "Polynomial",
+        best_grad2 == 0 & best_grad1 != 0 ~ "Linear",
+        TRUE ~ "None"
+      )
+    )
+  
+  # count features by drift type and channel
+  drift_counts <- fits_df |>
+    dplyr::filter(
+      Drift %in% c(
+        "Linear",
+        "Polynomial"
+      )
+    ) |>
+    dplyr::count(
+      Drift,
+      Channel,
+      name = "Count"
+    ) |>
+    
+    # ensure every drift type and channel is represented
+    # even when count = 0
+    tidyr::complete(
+      Drift = c(
+        "Linear",
+        "Polynomial"
+      ),
+      Channel = c(
+        names(chan_cols),
+        "Other"
+      ),
+      fill = list(
+        Count = 0
+      )
+    ) |>
+    
+    # calculate percentages
+    dplyr::group_by(
+      Drift
+    ) |>
+    dplyr::mutate(
+      
+      # number of features corrected by this model
+      Corrected_total = sum(Count),
+      
+      # percentage composition of corrected features
+      # avoid division by zero when no features were corrected
+      Percentage = dplyr::if_else(
+        Corrected_total > 0,
+        Count / Corrected_total * 100,
+        0
+      ),
+      
+      # total features in original dataset
+      Total_features = total_features,
+      
+      Batch = batch_name
+    ) |>
+    dplyr::ungroup()
+  
+  return(drift_counts)
+}
+# plot drift correction by channel ####
+plots <- list()
+# linear drift plot
+plots$drift_channel_linear <- plot_drift_channel(
+  drift_channel_df = drift_channel_df,
+  drift_type = "Linear",
+  channel_cols = chan_cols
+)
+# polynomial drift plot
+plots$drift_channel_polynomial <- plot_drift_channel(
+  drift_channel_df = drift_channel_df,
+  drift_type = "Polynomial",
+  channel_cols = chan_cols
+)
+
+plots$drift_channel_linear
+plots$drift_channel_polynomial
+# set plotting order ####
+drift_channel_df$Batch <- factor(
+  drift_channel_df$Batch,
+  levels = names(batches)
+)
+
+drift_channel_df$Channel <- factor(
+  drift_channel_df$Channel,
+  levels = c(
+    names(chan_cols)
+  )
+)
+
+drift_channel_df$Drift <- factor(
+  drift_channel_df$Drift,
+  levels = c(
+    "Linear",
+    "Polynomial"
+  )
+)
 # save plots ####
 # save dmso drift qc plots, for however many number of N
 iwalk(plots_dmso, function(batch_obj, batch_name) {
@@ -427,5 +825,24 @@ ggsave(
   height = perc_height,
   units = "in",
   dpi = 300
+)
+purrr::iwalk(
+  plots,
+  function(plot, plot_name) {
+    ggsave(
+      filename = paste0(
+        "outputs/figures/",
+        file_name,
+        "_",
+        plot_name,
+        ".pdf"
+      ),
+      plot = plot,
+      width = perc_width,
+      height = perc_height,
+      units = "in",
+      dpi = 300
+    )
+  }
 )
 rm(list = ls())

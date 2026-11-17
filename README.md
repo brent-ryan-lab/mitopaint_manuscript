@@ -602,6 +602,14 @@ perc_height <- 6.4
 file_name <- "mPaintDR2_N2_N3_N4"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+    "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 - for mPaintSpace2 (N1,N2,N3) use the following variables
 ```
@@ -660,6 +668,14 @@ perc_height <- 6.4
 file_name <- "mPaintSpace2_N1_N2_N3"
 pos_control <- "CCCP_20"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+    "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 - for cPaintSpace2 (N1,N2,N3) use the following variables
 ```
@@ -718,6 +734,14 @@ perc_height <- 6.4
 file_name <- "cPaintSpace2_N1_N2_N3"
 pos_control <- "CCCP_20"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "Concanavalin A 488" = "yellowgreen",
+  "MitoTracker Deep Red" = "#DC267F",
+  "Phalloidin 568 WGA 555" = "#FFB000",
+  "SYTO 14" = "#23CC86",
+  "Hoechst" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
 ```
@@ -784,6 +808,14 @@ perc_height <- 6.4
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+    "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 - for mPaint2DR2 (N1) use the following variables
 ```
@@ -798,11 +830,19 @@ batches_info <- list(
     )
   )
 )
-perc_width <- 3.2
-perc_height <- 4.2
+perc_width <- 4
+perc_height <- 5
 file_name <- "mPaint2DR2_N1"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "Alexa 647" = "#DC267F",
+  "Alexa 488" = "yellowgreen",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+  "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 - for mPaint2DR2 (N2) use the following variables
 ``` 
@@ -818,11 +858,19 @@ batches_info <- list(
     )
   )
 )
-perc_width <- 3.2
-perc_height <- 4.2
+perc_width <- 4
+perc_height <- 5
 file_name <- "mPaint2DR2_N2"
 pos_control <- "CCCP_30"
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+chan_cols <- c(
+  "Alexa 647" = "#DC267F",
+  "Alexa 488" = "yellowgreen",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100",
+  "BFP" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 ```
 ---
 ### `2.2` plate drift raw mitopaint vis (mean per well) 
