@@ -2148,6 +2148,7 @@ plot_height <- 4
 grid_plot_width <- 3
 grid_width <- 5
 grid_height <- 7.5
+ctrls_lab <- NULL
 ```
 ---
 ### `6.3` abs zscore feature ranking vis (mean per well) 
