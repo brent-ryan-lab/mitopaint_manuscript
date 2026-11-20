@@ -1863,6 +1863,18 @@ perplexity <- 20
 max_iter <- 500
 avg_profile <- FALSE
 ```
+- for cPaintSpace2 (N1,N2,N3) use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+dims_use <- 1:50
+k_param <- 20
+res <- 1
+perplexity <- 20
+max_iter <- 500
+avg_profile <- FALSE
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
