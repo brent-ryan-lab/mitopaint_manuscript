@@ -13,13 +13,13 @@ library(Seurat)
 library(ggplot2)
 library(ggpubr)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- c("integrated", "unintegrated")
-pastel_cols <- lighten(c("#440154FF","#46337EFF","#365C8DFF","#277F8EFF","#1FA187FF","#4AC16DFF","#9FDA3AFF","#FDE725FF"), amount = 0.3)
+pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
 n_neighbors <- 30
 n_epochs <- 500
-avg_profile <- TRUE
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
   if (avg_profile == TRUE) {

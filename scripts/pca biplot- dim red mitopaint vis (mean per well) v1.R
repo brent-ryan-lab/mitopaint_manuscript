@@ -11,14 +11,15 @@ library(ggplot2)
 library(ggpubr)
 library(tidyverse)
 # set file variables ####
-file_name <- "mPaint2DR2_N2"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
-integrate_state <- "unintegrated"
+integrate_state <- "integrated"
 chan_cols <- c(
-  "Alexa 647" = "#DC267F",
-  "Alexa 488" = "yellowgreen",
-  "mt-Keima pH7" = "#23CC86",
-  "mt-Keima pH4" = "#FE6100"
+  "Concanavalin A 488" = "yellowgreen",
+  "MitoTracker Deep Red" = "#DC267F",
+  "Phalloidin 568 WGA 555" = "#FFB000",
+  "SYTO 14" = "#23CC86",
+  "Hoechst" = "#7E8CF3FF"
 )
 # load data ####
 # load pca variance as var

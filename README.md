@@ -1616,6 +1616,16 @@ n_neighbors <- 30
 n_epochs <- 500
 avg_profile <- FALSE
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- c("integrated", "unintegrated")
+pastel_cols <- lighten(c("#440154FF","#414487FF","#2A788EFF","#22A884FF","#7AD151FF","#FDE725FF"), amount = 0.3)
+n_neighbors <- 30
+n_epochs <- 500
+avg_profile <- FALSE
+```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1929,6 +1939,14 @@ integrate_state <- "integrated"
 pastel_cols <- "hues"
 avg_profile <- FALSE
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+pastel_cols <- "hues"
+avg_profile <- FALSE
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -1964,6 +1982,12 @@ integrate_state <- "integrated"
 - for mPaintSpace2_N1_N2_N3 use the following file variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ```
@@ -2009,6 +2033,19 @@ chan_cols <- c(
   "CellRox" = "#DC267F",
   "mt-Keima pH7" = "#23CC86",
   "mt-Keima pH4" = "#FE6100"
+)
+```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+chan_cols <- c(
+  "Concanavalin A 488" = "yellowgreen",
+  "MitoTracker Deep Red" = "#DC267F",
+  "Phalloidin 568 WGA 555" = "#FFB000",
+  "SYTO 14" = "#23CC86",
+  "Hoechst" = "#7E8CF3FF"
 )
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
