@@ -1,4 +1,4 @@
-# Title: remove redundant mitopaint vis (mean per well) v2
+# Title: remove redundant mitopaint vis (mean per well) v3
 # Step: 5.1
 # R: 4.4.1
 # Author: Sarah Franks
@@ -21,23 +21,30 @@ library(rlang)
 library(viridis)
 library(cluster)
 # set variables ####
-file_name <- "mPaint2DR2_N1"
-integrate_state <- "unintegrated"
-dataset_name <- "mPaint2DR2_N1"
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+dataset_name <- "cPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
 cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+excl_feats <- NULL
 pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
 patterns <- c(
-  "mTagBFP2" = "mTagBFP2",
-  "CellROX" = "Alexa 488",
-  "mt-Keima pH7" = "mt-Keima pH7",
-  "mt-Keima pH4" = "mKeima ph4 test",
-  "DilC15" = "Alexa 647"
+  "Concanavalin A 488" = "Concanavalin A 488",
+  "MitoTracker Deep Red" = "MitoTracker Deep Red",
+  "Phalloidin 568 WGA 555" = "Phalloidin 568 WGA 555",
+  "SYTO 14" = "SYTO 14",
+  "Hoechst" = "Hoechst"
 )
-pattern_cols <- c("DilC15" = "#DC267F", "CellROX" = "yellowgreen", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
+pattern_cols <- c(
+  "Concanavalin A 488" = "yellowgreen",
+  "MitoTracker Deep Red" = "#DC267F",
+  "Phalloidin 568 WGA 555" = "#FFB000",
+  "SYTO 14" = "#23CC86",
+  "Hoechst" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
 # load data ####
 # initialise plots list
 plots <- list()
@@ -80,10 +87,19 @@ rem_redundant <- function(df,
   data <- df
   original_n <- ncol(data)
   # remove unwanted name patterns
-  excl_pattern <- paste(excl_feats, collapse = "|")
-  keep_pattern <- !grepl(excl_pattern, colnames(data), ignore.case = TRUE)
-  data <- data[, keep_pattern, drop = FALSE]
-  removed_pattern <- sum(!keep_pattern)
+  if (!is.null(excl_feats) && length(excl_feats) > 0) {
+    # combine excluded feature strings into regex pattern
+    excl_pattern <- paste(excl_feats,collapse = "|")
+    # identify features that do not contain excluded patterns
+    keep_pattern <- !grepl(excl_pattern,colnames(data),ignore.case = TRUE)
+    # remove excluded features
+    data <- data[,keep_pattern,drop = FALSE]
+    # count number removed
+    removed_pattern <- sum(!keep_pattern)
+  } else {
+    # if excl_feats is NULL, do not remove any features by name
+    removed_pattern <- 0
+  }
   # remove low variance
   variances <- apply(data, 2, var, na.rm = TRUE)
   # also remove features with NA variance
@@ -285,20 +301,34 @@ plots$channel_pie <- plot_feature_pie(
   colours = pattern_cols)
 plots$channel_pie
 # run function to plot feature retained pie chart (by region) ####
-plots$region_pie <- plot_feature_pie(
-  # uses cor_thresh df (eg. redu_0.95)
-  # this is under the assumption that is was already calculate in scree_df
-  scree_df[[paste("redu_", cor_thresh, sep = "")]],
-  patterns = c(
+if (is.null(excl_feats)){
+  cols <- pastel_cols_5
+  pats <- c(
+    "Ring Region" = "Ring Region",
+    "Cytoplasm Region" = "Cytoplasm Region",
+    "Membrane Region" = "Membrane Region",
+    "Cell Region" = "Cell Region",
+    "Nucleus Region" = "Nucleus Region"
+  )
+} else {
+  cols <- pastel_cols_5[c(1,2,3,5)]
+  pats <- c(
     "Ring Region" = "Ring Region",
     "Cytoplasm Region" = "Cytoplasm Region",
     "Membrane Region" = "Membrane Region",
     "Cell Region" = "Cell Region"
-  ),
+  )
+}
+plots$region_pie <- plot_feature_pie(
+  # uses cor_thresh df (eg. redu_0.95)
+  # this is under the assumption that is was already calculate in scree_df
+  scree_df[[paste("redu_", cor_thresh, sep = "")]],
+  patterns = pats,
   plot_title = "Features Retained by Region",
-  colours = pastel_cols_5[c(1,2,3,5)]
+  colours = cols
 )
 plots$region_pie
+rm(cols, pats)
 # plot pca x corr thresh (by cor_thresh_range_pca) ####
 scree_df <- list()
 # loop overwrite scree_df using _pca range instead of _scree range

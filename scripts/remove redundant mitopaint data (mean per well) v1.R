@@ -9,7 +9,7 @@
 library(data.table)
 # set variables ####
 file_name <- "cPaintSpace2_N1_N2_N3"
-integrate_state <- "integrated"
+integrate_state <- "unintegrated"
 dataset_name <- "cPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 var_tol <- 1e-12

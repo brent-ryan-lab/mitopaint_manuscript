@@ -1750,6 +1750,33 @@ patterns <- c(
 )
 pattern_cols <- c("TMRM" = "#FFB000", "CellROX" = "#DC267F", "mt-Keima pH7" = "#23CC86", "mt-Keima pH4" = "#FE6100", "Other" = "grey70")
 ```
+- for cPaintSpace2 (N1,N2,N3) use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+dataset_name <- "cPaintSpace2_N1_N2_N3"
+cor_thresh <- 0.95
+cor_thresh_range_scree <- seq(from = 0.90, to = 1, by = 0.01)
+cor_thresh_range_pca <- seq(from = 0.65, to = 1, by = 0.05)
+var_tol <- 1e-12
+excl_feats <- NULL
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF", "#FDE725FF"), amount = 0.3)
+patterns <- c(
+  "Concanavalin A 488" = "Concanavalin A 488",
+  "MitoTracker Deep Red" = "MitoTracker Deep Red",
+  "Phalloidin 568 WGA 555" = "Phalloidin 568 WGA 555",
+  "SYTO 14" = "SYTO 14",
+  "Hoechst" = "Hoechst"
+)
+pattern_cols <- c(
+  "Concanavalin A 488" = "yellowgreen",
+  "MitoTracker Deep Red" = "#DC267F",
+  "Phalloidin 568 WGA 555" = "#FFB000",
+  "SYTO 14" = "#23CC86",
+  "Hoechst" = "#7E8CF3FF",
+  "Other" = "grey60"
+)
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
