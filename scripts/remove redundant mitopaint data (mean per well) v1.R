@@ -1,19 +1,19 @@
-# Title: remove redundant mitopaint data (mean per well) v1
+# Title: remove redundant mitopaint data (mean per well) v2
 # Step: 5
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 18-06-2026
+# Last edit: 20-11-2026
 
 # load packages ####
 library(data.table)
 # set variables ####
-file_name <- "mPaint2DR2_N1"
-integrate_state <- "unintegrated"
-dataset_name <- "mPaint2DR2_N1"
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+dataset_name <- "cPaintSpace2_N1_N2_N3"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
+excl_feats <- NULL
 # load data ####
 # load data as df
 df <- as.data.frame(
@@ -43,10 +43,16 @@ rem_redundant <- function(df,
   data <- df
   original_n <- ncol(data)
   # remove unwanted name patterns
-  excl_pattern <- paste(excl_feats, collapse = "|")
-  keep_pattern <- !grepl(excl_pattern, colnames(data), ignore.case = TRUE)
-  data <- data[, keep_pattern, drop = FALSE]
-  removed_pattern <- sum(!keep_pattern)
+  if (!is.null(excl_feats) && length(excl_feats) > 0) {
+    excl_pattern <- paste(excl_feats,collapse = "|")
+    keep_pattern <- !grepl(excl_pattern,colnames(data),ignore.case = TRUE)
+    data <- data[,keep_pattern,drop = FALSE]
+    removed_pattern <- sum(!keep_pattern)
+  } else {
+    # no excluded feature patterns supplied
+    # therefore keep all features
+    removed_pattern <- 0
+  }
   # remove low variance
   variances <- apply(data, 2, var, na.rm = TRUE)
   # also remove features with NA variance

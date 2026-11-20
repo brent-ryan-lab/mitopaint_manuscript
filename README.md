@@ -1672,6 +1672,15 @@ cor_thresh <- 0.95
 var_tol <- 1e-12
 excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 ```
+- for cPaintSpace2 (N1,N2,N3) use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+dataset_name <- "cPaintSpace2_N1_N2_N3"
+cor_thresh <- 0.95
+var_tol <- 1e-12
+excl_feats <- NULL
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
