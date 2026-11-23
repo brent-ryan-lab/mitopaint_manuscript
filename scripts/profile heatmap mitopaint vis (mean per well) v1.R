@@ -10,7 +10,7 @@ library(data.table)
 library(ComplexHeatmap)
 library(tidyverse)
 # set variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_cond <- c("DMSO_0", "CCCP_20", "ROT_3", "Nigericin_3", "Oligomycin_10",

@@ -15,7 +15,7 @@ library(cluster)
 library(tidyverse)
 library(vegan)
 # set file variables ####
-file_name <- "mPaintSpace2_N1_N2_N3"
+file_name <- "cPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_feats_disc <- c("Compound", "Batch")
