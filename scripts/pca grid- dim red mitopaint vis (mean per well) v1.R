@@ -15,15 +15,14 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-plot_width <- 10
-plot_height <- 3
-grid_width <- 5
-avg_profile <- TRUE
-plot_cond <- c("AntimycinA", "CCCP", "Chloroquine", "CytochalasinD", "DMSO",
-               "MitoQ", "MLN4924", "Nocodazole", "Oligomycin", "ROT", "SodiumArsenite")
+plot_width <- 12
+plot_height <- 10
+grid_width <- 6
+avg_profile <- FALSE
+plot_cond <- "all"
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,

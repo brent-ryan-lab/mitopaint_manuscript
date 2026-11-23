@@ -2200,6 +2200,17 @@ grid_width <- 6
 avg_profile <- FALSE
 plot_cond <- "all"
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 10
+grid_width <- 6
+avg_profile <- FALSE
+plot_cond <- "all"
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -2255,6 +2266,18 @@ avg_profile <- FALSE
 plot_width <- 3.7
 plot_height <- 3
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+pastel_cols <- scales::hue_pal()(33)
+sep_legend_width <- 3
+sep_legend_height <- 5
+avg_profile <- FALSE
+plot_width <- 3.7
+plot_height <- 3
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -2283,6 +2306,17 @@ plot_cond <- "all"
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- "integrated"
+plot_width <- 12
+plot_height <- 10
+grid_width <- 6
+avg_profile <- FALSE
+plot_cond <- "all"
+```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 plot_width <- 12

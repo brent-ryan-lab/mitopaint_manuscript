@@ -15,7 +15,7 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "cPaintSpace2_N1_N2_N3"
+file_name <- "mPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 pastel_cols <- "hues"

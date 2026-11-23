@@ -15,15 +15,15 @@ library(viridis)
 library(ggrepel)
 library(cowplot)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
-pastel_cols <- scales::hue_pal()(1006)
+pastel_cols <- scales::hue_pal()(33)
 sep_legend_width <- 3
 sep_legend_height <- 5
-avg_profile <- TRUE
-plot_width <- 5
-plot_height <- 4
+avg_profile <- FALSE
+plot_width <- 3.7
+plot_height <- 3
 # create function to load data ####
 load_data <- function(file_name,
                       integrate_state,
