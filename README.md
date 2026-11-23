@@ -1654,6 +1654,14 @@ integrate_states <- c("integrated", "unintegrated")
 ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
 avg_profile <- FALSE
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+redu_state <- "redu"
+integrate_state <- c("integrated", "unintegrated")
+ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
+avg_profile <- FALSE
+```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"

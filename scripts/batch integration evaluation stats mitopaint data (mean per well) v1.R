@@ -20,11 +20,11 @@ library(kBET)
 library(lisi)
 library(aricode)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
-integrate_states <- c("integrated", "unintegrated")
-ctrl_cond <- c("DMSO_0", "CCCP_30", "ROT_4")
-avg_profile <- TRUE
+integrate_state <- c("integrated", "unintegrated")
+ctrl_cond <- c("DMSO_0", "CCCP_20", "ROT_3")
+avg_profile <- FALSE
 # create function to load data ####
 load_data <- function(file_name, integrate_state) {
   # avoid bug with numeric coercion with as.numeric helper function
@@ -100,7 +100,7 @@ load_data <- function(file_name, integrate_state) {
 }
 # run function to load data ####
 # data is a large list containing sublists for integrate_state (integrated, unintegrated)
-data <- integrate_states |>
+data <- integrate_state |>
   set_names() |>
   purrr::imap(~ tryCatch(load_data(file_name = file_name, integrate_state = .x),
                          error = function(e) NULL))
