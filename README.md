@@ -2366,6 +2366,13 @@ plot_cond <- c("CCCP_30", "ROT_10")
 contrast_all <- TRUE
 rank <- 10
 avg_profile <- FALSE
+post_hoc <- "bonferroni"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 ```
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -2379,6 +2386,13 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
 contrast_all <- FALSE
 rank <- 10
 avg_profile <- FALSE
+post_hoc <- "bonferroni"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 ```
 - for cPaintSpace2_N1_N2_N3 use the following variables
 ```
@@ -2392,6 +2406,14 @@ plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valin
 contrast_all <- FALSE
 rank <- 10
 avg_profile <- FALSE
+post_hoc <- "bonferroni"
+chan_cols <- c(
+  `Concanavalin A 488` = "yellowgreen",
+  `MitoTracker Deep Red` = "#DC267F",
+  `Phalloidin 568 WGA 555` = "#FFB000",
+  `SYTO 14` = "#23CC86",
+  `Hoechst` = "#7E8CF3FF"
+)
 ```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
@@ -2404,6 +2426,13 @@ plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5
 contrast_all <- FALSE
 rank <- 10
 avg_profile <- TRUE
+post_hoc <- "bonferroni"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 ```
 ---
 ### `6.3.2` abs zscore feature ranking vis-NN (mean per well)  

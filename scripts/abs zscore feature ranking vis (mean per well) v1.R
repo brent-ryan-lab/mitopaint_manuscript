@@ -19,21 +19,23 @@ library(tibble)
 library(viridis)
 library(colorspace)
 # set variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ctrl_cond <- "DMSO_0"
-plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5",
-               "MitoQ_3", "MLN4924_0.1", "Nocodazole_0.1", "Oligomycin_0.03", "ROT_4", "SodiumArsenite_1")
+plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valinomycin_5",
+               "Cyclosporin A_10", "ROT_3", "CQ_20", "BAM15_10", "MitoQ_3", "Nocodazole_10",
+               "Cytochalasin D_5")
 contrast_all <- FALSE
 rank <- 10
-avg_profile <- TRUE
+avg_profile <- FALSE
 post_hoc <- "bonferroni"
 chan_cols <- c(
-  "TMRM" = "#FFB000",
-  "CellRox" = "#DC267F",
-  "mt-Keima pH7" = "#23CC86",
-  "mt-Keima pH4" = "#FE6100"
+  `Concanavalin A 488` = "yellowgreen",
+  `MitoTracker Deep Red` = "#DC267F",
+  `Phalloidin 568 WGA 555` = "#FFB000",
+  `SYTO 14` = "#23CC86",
+  `Hoechst` = "#7E8CF3FF"
 )
 # load data ####
 # load data as df
