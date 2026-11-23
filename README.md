@@ -2134,6 +2134,28 @@ dims_plot <- c("PC_1", "PC_2")
 plot_width <- 7
 plot_height <- 5
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+annot_colors <- c(
+  `Concanavalin A 488` = "yellowgreen",
+  `MitoTracker Deep Red` = "#DC267F",
+  `Phalloidin 568 WGA 555` = "#FFB000",
+  `SYTO 14` = "#23CC86",
+  `Hoechst` = "#7E8CF3FF",
+  Other = "grey")
+feature_patterns <- c(
+  `Concanavalin A 488` = "Concanavalin",
+  `MitoTracker Deep Red` = "MitoTracker",
+  `Phalloidin 568 WGA 555` = "Phalloidin",
+  `SYTO 14` = "SYTO",
+  `Hoechst` = "Hoechst")
+dims_plot <- c("PC_1", "PC_2")
+plot_width <- 7
+plot_height <- 5
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"

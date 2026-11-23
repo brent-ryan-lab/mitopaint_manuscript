@@ -12,20 +12,22 @@ library(tidytext)
 library(ggplot2)
 library(ggpubr)
 # set file variables ####
-file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
+file_name <- "cPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 annot_colors <- c(
-  CellROX = "#DC267F",
-  TMRM = "#FFB000",
-  `mt-Keima pH7` = "#23CC86",
-  `mt-Keima pH4` = "#FE6100",
+  `Concanavalin A 488` = "yellowgreen",
+  `MitoTracker Deep Red` = "#DC267F",
+  `Phalloidin 568 WGA 555` = "#FFB000",
+  `SYTO 14` = "#23CC86",
+  `Hoechst` = "#7E8CF3FF",
   Other = "grey")
 feature_patterns <- c(
-  CellROX = "cellrox",
-  TMRM = "tmrm",
-  `mt-Keima pH7` = "mt-keima ph7",
-  `mt-Keima pH4` = "mt-keima ph4")
+  `Concanavalin A 488` = "Concanavalin",
+  `MitoTracker Deep Red` = "MitoTracker",
+  `Phalloidin 568 WGA 555` = "Phalloidin",
+  `SYTO 14` = "SYTO",
+  `Hoechst` = "Hoechst")
 dims_plot <- c("PC_1", "PC_2")
 plot_width <- 7
 plot_height <- 5
