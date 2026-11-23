@@ -2548,6 +2548,17 @@ avg_profile <- FALSE
 post_hoc <- "bonferroni"
 lmme_batch <- TRUE
 ```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pc_use <- 10
+pastel_cols <- lighten(c("#440154FF", "#238A8DFF"), amount = 0.3)
+avg_profile <- FALSE
+post_hoc <- "bonferroni"
+lmme_batch <- TRUE
+```
 - for mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8 use the following variables
 ```
 file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
@@ -2613,6 +2624,19 @@ lmme_height <- 5.5
 - for mPaintSpace2_N1_N2_N3 use the following variables
 ```
 file_name <- "mPaintSpace2_N1_N2_N3"
+integrate_state <- "integrated"
+redu_state <- "redu"
+pc_use <- 10
+grid_width <- 6
+plot_width <- 12
+plot_height <- 10
+avg_profile <- FALSE
+chi_height <- 12
+lmme_height <- 5.5
+```
+- for cPaintSpace2_N1_N2_N3 use the following variables
+```
+file_name <- "cPaintSpace2_N1_N2_N3"
 integrate_state <- "integrated"
 redu_state <- "redu"
 pc_use <- 10
