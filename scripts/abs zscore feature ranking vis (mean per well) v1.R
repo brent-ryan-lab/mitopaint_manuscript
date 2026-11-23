@@ -1,9 +1,9 @@
-# Title: abs zscore feature ranking vis (mean per well) v1
+# Title: abs zscore feature ranking vis (mean per well) v2
 # Step: 6.3
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 02-10-2026
+# Last edit: 23-11-2026
 
 # load packages ####
 library(data.table)
@@ -19,33 +19,39 @@ library(tibble)
 library(viridis)
 library(colorspace)
 # set variables ####
-file_name <- "cPaintSpace2_N1_N2_N3"
+file_name <- "mPaintFDA_N1_N2_N3_N4_N5_N6_N7_N8"
 redu_state <- "redu"
 integrate_state <- "integrated"
 ctrl_cond <- "DMSO_0"
-plot_cond <- c("Nigericin_3", "Oligomycin_10", "CCCP_20", "Rapamycin_10", "Valinomycin_5",
-               "Cyclosporin A_10", "ROT_3", "CQ_20", "BAM15_10", "MitoQ_3", "Nocodazole_10",
-               "Cytochalasin D_5")
+plot_cond <- c("AntimycinA_0.01", "CCCP_30", "Cloroquine_20", "CytochalasinD_0.5",
+               "MitoQ_3", "MLN4924_0.1", "Nocodazole_0.1", "Oligomycin_0.03", "ROT_4", "SodiumArsenite_1")
 contrast_all <- FALSE
 rank <- 10
-avg_profile <- FALSE
+avg_profile <- TRUE
+post_hoc <- "bonferroni"
+chan_cols <- c(
+  "TMRM" = "#FFB000",
+  "CellRox" = "#DC267F",
+  "mt-Keima pH7" = "#23CC86",
+  "mt-Keima pH4" = "#FE6100"
+)
 # load data ####
 # load data as df
-  if (avg_profile == TRUE) {
-    df <- as.data.frame(
-      fread(
-        paste(
-          "data/processed/", file_name, "_", integrate_state ,"_redu_avg_data.csv", sep = ""), 
-        header = TRUE)
-    )
-  } else {
-    df <- as.data.frame(
-      fread(
-        paste(
-          "data/processed/", file_name, "_data_", integrate_state ,"_redu.csv", sep = ""), 
-        header = TRUE)
-    )
-  }
+if (avg_profile == TRUE) {
+  df <- as.data.frame(
+    fread(
+      paste(
+        "data/processed/", file_name, "_", integrate_state ,"_redu_avg_data.csv", sep = ""), 
+      header = TRUE)
+  )
+} else {
+  df <- as.data.frame(
+    fread(
+      paste(
+        "data/processed/", file_name, "_data_", integrate_state ,"_redu.csv", sep = ""), 
+      header = TRUE)
+  )
+}
 # keep rownames as WELL_BATCH
 rownames(df) <- df$V1
 df$V1 <- NULL
@@ -102,7 +108,7 @@ lmme_fit <- function(feature_name,
     as.data.frame(
       pairs(
         emm,
-        adjust = "bonferroni"
+        adjust = "none"
       )
     )
   } else {
@@ -112,7 +118,7 @@ lmme_fit <- function(feature_name,
         emm,
         method = "trt.vs.ctrl",
         ref = ctrl_cond,
-        adjust = "bonferroni"
+        adjust = "none"
       )
     )
   }
@@ -136,90 +142,230 @@ abs_df <- imap_dfr(
     )
   }
 )
-# add absolute effect size column
-abs_df <- abs_df|> mutate(abs_estimate = abs(estimate))
-# sort by absolute effect size column
-abs_df <- abs_df|> arrange(desc(abs_estimate)) 
-# split abs_df into a list of df for each unique contrast
-abs_df <- abs_df |> split(abs_df$contrast)
+# apply post hoc correction ####
+if (!is.null(post_hoc) && !is.na(post_hoc)) {
+  
+  abs_df <- abs_df |>
+    dplyr::mutate(
+      p.value_raw = p.value,
+      p.value = p.adjust(
+        p.value_raw,
+        method = post_hoc
+      )
+    )
+}
+# add absolute effect size column ####
+# calculate absolute effect size
+abs_df <- abs_df |>
+  dplyr::mutate(
+    abs_estimate = abs(
+      estimate
+    )
+  ) |>
+  dplyr::arrange(
+    dplyr::desc(abs_estimate)
+  )
+
+# split by contrast
+abs_df <- abs_df |>
+  split(abs_df$contrast)
 # create function for plotting ranking by absolute difference ####
-abs_plot <- function(df,
-                     rank = 10,
-                     # optional rank_by and rank_dir variables if wanting to rank by something else (eg. p.value)
-                     rank_by = "abs_estimate",
-                     rank_dir = "desc",
-                     fill_col = "steelblue",
-                     x_lab = "Absolute Estimated Marginal Means\nof Robust Z-score") {
-  # pull data
+# create function for plotting ranking by absolute difference ####
+abs_plot <- function(
+    df,
+    rank = 10,
+    rank_by = "abs_estimate",
+    rank_dir = "desc",
+    x_by = "abs_estimate",
+    chan_cols = NULL,
+    x_lab = "Absolute Estimated Marginal Means\nof Robust Z-score"
+) {
+  # rank/select features using ORIGINAL values
   if (rank_dir == "desc") {
     plot_df <- df |>
-      arrange(desc(.data[[rank_by]])) |>
-      # slice by rank (eg. top 10 features, if rank <- 10)
-      slice_head(n = rank)
+      dplyr::arrange(
+        dplyr::desc(.data[[rank_by]])
+      ) |>
+      dplyr::slice_head(n = rank)
   } else if (rank_dir == "asc") {
     plot_df <- df |>
-      arrange(.data[[rank_by]]) |>
-      # slice by rank (eg. top 10 features, if rank <- 10)
-      slice_head(n = rank)
+      dplyr::arrange(
+        .data[[rank_by]]
+      ) |>
+      dplyr::slice_head(n = rank)
   } else {
     stop("rank_dir must be 'asc' or 'desc'")
   }
-  plot_df$feature <- factor(plot_df$feature, levels = rev(plot_df$feature))
-  # plot
-  ggplot(plot_df, aes(x = abs_estimate, y = feature)) +
-    geom_col(
-      fill = fill_col,
+  # preserve ranking order in plot
+  plot_df$feature <- factor(
+    plot_df$feature,
+    levels = rev(plot_df$feature)
+  )
+  # determine bar colours
+  if (is.null(chan_cols)) {
+    plot_df$bar_fill <- "steelblue"
+  } else {
+    # default features without matching channel
+    plot_df$bar_fill <- "grey60"
+    # assign channel-specific colours
+    for (chan in names(chan_cols)) {
+      matches <- stringr::str_detect(
+        as.character(plot_df$feature),
+        stringr::fixed(chan)
+      )
+      plot_df$bar_fill[matches] <- chan_cols[[chan]]
+    }
+  }
+  # determine x-axis values
+  if (x_by == "p.value") {
+    # find minimum NON-ZERO p-value from the full contrast dataframe
+    min_pos_p <- min(
+      df$p.value[
+        df$p.value > 0 &
+          is.finite(df$p.value)
+      ],
+      na.rm = TRUE
+    )
+    # replace zero only for plotting
+    # original p.value remains unchanged
+    plot_df$p_plot <- dplyr::if_else(
+      plot_df$p.value == 0,
+      min_pos_p,
+      plot_df$p.value
+    )
+    # transform for plotting
+    plot_df$x_plot <- -log10(
+      plot_df$p_plot
+    )
+  } else {
+    plot_df$x_plot <- plot_df[[x_by]]
+  }
+  # make plot
+  p <- ggplot2::ggplot(
+    plot_df,
+    ggplot2::aes(
+      x = x_plot,
+      y = feature
+    )
+  ) +
+    ggplot2::geom_col(
+      ggplot2::aes(fill = bar_fill),
       colour = "black",
       width = 0.8
     ) +
-    # error bar is SE of estimate marginal means
-    geom_errorbarh(
-      aes(
-        xmin = abs_estimate - SE,
-        xmax = abs_estimate + SE
-      ),
-      height = 0.4,
-      colour = "black"
-    ) +
-    labs(
+    ggplot2::scale_fill_identity()
+  # only add SE error bars when plotting effect size
+  if (x_by == "abs_estimate") {
+    p <- p +
+      ggplot2::geom_errorbarh(
+        ggplot2::aes(
+          xmin = abs_estimate - SE,
+          xmax = abs_estimate + SE
+        ),
+        height = 0.4,
+        colour = "black"
+      )
+    p <- p +
+      # significance threshold at p = 0.05
+      ggplot2::geom_vline(
+        xintercept = 2,
+        linetype = "dashed",
+        colour = "black"
+      ) 
+  }
+  # p-value axis formatting and significance threshold
+  if (x_by == "p.value") {
+    p <- p +
+      # significance threshold at p = 0.05
+      ggplot2::geom_vline(
+        xintercept = -log10(0.05),
+        linetype = "dashed",
+        colour = "black"
+      ) +
+      # format x-axis labels to 2 decimal places
+      ggplot2::scale_x_continuous(
+        labels = scales::label_number(
+          accuracy = 0.01
+        )
+      )
+  }
+  # finish plot
+  p +
+    ggplot2::labs(
       x = x_lab,
-      # y is feature name (if name is too long it wraps to next line)
-      y = stringr::str_wrap(NULL, width = 35),
+      y = NULL,
       title = unique(plot_df$contrast)
     ) +
-    # tidy theme
-    theme_pubr() +
-    theme(
-      # fix dimensions of plot (square)
+    ggpubr::theme_pubr() +
+    ggplot2::theme(
       aspect.ratio = 1,
-      # keep left width wide to avoid squishing plot from long feature names
-      plot.margin = margin(5, 5, 5, 10),
-      axis.text.y = element_text(size = 9),
-      axis.text.x = element_text(size = 9),
-      axis.title.x = element_text(size = 10),
-      plot.title = element_text(
+      plot.margin = ggplot2::margin(5, 5, 5, 10),
+      axis.text.y = ggplot2::element_text(size = 9),
+      axis.text.x = ggplot2::element_text(size = 9),
+      axis.title.x = ggplot2::element_text(size = 10),
+      plot.title = ggplot2::element_text(
         hjust = 0.5,
         size = 12,
-        face = "bold"),
-      panel.grid = element_blank(),
+        face = "bold"
+      ),
+      panel.grid = ggplot2::element_blank(),
       legend.position = "none"
     )
 }
 # run function for absolute difference bar plot ####
-plots <- map2(
+plots <- purrr::map2(
   abs_df,
   names(abs_df),
   function(df, contrast_name) {
-      abs_plot(
+    
+    abs_plot(
       df = df,
       rank = rank,
       rank_by = "abs_estimate",
-      rank_dir = "desc"
+      rank_dir = "desc",
+      x_by = "abs_estimate",
+      chan_cols = chan_cols,
+      x_lab = "Absolute EMM Difference\n(Robust Z-score)"
     ) +
-      labs(title = contrast_name)
+      ggplot2::labs(
+        title = contrast_name
+      )
   }
 )
 plots
+# plot ranked by adjusted p-value ####
+plots2 <- purrr::map2(
+  abs_df,
+  names(abs_df),
+  function(df, contrast_name) {
+    
+    abs_plot(
+      df = df,
+      rank = rank,
+      rank_by = "p.value",
+      rank_dir = "asc",
+      x_by = "p.value",
+      chan_cols = chan_cols,
+      x_lab = "-log10(adjusted p-value)\nfor EMM Difference"
+    ) +
+      ggplot2::labs(
+        title = contrast_name
+      )
+  }
+)
+plots2
+# align plots ####
+plots <- cowplot::align_plots(
+  plotlist = plots,
+  align = "hv",
+  axis = "tblr"
+)
+
+plots2 <- cowplot::align_plots(
+  plotlist = plots2,
+  align = "hv",
+  axis = "tblr"
+)
 # save data ####
 iwalk(
   abs_df,
@@ -232,18 +378,24 @@ iwalk(
   }
 )
 # save plots ####
-# align x and y axis of plots
-plots <- cowplot::align_plots(
-  plotlist = plots,
-  align = "hv",
-  axis = "tblr"
-)
 iwalk(
   plots,
   function(plot, plot_name) {
     safe_name <- stringr::str_replace_all(plot_name, "[^[:alnum:]]+", "_")
     ggsave(
       filename = paste0("outputs/figures/", file_name, "_", safe_name, "_abs_emm", ".pdf"),
+      plot = plot,
+      width = 8,
+      height = 3
+    )
+  }
+)
+iwalk(
+  plots2,
+  function(plot, plot_name) {
+    safe_name <- stringr::str_replace_all(plot_name, "[^[:alnum:]]+", "_")
+    ggsave(
+      filename = paste0("outputs/figures/", file_name, "_", safe_name, "_p_emm", ".pdf"),
       plot = plot,
       width = 8,
       height = 3
