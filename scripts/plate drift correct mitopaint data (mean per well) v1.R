@@ -1,9 +1,9 @@
-# Title: plate drift correct mitopaint data (mean per well) v1
+# Title: plate drift correct mitopaint data (mean per well) v2
 # Step: 2
 # R: 4.4.1
 # Author: Sarah Franks
 # Project: mitopaint manuscript
-# Last edit: 18-06-2026
+# Last edit: 24-11-2026
 
 # load packages ####
 library(data.table)
@@ -61,6 +61,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 # create function to load data ####
 load_data <- function(file_name, dmso_wells) {
   # load tidy data
@@ -179,19 +180,6 @@ calc_drift <- function(df, meta, dmso_wells, p_sig) {
   # return table of all fits, and best fits for drift corr of each feature
   return(fit_table_best)
 }
-# run function to calculate plate drift ####
-batches <- purrr::map(
-  batches,
-  function(batch_obj) {
-    batch_obj$fits <- calc_drift(
-      df = batch_obj$df,
-      meta = batch_obj$meta,
-      dmso_wells = batch_obj$dmso_wells,
-      p_sig = p_sig
-    )
-    batch_obj
-  }
-)
 # create function to apply plate drift correction ####
 drift_corr <- function(df, meta, dmso_wells, fits) {
   # compute predicted drift based on best fit model
@@ -242,36 +230,98 @@ return(list(
   corr_df = corr_df
 ))
 }
-# run function to apply plate drift correction ####
-batches <- purrr::map(
-  batches,
-  function(batch_obj) {
-    corr <- drift_corr(
-      df = batch_obj$df,
-      meta = batch_obj$meta,
-      dmso_wells = batch_obj$dmso_wells,
-      fits = batch_obj$fits
-    )
-    batch_obj$corr_table <- corr$corr_table
-    batch_obj$corr_df <- corr$corr_df
-    batch_obj
-  }
-)
+# run function to calculate and apply plate drift ####
+if (apply_corr) {
+  
+  # calculate plate drift models
+  batches <- purrr::map(
+    batches,
+    function(batch_obj) {
+      
+      batch_obj$fits <- calc_drift(
+        df = batch_obj$df,
+        meta = batch_obj$meta,
+        dmso_wells = batch_obj$dmso_wells,
+        p_sig = p_sig
+      )
+      
+      batch_obj
+    }
+  )
+  
+  # apply plate drift correction
+  batches <- purrr::map(
+    batches,
+    function(batch_obj) {
+      
+      corr <- drift_corr(
+        df = batch_obj$df,
+        meta = batch_obj$meta,
+        dmso_wells = batch_obj$dmso_wells,
+        fits = batch_obj$fits
+      )
+      
+      batch_obj$corr_table <- corr$corr_table
+      batch_obj$corr_df <- corr$corr_df
+      
+      batch_obj
+    }
+  )
+  
+} else {
+  
+  # skip plate drift correction
+  # corr_df is identical to the original data
+  batches <- purrr::map(
+    batches,
+    function(batch_obj) {
+      
+      batch_obj$corr_df <- batch_obj$df
+      
+      batch_obj
+    }
+  )
+}
 
 # save corr data ####
-walk(batches, function(batch_obj) {
-  file_name <- batch_obj$file_name
-  write.csv(
-    batch_obj$fits,
-    paste("outputs/data/", file_name, "_platedrift_fits.csv", sep = "")
-  )
-  write.csv(
-    batch_obj$corr_table,
-    paste("outputs/data/", file_name, "_platedrift_corrtable.csv", sep = "")
-  )
-  write.csv(
-    batch_obj$corr_df,
-    paste("data/processed/", file_name, "_platedrift_corr.csv", sep = "")
-  )
-})
+purrr::walk(
+  batches,
+  function(batch_obj) {
+    
+    file_name <- batch_obj$file_name
+    
+    # only save drift model outputs if correction was applied
+    if (apply_corr) {
+      
+      write.csv(
+        batch_obj$fits,
+        paste0(
+          "outputs/data/",
+          file_name,
+          "_platedrift_fits.csv"
+        )
+      )
+      
+      write.csv(
+        batch_obj$corr_table,
+        paste0(
+          "outputs/data/",
+          file_name,
+          "_platedrift_corrtable.csv"
+        )
+      )
+    }
+    
+    # always save corr_df
+    # filename stays identical whether correction was applied or not
+    write.csv(
+      batch_obj$corr_df,
+      paste0(
+        "data/processed/",
+        file_name,
+        "_platedrift_corr.csv"
+      )
+    )
+  }
+)
 rm(list = ls())

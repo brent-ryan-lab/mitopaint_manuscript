@@ -371,6 +371,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 - for mPaintSpace2 (N1,N2,N3) use the following variables
 ```
@@ -425,6 +426,7 @@ batches_info <- list(
 )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 - for cPaintSpace2 (N1,N2,N3) use the following variables
 ```
@@ -479,6 +481,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 - for mPaintFDA (N1,2,3,4,5,6,7,8) use the following variables
 ```
@@ -541,6 +544,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 - for mPaint2DR2 (N1) use the following variables
 ```
@@ -556,6 +560,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 - for mPaint2DR2 (N2) use the following variables
 ``` 
@@ -572,6 +577,7 @@ batches_info <- list(
   )
 )
 p_sig <- 0.05
+apply_corr <- TRUE
 ```
 ---
 ### `2.1` plate drift correct mitopaint vis (mean per well) 
