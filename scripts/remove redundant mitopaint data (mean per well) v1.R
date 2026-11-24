@@ -8,12 +8,12 @@
 # load packages ####
 library(data.table)
 # set variables ####
-file_name <- "cPaintSpace2_N1_N2_N3"
-integrate_state <- "unintegrated"
-dataset_name <- "cPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
+integrate_state <- "integrated"
+dataset_name <- "mPaintDR2_N2_N3_N4"
 cor_thresh <- 0.95
 var_tol <- 1e-12
-excl_feats <- NULL
+excl_feats <- c("Nucleus", "Nuclei", "mTagBFP2")
 # load data ####
 # load data as df
 df <- as.data.frame(

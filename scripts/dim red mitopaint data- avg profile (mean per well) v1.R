@@ -10,14 +10,14 @@ library(data.table)
 library(Seurat)
 library(tidyverse)
 # set variables ####
-file_name <- "cPaintSpace2_N1_N2_N3"
+file_name <- "mPaintDR2_N2_N3_N4"
 redu_state <- "redu"
 integrate_state <- "integrated"
 dims_use <- 1:50
-k_param <- 20
+k_param <- 16
 res <- 1
 perplexity <- 20
-max_iter <- 500
+max_iter <- 4000
 avg_profile <- FALSE
 # load data ####
 # load data as df

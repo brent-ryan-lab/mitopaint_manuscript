@@ -923,6 +923,19 @@ legend_titles <- c(
 )
 ```
 ---
+### `2.3` plate drift dim red vis (mean per well) ###
+- for mPaintDR2 (N2,N3,N4) use the following variables
+```
+file_name <- "mPaintDR2_N2_N3_N4"
+redu_state <- "redu"
+integrate_state <- "integrated"
+avg_profile <- FALSE
+plot_width <- 12
+plot_height <- 3
+grid_width <- 3
+plot_cond <- c("DMSO_0", "CCCP_30", "ROT_10")
+```
+---
 ### `3.` robust zscore norm mitopaint data 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
