@@ -341,6 +341,90 @@ keep_cond <- NULL
 min_nuc <- 50
 ```
 ---
+### `1.1` fov- subset wells and tidy raw mitopaint data ###
+- for mPaintDR2 (FOV1:9, WELLS1/2/3/4/6/11) use the following variables
+```
+batches_info <- list(
+  FOV1 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV1",
+    batch_name = "FOV1"
+  ),
+  FOV2 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV2",
+    batch_name = "FOV2"
+  ),
+  FOV3 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV3",
+    batch_name = "FOV3"
+  ),
+  FOV4 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV4",
+    batch_name = "FOV4"
+  ),
+  FOV5 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV5",
+    batch_name = "FOV5"
+  ),
+  FOV6 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV6",
+    batch_name = "FOV6"
+  ),
+  FOV7 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV7",
+    batch_name = "FOV7"
+  ),
+  FOV8 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV8",
+    batch_name = "FOV8"
+  ),
+  FOV9 = list(
+    file_name = "SF240627_mPaintDR2_N2_FOV9",
+    batch_name = "FOV9"
+  )
+)
+file_name <- "SF240627_mPaintDR2_N2"
+rm_cols <- c("Timepoint",
+             "Number of Analyzed Fields",
+             "Time [s]",
+             "Temperature",
+             "Target Temperature",
+             "CO2",	"Target CO2",
+             "Nuclei - Number of Objects",
+             "Non-border cells Selected - Number of Objects",
+             "Non-border cells Selected - Nucleus Area [µm²] - Mean per Well",
+             "Non-border cells Selected - Nucleus Roundness - Mean per Well",
+             "Non-border cells Selected - Cell Area [µm²] - Mean per Well",
+             "Non-border cells Selected - Cell Roundness - Mean per Well",
+             "Non-border cells Selected - Intensity Cytoplasm mKeima ph7 Mean - Mean per Well",
+             "Non-border cells Selected - Intensity Cytoplasm mKeima ph4/TMRM Mean - Mean per Well",
+             "Non-border cells Selected - mKeima ph4/ph7 ratio - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Area [µm²] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Roundness - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Width [µm] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Length [µm] - Mean per Well",
+             "Non-border cells Selected - mkeima ph7 mitochondria Ratio Width to Length - Mean per Well",
+             "Cell Type",	
+             "Cell Count"
+)
+nuc_count <- "Non-border cells Selected - Number of Objects"
+meta_cols <- c("Row",
+               "Column",
+               "Compound",	
+               "Concentration",
+               "Condition")
+rm_cond <- NULL
+keep_cond <- NULL
+min_nuc <- 100
+wells_info <- list(
+  WELL1 = c(2,23),
+  WELL2 = c(2,9,16,23),
+  WELL3 = c(2,6,10,14,18,23),
+  WELL4 = c(1,5,8,11,14,17,20,23),
+  WELL6 = c(2,4,6,8,10,12,13,15,17,19,21,23),
+  WELL11 = NULL
+)
+```
+---
 ### `2.` plate drift correct mitopaint data (mean per well) 
 - for mPaintDR2 (N2,N3,N4) use the following variables
 ```
